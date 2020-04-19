@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.wuye.dao.HousesDao">
+    <resultMap id="Houses" type="com.management.wuye.bean.Houses">
+        <id column="hid" property="hid" jdbcType="VARCHAR"></id>
+        <result column="hname" property="hname" jdbcType="VARCHAR"></result>
+        <result column="hArea" property="hArea" jdbcType="DOUBLE"></result>
+        <result column="status" property="status" jdbcType="BOOLEAN"></result>
+        <result column="bid" property="bid" jdbcType="INTEGER"></result>
+    </resultMap>
+
+    <select id="getPage" resultMap="Houses">
+        select * from p_house
+        <if test="houseInfo != null and houseInfo != ''">
+            where hname like "%${houseInfo}%"
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getCount" resultType="Integer">
+        select Count(*) from p_house
+    </select>
+
+    <!-- 查找 -->
+    <select id="getHouseByName" resultType="int">
+	    select p_house.hid from p_house where hname = #{hname}
+	</select>
+
+    <!-- 添加 -->
+    <insert id="addHouse" >
+	    insert into
+	    p_house(hid, hname, hArea, status, bid)
+	    values(#{house.hid}, #{house.hname}, #{house.hArea}, #{house.status},#{house.bid})
+	</insert>
+
+    <!-- 删除 -->
+    <delete id="deleteHouse">
+	    delete from p_house where hid=#{hid}
+	</delete>
+
+    <!-- 更新操作 -->
+    <update id="updateHouse" parameterType="com.management.wuye.bean.Houses">
+        update p_house
+        <set>
+            <if test="house.hname!=null and house.hname!=''">
+                hname=#{house.hname},
+            </if>
+            <if test="house.hArea!=null and house.hArea!=''">
+                hArea=#{house.hArea},
+            </if>
+            <if test="house.status!=null and house.status!=''">
+                status=#{house.status},
+            </if>
+            <if test="house.bid!=null and house.bid!=''">
+                bid=#{house.bid},
+            </if>
+        </set>
+        where hid=#{house.hid}
+    </update>
+</mapper>

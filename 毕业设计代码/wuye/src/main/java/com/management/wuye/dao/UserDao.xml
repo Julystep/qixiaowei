@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.wuye.dao.UserDao">
+    <resultMap id="User" type="com.management.wuye.bean.User">
+        <id column="userId" property="userId" jdbcType="CHAR"></id>
+        <result column="loginName" property="loginName" jdbcType="VARCHAR"></result>
+        <result column="userName" property="userName" jdbcType="VARCHAR"></result>
+        <result column="password" property="password" jdbcType="VARCHAR"></result>
+        <result column="sex" property="sex" jdbcType="VARCHAR"></result>
+        <result column="gender" property="gender" jdbcType="VARCHAR"></result>
+        <result column="idCard" property="idCard" jdbcType="VARCHAR"></result>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"></result>
+        <result column="email" property="email" jdbcType="VARCHAR"></result>
+        <result column="homeplace" property="homeplace" jdbcType="VARCHAR"></result>
+        <result column="workplace" property="workplace" jdbcType="VARCHAR"></result>
+        <result column="houseid" property="houseid" jdbcType="CHAR"></result>
+        <result column="limitid" property="limitid" jdbcType="CHAR"></result>
+    </resultMap>
+
+    <select id="login" resultMap="User">
+         select * from p_user where loginName = #{loginName}
+    </select>
+
+    <select id="getPage" resultMap="User">
+    select * from p_user
+    <if test="userInfo != null and userInfo != ''">
+        where userName like "%${userInfo}%"
+    </if>
+    limit #{page}, #{size}
+</select>
+
+    <select id="getCount" resultType="Integer">
+        select Count(*) from p_user
+    </select>
+
+    <!-- 查找用户 -->
+    <select id="getUserByName" resultType="int">
+	    select p_user.userId from p_user where userName = #{userName}
+	</select>
+
+    <!-- 添加用户 -->
+    <insert id="addUser" parameterType="com.management.wuye.bean.User">
+	    insert into
+	    p_user(userId, loginName, userName, password, telephone, email, sex, gender, idCard, homeplace, workplace, houseid, limitid)
+	    values(#{user.userId}, #{user.loginName}, #{user.userName}, #{user.password}, #{user.telephone},#{user.email},#{user.sex},#{user.gender},#{user.idCard},#{user.homeplace},#{user.workplace},#{user.houseid},#{user.limitid})
+	</insert>
+
+    <!-- 删除用户 -->
+    <delete id="deleteUser">
+	    delete from p_user where userId=#{userId}
+	</delete>
+
+    <!-- 更新用户 -->
+    <update id="updateUser" parameterType="com.management.wuye.bean.User">
+        update p_user
+        <set>
+            <if test="user.loginName!=null and user.loginName!=''">
+                loginName=#{user.loginName},
+            </if>
+            <if test="user.password!=null and user.password!=''">
+                password=#{user.password},
+            </if>
+            <if test="user.telephone!=null and user.telephone!=''">
+                telephone=#{user.telephone},
+            </if>
+            <if test="user.userName!=null and user.userName!=''">
+                userName=#{user.userName},
+            </if>
+            <if test="user.email!=null and user.email!=''">
+                email=#{user.email},
+            </if>
+            <if test="user.sex!=null and user.sex!=''">
+                sex=#{user.sex},
+            </if>
+            <if test="user.gender!=null and user.gender!=''">
+                gender=#{user.gender},
+            </if>
+            <if test="user.idCard!=null and user.idCard!=''">
+                idCard=#{user.idCard},
+            </if>
+            <if test="user.homeplace!=null and user.homeplace!=''">
+                homeplace=#{user.homeplace},
+            </if>
+            <if test="user.workplace!=null and user.workplace!=''">
+                workplace=#{user.workplace},
+            </if>
+            <if test="user.houseid!=null and user.houseid!=''">
+                houseid=#{user.houseid},
+            </if>
+            <if test="user.limitid!=null and user.limitid!=''">
+                limitid=#{user.limitid},
+            </if>
+        </set>
+        where userId=#{user.userId}
+    </update>
+</mapper>

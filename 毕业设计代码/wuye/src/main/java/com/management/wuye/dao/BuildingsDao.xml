@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.wuye.dao.BuildingsDao">
+    <resultMap id="Buildings" type="com.management.wuye.bean.Buildings">
+        <id column="bid" property="bid" jdbcType="INTEGER"></id>
+        <result column="bname" property="bname" jdbcType="VARCHAR"></result>
+        <result column="createTime" property="createTime" jdbcType="DATE"></result>
+        <result column="endTime" property="endTime" jdbcType="DATE"></result>
+        <result column="bHouseSum" property="bHouseSum" jdbcType="INTEGER"></result>
+        <result column="bPersonHSum" property="bPersonHSum" jdbcType="INTEGER"></result>
+        <result column="bug" property="bug" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <select id="getPage" resultMap="Buildings">
+        select * from p_buildings
+        <if test="buildingInfo != null and buildingInfo != ''">
+            where bname like "%${buildingInfo}%"
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getCount" resultType="Integer">
+        select Count(*) from p_buildings
+    </select>
+
+    <!-- 查找 -->
+    <select id="getBuildingsByName" resultType="int">
+	    select p_buildings.bid from p_buildings where bname = #{bname}
+	</select>
+
+    <!-- 添加 -->
+    <insert id="addBuildings" >
+	    insert into
+	    p_buildings(bid, bname, createTime, endTime, bHouseSum, bPersonHSum, bug)
+	    values(#{buildings.bid}, #{buildings.bname}, #{buildings.createTime}, #{buildings.endTime},#{buildings.bHouseSum},#{buildings.bPersonHSum},#{buildings.bug})
+	</insert>
+
+    <!-- 删除 -->
+    <delete id="deleteBuildings">
+	    delete from p_buildings where bid=#{bid}
+	</delete>
+
+    <!-- 更新操作 -->
+    <update id="updateBuildings" parameterType="com.management.wuye.bean.Buildings">
+        update p_buildings
+        <set>
+            <if test="buildings.bname!=null and buildings.bname!=''">
+                bname=#{buildings.bname},
+            </if>
+            <if test="buildings.createTime!=null and buildings.createTime!=''">
+                createTime=#{buildings.createTime},
+            </if>
+            <if test="buildings.endTime!=null and buildings.endTime!=''">
+                endTime=#{buildings.endTime},
+            </if>
+            <if test="buildings.bHouseSum!=null and buildings.bHouseSum!=''">
+                bHouseSum=#{buildings.bHouseSum},
+            </if>
+            <if test="buildings.bPersonHSum!=null and buildings.bPersonHSum!=''">
+                bPersonHSum=#{buildings.bPersonHSum},
+            </if>
+            <if test="buildings.bug!=null and buildings.bug!=''">
+                bug=#{buildings.bug},
+            </if>
+        </set>
+        where bid=#{buildings.bid}
+    </update>
+</mapper>
