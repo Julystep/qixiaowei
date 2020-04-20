@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 17/04/2020 16:34:35
+ Date: 20/04/2020 15:57:55
 */
 
 SET NAMES utf8mb4;
@@ -100,11 +100,20 @@ INSERT INTO `p_chargetype` VALUES (5, '其他费用');
 -- ----------------------------
 DROP TABLE IF EXISTS `p_device`;
 CREATE TABLE `p_device`  (
-  `deviceId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `deviceName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `deviceNum` int(50) NULL DEFAULT NULL,
-  PRIMARY KEY (`deviceId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  `deviceId` int(20) NOT NULL AUTO_INCREMENT,
+  `deviceName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`deviceId`) USING BTREE,
+  INDEX `deviceId`(`deviceId`, `deviceName`) USING BTREE,
+  INDEX `deviceName`(`deviceName`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of p_device
+-- ----------------------------
+INSERT INTO `p_device` VALUES (2, '水管');
+INSERT INTO `p_device` VALUES (3, '煤气');
+INSERT INTO `p_device` VALUES (1, '电路');
+INSERT INTO `p_device` VALUES (4, '网络');
 
 -- ----------------------------
 -- Table structure for p_house
@@ -126,6 +135,7 @@ CREATE TABLE `p_house`  (
 -- ----------------------------
 INSERT INTO `p_house` VALUES ('1-1-101', '一号楼一单元一零一', 87.000, 1, 1);
 INSERT INTO `p_house` VALUES ('1-1-102', '一号楼一单元一零二', 90.000, 1, 1);
+INSERT INTO `p_house` VALUES ('1-1-202', '一号楼一单元二零二', 100.000, 1, 1);
 INSERT INTO `p_house` VALUES ('1-1-301', '一号楼一单元三零一', 109.000, 1, 1);
 INSERT INTO `p_house` VALUES ('1-2-102', '一号楼二单元一零二', 87.000, 1, 1);
 INSERT INTO `p_house` VALUES ('2-1-202', '二号楼一单元二零二', 87.000, 1, 2);
@@ -200,13 +210,13 @@ CREATE TABLE `p_pay`  (
   `houseid` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `userid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`payId`) USING BTREE,
-  INDEX `pay_price`(`payPrice`) USING BTREE,
-  INDEX `pay_item`(`chargeType`) USING BTREE,
-  INDEX `pay_user`(`userid`) USING BTREE,
   INDEX `house_hid`(`houseid`) USING BTREE,
-  CONSTRAINT `pay_item` FOREIGN KEY (`chargeType`) REFERENCES `p_chargetype` (`chargeTypeId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `pay_price` FOREIGN KEY (`payPrice`) REFERENCES `p_charge` (`chargePrice`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `pay_user` FOREIGN KEY (`userid`) REFERENCES `p_user1` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `pay_item`(`chargeType`) USING BTREE,
+  INDEX `pay_price`(`payPrice`) USING BTREE,
+  INDEX `pay_user`(`userid`) USING BTREE,
+  CONSTRAINT `pay_item` FOREIGN KEY (`chargeType`) REFERENCES `p_chargetype` (`chargeTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `pay_price` FOREIGN KEY (`payPrice`) REFERENCES `p_charge` (`chargePrice`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `pay_user` FOREIGN KEY (`userid`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -214,18 +224,25 @@ CREATE TABLE `p_pay`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `p_repair`;
 CREATE TABLE `p_repair`  (
-  `repairId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `repairName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `repairId` int(20) NOT NULL AUTO_INCREMENT,
   `repairInfo` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `repairTime` datetime(6) NOT NULL,
-  `deviceid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `houseid` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `status` tinyint(1) NULL DEFAULT NULL,
+  `devicename` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`repairId`) USING BTREE,
-  INDEX `device_id`(`deviceid`) USING BTREE,
   INDEX `re_username`(`username`) USING BTREE,
-  CONSTRAINT `device_id` FOREIGN KEY (`deviceid`) REFERENCES `p_device` (`deviceId`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `re_username` FOREIGN KEY (`username`) REFERENCES `p_user1` (`userName`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  INDEX `re_device`(`devicename`) USING BTREE,
+  CONSTRAINT `re_device` FOREIGN KEY (`devicename`) REFERENCES `p_device` (`deviceName`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `re_username` FOREIGN KEY (`username`) REFERENCES `p_user` (`userName`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of p_repair
+-- ----------------------------
+INSERT INTO `p_repair` VALUES (1, '网络', NULL, NULL, NULL, 0, NULL);
+INSERT INTO `p_repair` VALUES (6, '没网', '李琦', '1-1-101', '13384785234', NULL, '网络');
 
 -- ----------------------------
 -- Table structure for p_user
@@ -234,7 +251,7 @@ DROP TABLE IF EXISTS `p_user`;
 CREATE TABLE `p_user`  (
   `userId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `loginName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `userName` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `userName` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `sex` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `gender` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -246,58 +263,30 @@ CREATE TABLE `p_user`  (
   `limitid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1',
   `houseid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`userId`) USING BTREE,
-  INDEX `limit_id`(`limitid`) USING BTREE,
   INDEX `house_id`(`houseid`) USING BTREE,
-  CONSTRAINT `house_id` FOREIGN KEY (`houseid`) REFERENCES `p_house` (`hid`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `limit_id` FOREIGN KEY (`limitid`) REFERENCES `p_limit` (`lid`) ON DELETE RESTRICT ON UPDATE CASCADE
+  INDEX `limit_id`(`limitid`) USING BTREE,
+  INDEX `userName`(`userName`) USING BTREE,
+  CONSTRAINT `house_id` FOREIGN KEY (`houseid`) REFERENCES `p_house` (`hid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `limit_id` FOREIGN KEY (`limitid`) REFERENCES `p_limit` (`lid`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_user
 -- ----------------------------
 INSERT INTO `p_user` VALUES ('1000', 'admin', '王明', 'admin', '男', '22', '211382199909280089', '15621345643', '9876789@qq.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
+INSERT INTO `p_user` VALUES ('11101', 'qq', '李琦', '123', '女', '32', '211322198909170089', '13234323433', '12345654@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
+INSERT INTO `p_user` VALUES ('11102', 'li', '李浩', '123456', '男', '24', '211321199709100089', '18890900000', '28372487@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
+INSERT INTO `p_user` VALUES ('12102', 'qa', '李四', '123456', '男', '24', '211321199708080089', '13256744433', '12678544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
+INSERT INTO `p_user` VALUES ('21202', 'asd', '孙俪', '123456', '女', '32', '21132119891230092x', '18909098756', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
+INSERT INTO `p_user` VALUES ('31501', 'df', '琪琪', '123456', '女', '32', '21138219891230092x', '15643545555', '675655512@qq.com', '辽宁凌源', '辽宁沈阳', '3', NULL);
+INSERT INTO `p_user` VALUES ('42302', 'zmd', '张怡', '123456', '女', '32', '211321198911120089', '13256744433', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
+INSERT INTO `p_user` VALUES ('52502', 'spring', '孙莉', '123123', '女', '30', '21138219900918001x', '18892389244', '8374835@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
 INSERT INTO `p_user` VALUES ('wy01', 'qwe', '李丽', '123456', '女', '23', '211321199809090012', '13421345643', '15815403421@163.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
 INSERT INTO `p_user` VALUES ('wy02', 'qaz', '孙杨', '123456', '男', '34', '211321198702030034', '15521232323', '1581540342@163.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
 INSERT INTO `p_user` VALUES ('wy03', 'wsx', '黄浩', '123456', '男', '35', '211342178602030023', '13234343232', '269039241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
 INSERT INTO `p_user` VALUES ('wy04', 'wer', '张三', '1234', '男', '41', '211382198002030023', '18990909090', '2690399241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
-INSERT INTO `p_user` VALUES ('wy05', 'asd', '李爽', '123', '女', '32', '211432198902040000', '18790909898', '117667039@163.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
-INSERT INTO `p_user` VALUES ('wy06', 'azq', '赵薇', '123456', '女', '34', '211353198709280013', '13899990000', '117667039@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
-
--- ----------------------------
--- Table structure for p_user1
--- ----------------------------
-DROP TABLE IF EXISTS `p_user1`;
-CREATE TABLE `p_user1`  (
-  `userId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `loginName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `userName` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `upassword` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `sex` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `gender` int(20) NOT NULL,
-  `card` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `telephone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `uemail` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `homeplace` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `workplace` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `houseid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `limitid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
-  PRIMARY KEY (`userId`) USING BTREE,
-  INDEX `room_id`(`houseid`) USING BTREE,
-  INDEX `userlimit_id`(`limitid`) USING BTREE,
-  INDEX `userName`(`userName`) USING BTREE,
-  CONSTRAINT `userlimit_id` FOREIGN KEY (`limitid`) REFERENCES `p_limit` (`lid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of p_user1
--- ----------------------------
-INSERT INTO `p_user1` VALUES ('11101', 'qq', '李琦', '123', '女', 32, '211322198909170089', '13234323433', '12345654@qq.com', '辽宁朝阳', '辽宁沈阳', '1-1-101', NULL);
-INSERT INTO `p_user1` VALUES ('11102', 'li', '李浩', '123456', '男', 24, '211321199709100089', '18890900000', '28372487@qq.com', '辽宁朝阳', '辽宁沈阳', '1-1-102', NULL);
-INSERT INTO `p_user1` VALUES ('12102', 'qa', '李四', '123456', '男', 24, '211321199708080089', '13256744433', '12678544@qq.com', '辽宁朝阳', '辽宁沈阳', '1-2-102', NULL);
-INSERT INTO `p_user1` VALUES ('21202', 'asd', '孙俪', '123456', '女', 32, '21132119891230092x', '18909098756', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '2-1-202', NULL);
-INSERT INTO `p_user1` VALUES ('31501', 'df', '琪琪', '123456', '女', 32, '21138219891230092x', '15643545555', '675655512@qq.com', '辽宁凌源', '辽宁沈阳', '3-1-501', NULL);
-INSERT INTO `p_user1` VALUES ('42302', 'zmd', '张怡', '123456', '女', 32, '211321198911120089', '13256744433', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '4-2-302', NULL);
-INSERT INTO `p_user1` VALUES ('52502', 'spring', '孙莉', '123123', '女', 30, '21138219900918001x', '18892389244', '8374835@qq.com', '辽宁朝阳', '辽宁沈阳', '5-2-502', NULL);
+INSERT INTO `p_user` VALUES ('wy05', 'asd', '李爽', '123', '女', '32', '211432198902040000', '18790909898', '117667039@163.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
+INSERT INTO `p_user` VALUES ('wy06', 'azq', '赵薇', '123456', '女', '34', '211353198709280013', '13899990000', '117667039@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
 
 -- ----------------------------
 -- Event structure for sess_cleanup

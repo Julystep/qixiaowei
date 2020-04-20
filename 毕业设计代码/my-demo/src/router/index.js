@@ -6,13 +6,13 @@ import Buildings from '@/components/Buildings'
 import House from '@/components/House'
 import Service from '@/components/Service'
 import Pay from '@/components/Pay'
-import Repair from '@/components/Repair'
-import Novelty from '@/components/Novelty'
-import Lostandfound from '@/components/Lostandfound'
-import Announcement from '@/components/Announcement'
-import System from '@/components/System'
-import Permission from '@/components/Permission'
-import Device from '@/components/Device'
+import Repair from '@/components/repair/Repair'
+import Novelty from '@/components/information/Novelty'
+import Lostandfound from '@/components/information/Lostandfound'
+import Announcement from '@/components/information/Announcement'
+import System from '@/components/system/System'
+import Permission from '@/components/system/Permission'
+import Device from '@/components/system/Device'
 import Login from '@/components/Login'
 import Welcome from '@/components/Welcome'
  
@@ -60,7 +60,7 @@ export default new Router({
         },
         {
           path: '/repair',
-          component: Repair
+          component: Repair,
         },
         {
           path: '/announcement',
@@ -78,15 +78,16 @@ export default new Router({
           path: '/system',
           component: System,
           children: [
-            {
-              path: '/permission',
-              component: Permission
-            },
-            {
-              path: '/device',
-              component: Device
-            },
+            
           ]
+        },
+        {
+           path: '/permission',
+           component: Permission
+        },
+        {
+          path: '/device',
+          component: Device
         },
       ]
     },

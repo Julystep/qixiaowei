@@ -281,12 +281,6 @@ export default {
           _this.userlist = data.user;
          console.log(resp.data);
         _this.count = data.count;      
-         /* _this.users = data.user;
-          _this.count = data.count; 
-         
-        
-         
-        */
       })
       },
       //处理分页
