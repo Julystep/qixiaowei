@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/user/Login'
-import Index from '@/components/Index'
 import User from '@/components/user/User'
-import Buildings from '@/components/Buildings'
-import House from '@/components/House'
+import Index from '@/components/home/Index'
+import Welcome from '@/components/home/Welcome'
+import Buildings from '@/components/houseManage/Buildings'
+import House from '@/components/houseManage/House'
 import Service from '@/components/Service'
 import Pay from '@/components/Pay'
 import Repair from '@/components/repair/Repair'
@@ -14,7 +15,6 @@ import Announcement from '@/components/information/Announcement'
 import System from '@/components/system/System'
 import Permission from '@/components/system/Permission'
 import Device from '@/components/system/Device'
-import Welcome from '@/components/Welcome'
  
 Vue.use(Router)
 
