@@ -57,13 +57,13 @@ export default {
   },
   methods: {
     handleSizeChange(newSize){
-          this.size=newSize;
-          this.getHouseList()
-        },
-        handleCurrentChange(newPage){
-          this.currentPage=newPage;
-          this.getHouseList()
-        }
+      this.size=newSize;
+      this.getPermissionList()
+    },
+    handleCurrentChange(newPage){
+      this.currentPage=newPage;
+      this.getPermissionList()
+    }
   },
 }
 </script>

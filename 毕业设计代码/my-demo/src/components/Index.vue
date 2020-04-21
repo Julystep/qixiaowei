@@ -80,6 +80,7 @@
             <el-menu-item index="/announcement"><i class="el-icon-chat-line-square"></i>其他公告</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <template v-if="limitid === '1'">
         <el-submenu index="/system">
           <template slot="title">
             <i class="el-icon-menu"></i>
@@ -90,6 +91,7 @@
             <el-menu-item index="/device">房间设备管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        </template>
       </el-menu>
     </el-aside>
 
