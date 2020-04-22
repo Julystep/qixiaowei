@@ -2,6 +2,7 @@ package com.management.wuye.service.root;
 
 import com.management.wuye.bean.User;
 import com.management.wuye.dao.root.RootMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,5 +26,17 @@ public class RootService {
         map.put("count", count);
         return map;
 
+    }
+
+    public Boolean addAdmin(User admin){
+        return rootMapper.addAdmin(admin);
+    }
+
+    public Boolean deleteAdmin(String userId){
+        return rootMapper.deleteAdmin(userId);
+    }
+
+    public Boolean updateAdmin(User admin){
+        return rootMapper.updateAdmin(admin);
     }
 }

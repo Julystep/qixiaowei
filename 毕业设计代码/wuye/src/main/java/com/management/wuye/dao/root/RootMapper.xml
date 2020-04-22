@@ -3,11 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.management.wuye.dao.root.RootMapper">
+    <resultMap id="User" type="com.management.wuye.bean.User">
+        <id column="userId" property="userId" jdbcType="CHAR"></id>
+        <result column="loginName" property="loginName" jdbcType="VARCHAR"></result>
+        <result column="userName" property="userName" jdbcType="VARCHAR"></result>
+        <result column="password" property="password" jdbcType="VARCHAR"></result>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"></result>
+        <result column="email" property="email" jdbcType="VARCHAR"></result>
+        <result column="homeplace" property="homeplace" jdbcType="VARCHAR"></result>
+    </resultMap>
+
     <select id="getAllAdmins" resultType="com.management.wuye.bean.User">
         select * from p_user where limitid=2
         <if test='userInfo != ""'>
             and concat(userId, userName, loginName) LIKE CONCAT ('%', #{userInfo},'%')
         </if>
+        limit #{page}, #{size}
     </select>
     <select id="getAllAdminCounts" resultType="java.lang.Integer">
         select COUNT(*) from p_user where limitid=2
@@ -15,4 +26,38 @@
             and concat(userId, userName, loginName) LIKE CONCAT ('%', #{userInfo},'%')
         </if>
     </select>
+
+    <insert id="addAdmin" >
+	    insert into
+	    p_user(userId, loginName, userName, password, telephone, email, homeplace, limitid)
+	    values(#{admin.userId}, #{admin.loginName}, #{admin.userName}, #{admin.password}, #{admin.telephone},#{admin.email},#{admin.homeplace},2)
+	</insert>
+
+    <delete id="deleteAdmin">
+	    delete from p_user where userId=#{userId} and limitid=2
+	</delete>
+
+    <update id="updateAdmin" >
+        update p_user
+        <set>
+            <if test="admin.loginName!=null and admin.loginName!=''">
+                loginName=#{admin.loginName},
+            </if>
+            <if test="admin.telephone!=null and admin.telephone!=''">
+                telephone=#{admin.telephone},
+            </if>
+            <if test="admin.userName!=null and admin.userName!=''">
+                userName=#{admin.userName},
+            </if>
+            <if test="admin.email!=null and admin.email!=''">
+                email=#{admin.email},
+            </if>
+            <if test="admin.homeplace!=null and admin.homeplace!=''">
+                homeplace=#{admin.homeplace},
+            </if>
+        </set>
+        where userId=#{admin.userId} and limitid=2
+    </update>
+
+
 </mapper>

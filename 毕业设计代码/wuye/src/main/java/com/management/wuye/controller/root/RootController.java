@@ -1,5 +1,6 @@
 package com.management.wuye.controller.root;
 
+import com.alibaba.fastjson.JSON;
 import com.management.wuye.bean.User;
 import com.management.wuye.service.root.RootService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,25 @@ public class RootController {
 
         return rootService.getAllAdmins(page, size, userInfo);
 
+    }
+
+    @RequestMapping(value = "/addAdmin", method = RequestMethod.POST)
+    public Boolean addAdmin(@RequestParam("admin") String info){
+        User user = JSON.parseObject(info,User.class);
+        System.out.println(user);
+        return rootService.addAdmin(user);
+    }
+
+    @RequestMapping(value = "/deleteAdmin",method = RequestMethod.DELETE)
+    public Boolean deleteAdmin(@RequestParam("userId")String userId){
+        return rootService.deleteAdmin(userId);
+    }
+
+    @RequestMapping(value = "/updateAdmin",method = RequestMethod.POST)
+    public Boolean updateAdmin(@RequestParam("admin")String info){
+        User user = JSON.parseObject(info,User.class);
+        System.out.println(user);
+        return rootService.updateAdmin(user);
     }
 
 }

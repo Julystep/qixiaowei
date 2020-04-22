@@ -93,7 +93,7 @@
       :current-page="currentPage"
       :page-size="pagesize"
       layout="total, prev, pager, next, jumper"
-      :total="total">
+      :total="count">
       </el-pagination> 
     </el-card>
     
@@ -207,8 +207,7 @@ export default {
           userInfo: '',
           currentPage: 1,
           pagesize: 10,
-          count:0,
-          total:12,
+          count:'',
           iconFormVisible: false,
           rowIndex: null,
           insertVisible: false,
@@ -242,7 +241,7 @@ export default {
             houseid:'',
           },
           formRules:{
-            uid: [
+            userId: [
             { required: true, message: '请输入用户编号', trigger: 'blur' },
             ],
             loginName: [
@@ -260,13 +259,13 @@ export default {
             gender: [
             { required: true, message: '请输入年龄', trigger: 'blur' },
             ],
-            card: [
+            idCard: [
             { required: true, message: '请输入身份证号', trigger: 'blur' },
             ],
             telephone: [
             { required: true, message: '请输入手机号', trigger: 'blur' },
             ],
-            uemail: [
+            email: [
             { required: true, message: '请输入邮箱', trigger: 'blur' },
             ],
           },
@@ -318,8 +317,8 @@ export default {
         this.updateuser.sex = user.sex;
         this.updateuser.gender = user.gender;
         this.updateuser.telephone = user.telephone;
-        this.updateuser.card = user.card;
-        this.updateuser.uemail = user.uemail;
+        this.updateuser.idCard = user.idCard;
+        this.updateuser.email = user.email;
         this.updateuser.homeplace = user.homeplace;
         this.updateuser.workplace = user.workplace;
         this.updateuser.houseid = user.houseid;
