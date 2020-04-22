@@ -1,27 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/user/Login'
+import Login from '@/components/Login'
 import User from '@/components/user/User'
 import Index from '@/components/home/Index'
 import Welcome from '@/components/home/Welcome'
 import Buildings from '@/components/houseManage/Buildings'
 import House from '@/components/houseManage/House'
-import Service from '@/components/Service'
-import Pay from '@/components/Pay'
+
 import Repair from '@/components/repair/Repair'
 import Novelty from '@/components/information/Novelty'
 import Lostandfound from '@/components/information/Lostandfound'
 import Announcement from '@/components/information/Announcement'
-import System from '@/components/system/System'
-import Permission from '@/components/system/Permission'
-import Device from '@/components/system/Device'
- 
+import manageAdmin from '@/components/system/manageAdmin'
+import manageBuildings from '@/components/system/manageBuildings'
+
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-     //自动重定向到登陆页面
+  routes: [{
+      //自动重定向到登陆页面
       path: '/',
       redirect: '/login'
     },
@@ -33,8 +30,7 @@ export default new Router({
       path: '/index',
       component: Index,
       redirect: '/welcome',
-      children: [
-        {
+      children: [{
           path: '/welcome',
           component: Welcome
         },
@@ -49,14 +45,6 @@ export default new Router({
         {
           path: '/house',
           component: House
-        },
-        {
-          path: '/service',
-          component: Service
-        },
-        {
-          path: '/pay',
-          component: Pay
         },
         {
           path: '/repair',
@@ -78,16 +66,16 @@ export default new Router({
           path: '/system',
           component: System,
           children: [
-            
+
           ]
         },
         {
-           path: '/permission',
-           component: Permission
+          path: '/manageAdmins',
+          component: manageAdmin
         },
         {
-          path: '/device',
-          component: Device
+          path: '/manageBuildings',
+          component: manageBuildings
         },
       ]
     },

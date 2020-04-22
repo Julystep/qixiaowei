@@ -1,5 +1,7 @@
 package com.management.wuye.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
     private String userId;
     private String loginName;
@@ -39,6 +41,7 @@ public class User {
         this.userName = userName;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
