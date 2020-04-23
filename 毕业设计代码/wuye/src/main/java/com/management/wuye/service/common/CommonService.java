@@ -16,11 +16,11 @@ public class CommonService {
     @Resource
     CommonMapper commonMapper;
 
-    public Map<String, Object> getAllBuildings(int houseId, int page, int size) {
+    public Map<String, Object> getAllBuildings(int houseId, int page, int size, String buildingInfo) {
 
         page = (page - 1) * 10;
         Map<String, Object> map = new HashMap<>();
-        List<Buildings> buildings =  commonMapper.getAllBuildings(houseId, page, size);
+        List<Buildings> buildings =  commonMapper.getAllBuildings(houseId, page, size, buildingInfo);
         int buildingCounts = commonMapper.getAllBuildingsCount(houseId);
         map.put("buildings", buildings);
         map.put("buildingCounts", buildingCounts);
@@ -38,5 +38,30 @@ public class CommonService {
         map.put("housesCount", housesCount);
         return map;
 
+    }
+
+
+    public boolean deleteBuilding(int bid){
+        return commonMapper.deleteBuilding(bid);
+    }
+
+    public boolean updateBuilding(Buildings buildings){
+        return  commonMapper.updateBuilding(buildings);
+    }
+
+    public boolean addBuilding(Buildings buildings){
+        return commonMapper.addBuilding(buildings);
+    }
+
+    public boolean deleteHouse(String hid){
+        return commonMapper.deleteHouse(hid);
+    }
+
+    public boolean updateHouse(House house){
+        return commonMapper.updateHouse(house);
+    }
+
+    public boolean addHouse(House house){
+        return commonMapper.addHouse(house);
     }
 }

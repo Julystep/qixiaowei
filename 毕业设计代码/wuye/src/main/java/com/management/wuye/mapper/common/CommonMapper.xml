@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.management.wuye.mapper.common.CommonMapper">
-
     <resultMap id="houseMap" type="com.management.wuye.bean.House">
         <result column="hid" property="hid" />
         <result column="hname" property="hname" />
@@ -19,6 +18,9 @@
         <if test="houseId != -1">
             where bid=#{houseId}
         </if>
+        <if test="buildingInfo != null and buildingInfo != ''">
+            where bname like "%${buildingInfo}%"
+        </if>
         limit #{page}, #{size}
     </select>
     <select id="getAllBuildingsCount" resultType="java.lang.Integer">
@@ -27,7 +29,32 @@
             where bid=#{houseId}
         </if>
     </select>
+    <delete id="deleteBuilding">
+	    delete from p_buildings where bid=#{bid}
+	</delete>
+    <insert id="addBuilding" >
+	    insert into
+	    p_buildings(bid, bname)
+	    values(#{buildings.bid}, #{buildings.bname})
+	</insert>
+    <update id="updateBuilding" parameterType="com.management.wuye.bean.Buildings">
+        update p_buildings
+        <set>
+            <if test="buildings.bname!=null and buildings.bname!=''">
+                bname=#{buildings.bname},
+            </if>
+        </set>
+        where bid=#{buildings.bid}
+    </update>
 
+
+    <select id="getAllHouse" resultType="com.management.wuye.bean.House">
+        select * from p_house
+        <if test='houseInfo != ""'>
+            and concat(hid, hname, hArea) LIKE CONCAT ('%', #{houseInfo},'%')
+        </if>
+        limit #{page}, #{size}
+    </select>
     <select id="getAllHouses" resultMap="houseMap">
         select ph.*, pu.userName, pu.telephone, pu.email from p_house ph LEFT JOIN
         p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
@@ -37,6 +64,33 @@
         select count(*) from p_house ph LEFT JOIN
         p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
     </select>
+    <delete id="deleteHouse">
+	    delete from p_house where hid=#{hid}
+	</delete>
+    <insert id="addHouse" >
+	    insert into
+	    p_house(hid, hname, hArea, status)
+	    values(#{house.hid}, #{house.hname}, #{house.hArea}, false)
+	</insert>
+    <update id="updateHouse" parameterType="com.management.wuye.bean.House">
+        update p_house
+        <set>
+            <if test="house.hname!=null and house.hname!=''">
+                hname=#{house.hname},
+            </if>
+            <if test="house.hArea!=null and house.hArea!=''">
+                hArea=#{house.hArea},
+            </if>
+            <if test="house.status!=null and house.status!=''">
+                status=#{house.status},
+            </if>
+            <if test="house.bid!=null and house.bid!=''">
+                bid=#{house.bid},
+            </if>
+        </set>
+        where hid=#{house.hid}
+    </update>
+
 
 
 </mapper>

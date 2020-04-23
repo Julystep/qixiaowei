@@ -260,14 +260,14 @@ export default {
     deleteAdminInfo(userId) {
       var _this = this;
       _this.userId = userId;
-      this.$confirm("确定要删除该管理员信息吗", "提示", {
+      _this.$confirm("确定要删除该管理员信息吗", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
         this.deleteRequest("/root/deleteAdmin?userId=" + _this.userId).then(
           () => {
-            this.getAllAdmins();
+            _this.getAllAdmins();
           }
         );
       });
@@ -275,8 +275,7 @@ export default {
     insertAdmins(addadmins) {
       var _this = this;
       addadmins = JSON.stringify(addadmins);
-     
-        this.$refs.updateadminsRef.validate(valid => {
+        _this.$refs.addadminsRef.validate(valid => {
         if (valid) {
            _this
         .postRequest("/root/addAdmin", {

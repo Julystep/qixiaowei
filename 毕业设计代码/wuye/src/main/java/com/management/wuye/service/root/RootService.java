@@ -27,6 +27,7 @@ public class RootService {
 
     }
 
+
     public Boolean addAdmin(User admin){
         return rootMapper.addAdmin(admin);
     }
