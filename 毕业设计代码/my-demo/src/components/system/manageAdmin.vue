@@ -108,9 +108,6 @@
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="addadmins.email"></el-input>
         </el-form-item>
-        <el-form-item label="权限" prop="limitid">
-          <el-input v-model="addadmins.limitid"></el-input>
-        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="insertVisible = false">取 消</el-button>
@@ -167,7 +164,6 @@ export default {
         telephone:'',
         homeplace:'',
         email: '',
-        limitid:'',
       },
       updateadmins:{
         userId: '',
