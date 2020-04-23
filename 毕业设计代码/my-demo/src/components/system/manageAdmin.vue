@@ -275,7 +275,10 @@ export default {
     insertAdmins(addadmins) {
       var _this = this;
       addadmins = JSON.stringify(addadmins);
-      _this
+     
+        this.$refs.updateadminsRef.validate(valid => {
+        if (valid) {
+           _this
         .postRequest("/root/addAdmin", {
           admin: addadmins
         })
@@ -289,6 +292,13 @@ export default {
             this.insertVisible = false;
             this.getAllAdmins();
           }
+        });
+        }else {
+          _this.$message({
+            type: "error",
+            message: "表单未按照规则填写"
+          })
+        }
         });
     }
   }
