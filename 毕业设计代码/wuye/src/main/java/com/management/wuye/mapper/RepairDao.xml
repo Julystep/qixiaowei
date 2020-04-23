@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.management.wuye.dao.RepairDao">
+<mapper namespace="com.management.wuye.mapper.RepairDao">
     <resultMap id="Repair" type="com.management.wuye.bean.Repair">
         <id column="repairId" property="repairId" jdbcType="INTEGER"></id>
         <result column="repairInfo" property="repairInfo" jdbcType="VARCHAR"></result>

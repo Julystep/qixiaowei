@@ -1,7 +1,7 @@
 package com.management.wuye.service;
 
-import com.management.wuye.bean.Houses;
-import com.management.wuye.dao.HousesDao;
+import com.management.wuye.bean.House;
+import com.management.wuye.mapper.HousesDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ public class HousesService {
     @Autowired
     HousesDao housesDao;
 
-    public List<Houses> getPage(int page, int size, String houseInfo){
+    public List<House> getPage(int page, int size, String houseInfo){
         page = (page-1)*5;
         return housesDao.getPage(page,size,houseInfo);
     }
@@ -21,7 +21,7 @@ public class HousesService {
         return housesDao.getCount();
     }
 
-    public Boolean addHouse(Houses house){
+    public Boolean addHouse(House house){
         return housesDao.addHouse(house);
     }
 
@@ -33,7 +33,7 @@ public class HousesService {
         return housesDao.getHouseByName(hname);
     }
 
-    public Boolean updateHouse(Houses house){
+    public Boolean updateHouse(House house){
         return housesDao.updateHouse(house);
     }
 }

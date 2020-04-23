@@ -1,7 +1,7 @@
 package com.management.wuye.service;
 
 import com.management.wuye.bean.Buildings;
-import com.management.wuye.dao.BuildingsDao;
+import com.management.wuye.mapper.BuildingsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.management.wuye.dao.UserDao">
+<mapper namespace="com.management.wuye.mapper.UserDao">
     <resultMap id="User" type="com.management.wuye.bean.User">
         <id column="userId" property="userId" jdbcType="CHAR"></id>
         <result column="loginName" property="loginName" jdbcType="VARCHAR"></result>

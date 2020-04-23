@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.management.wuye.dao.HousesDao">
-    <resultMap id="Houses" type="com.management.wuye.bean.Houses">
+<mapper namespace="com.management.wuye.mapper.HousesDao">
+    <resultMap id="Houses" type="com.management.wuye.bean.House">
         <id column="hid" property="hid" jdbcType="VARCHAR"></id>
         <result column="hname" property="hname" jdbcType="VARCHAR"></result>
         <result column="hArea" property="hArea" jdbcType="DOUBLE"></result>
@@ -40,7 +40,7 @@
 	</delete>
 
     <!-- 更新操作 -->
-    <update id="updateHouse" parameterType="com.management.wuye.bean.Houses">
+    <update id="updateHouse" parameterType="com.management.wuye.bean.House">
         update p_house
         <set>
             <if test="house.hname!=null and house.hname!=''">

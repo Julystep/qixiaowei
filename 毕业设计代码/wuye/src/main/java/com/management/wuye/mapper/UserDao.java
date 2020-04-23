@@ -1,4 +1,4 @@
-package com.management.wuye.dao;
+package com.management.wuye.mapper;
 
 import com.management.wuye.bean.User;
 import org.apache.ibatis.annotations.*;

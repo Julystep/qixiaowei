@@ -1,7 +1,7 @@
 package com.management.wuye.service;
 
 import com.management.wuye.bean.Repair;
-import com.management.wuye.dao.RepairDao;
+import com.management.wuye.mapper.RepairDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

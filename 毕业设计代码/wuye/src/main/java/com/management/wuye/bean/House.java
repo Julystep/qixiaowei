@@ -1,11 +1,38 @@
 package com.management.wuye.bean;
 
-public class Houses {
+public class House {
     private String hid;
     private String hname;
     private double hArea;
     private boolean status;
     private int bid;
+    private String telephone;
+    private String email;
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getHid() {
         return hid;

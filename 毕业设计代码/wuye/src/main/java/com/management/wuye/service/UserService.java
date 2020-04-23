@@ -1,7 +1,7 @@
 package com.management.wuye.service;
 
 import com.management.wuye.bean.User;
-import com.management.wuye.dao.UserDao;
+import com.management.wuye.mapper.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

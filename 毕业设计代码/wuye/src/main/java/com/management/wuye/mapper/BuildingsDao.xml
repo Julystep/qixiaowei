@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.management.wuye.dao.BuildingsDao">
+<mapper namespace="com.management.wuye.mapper.BuildingsDao">
     <resultMap id="Buildings" type="com.management.wuye.bean.Buildings">
         <id column="bid" property="bid" jdbcType="INTEGER"></id>
         <result column="bname" property="bname" jdbcType="VARCHAR"></result>

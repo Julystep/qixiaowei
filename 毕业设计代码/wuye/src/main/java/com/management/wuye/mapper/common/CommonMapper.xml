@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.wuye.mapper.common.CommonMapper">
+
+    <resultMap id="houseMap" type="com.management.wuye.bean.House">
+        <result column="hid" property="hid" />
+        <result column="hname" property="hname" />
+        <result column="hArea" property="hArea" />
+        <result column="status" property="status" />
+        <result column="userName" property="userName" />
+        <result column="telephone" property="telephone"/>
+        <result column="email" property="email" />
+    </resultMap>
+
+    <select id="getAllBuildings" resultType="com.management.wuye.bean.Buildings">
+        select * from p_buildings
+        <if test="houseId != -1">
+            where bid=#{houseId}
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getAllBuildingsCount" resultType="java.lang.Integer">
+        select count(*) from p_buildings
+        <if test="houseId != -1">
+            where bid=#{houseId}
+        </if>
+    </select>
+
+    <select id="getAllHouses" resultMap="houseMap">
+        select ph.*, pu.userName, pu.telephone, pu.email from p_house ph LEFT JOIN
+        p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
+        limit #{page}, #{size}
+    </select>
+    <select id="getAllHousesCount" resultType="java.lang.Integer">
+        select count(*) from p_house ph LEFT JOIN
+        p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
+    </select>
+
+
+</mapper>

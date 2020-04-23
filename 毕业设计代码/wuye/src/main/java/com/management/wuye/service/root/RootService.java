@@ -1,8 +1,7 @@
 package com.management.wuye.service.root;
 
 import com.management.wuye.bean.User;
-import com.management.wuye.dao.root.RootMapper;
-import org.apache.ibatis.annotations.Param;
+import com.management.wuye.mapper.root.RootMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
