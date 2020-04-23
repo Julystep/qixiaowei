@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.wuye.dao.common.CommonMapper">
+
+    <select id="getAllBuildings" resultType="com.management.wuye.bean.Buildings">
+        select * from p_buildings
+        <if test="houseId != -1">
+            where bid=#{houseId}
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getAllBuildingsCount" resultType="java.lang.Integer">
+        select count(*) from p_buildings
+        <if test="houseId != -1">
+            where bid=#{houseId}
+        </if>
+    </select>
+
+
+</mapper>

@@ -82,11 +82,14 @@
       </el-pagination>
     </div>
 
-    <el-dialog
-      title="添加管理员"
-      :visible.sync="insertVisible"
-      width="50%">
-      <el-form :model="addadmins" :rules="formRules" ref="addadminsRef" label-width="100px" class="demo-ruleForm">
+    <el-dialog title="添加管理员" :visible.sync="insertVisible" width="50%">
+      <el-form
+        :model="addadmins"
+        :rules="formRules"
+        ref="addadminsRef"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
         <el-form-item label="用户编号" prop="userId">
           <el-input v-model="addadmins.userId"></el-input>
         </el-form-item>
@@ -96,7 +99,7 @@
         <el-form-item label="密码" prop="password">
           <el-input v-model="addadmins.password"></el-input>
         </el-form-item>
-         <el-form-item label="姓名" prop="userName">
+        <el-form-item label="姓名" prop="userName">
           <el-input v-model="addadmins.userName"></el-input>
         </el-form-item>
         <el-form-item label="联系方式" prop="telephone">
@@ -114,21 +117,26 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="insertVisible = false">取 消</el-button>
-        <el-button type="primary" @click="insertAdmins (addadmins)">确 定</el-button>
+        <el-button type="primary" @click="insertAdmins(addadmins)"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
-    <el-dialog
-      title="编辑用户"
-      :visible.sync="updateVisible"
-      width="50%">
-      <el-form :model="updateadmins" :rules="formRules" ref="updateadminsRef" label-width="100px" class="demo-ruleForm">
+    <el-dialog title="编辑用户" :visible.sync="updateVisible" width="50%">
+      <el-form
+        :model="updateadmins"
+        :rules="formRules"
+        ref="updateadminsRef"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
         <el-form-item label="用户编号" prop="userId">
           <el-input v-model="updateadmins.userId"></el-input>
         </el-form-item>
         <el-form-item label="账号" prop="loginName">
           <el-input v-model="updateadmins.loginName"></el-input>
         </el-form-item>
-         <el-form-item label="姓名" prop="userName">
+        <el-form-item label="姓名" prop="userName">
           <el-input v-model="updateadmins.userName"></el-input>
         </el-form-item>
         <el-form-item label="联系方式" prop="telephone">
@@ -143,7 +151,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="updateVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateAdmin(updateadmins)">确 定</el-button>
+        <el-button type="primary" @click="updateAdmin()">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -151,136 +159,143 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       currentPage: 1,
       admins: [],
-      count: '',
-      userInfo: '',
+      count: 0,
+      userInfo: "",
       insertVisible: false,
       updateVisible: false,
       addadmins: {
-        userId: '',
-        loginName: '',
-        password:'',
-        userName: '',
-        telephone:'',
-        homeplace:'',
-        email: '',
-        limitid:'',
+        userId: "",
+        loginName: "",
+        password: "",
+        userName: "",
+        telephone: "",
+        homeplace: "",
+        email: "",
+        limitid: ""
       },
-      updateadmins:{
-        userId: '',
-        loginName: '',
-        userName: '',
-        telephone:'',
-        homeplace:'',
-        email: '',
+      updateadmins: {
+        userId: "",
+        loginName: "",
+        userName: "",
+        telephone: "",
+        homeplace: "",
+        email: ""
       },
-      formRules:{
-            userId: [
-            { required: true, message: '请输入用户编号', trigger: 'blur' },
-            ],
-            loginName: [
-            { required: true, message: '请输入账号', trigger: 'blur' },
-            ],
-            userName: [
-            { required: true, message: '请输入姓名', trigger: 'blur' },
-            ],
-            password: [
-            { required: true, message: '请输入密码', trigger: 'blur' },
-            ],
-            telephone: [
-            { required: true, message: '请输入手机号', trigger: 'blur' },
-            ],
-            email: [
-            { required: true, message: '请输入邮箱', trigger: 'blur' },
-            ],
-          },
-    }
+      formRules: {
+        userId: [
+          { required: true, message: "请输入用户编号", trigger: "blur" }
+        ],
+        loginName: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        userName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        telephone: [
+          { required: true, message: "请输入手机号", trigger: "blur" }
+        ],
+        email: [{ required: true, message: "请输入邮箱", trigger: "blur" }]
+      }
+    };
   },
-  mounted () {
-    this.getAllAdmins()
+  mounted() {
+    this.getAllAdmins();
   },
   methods: {
-    getAllAdmins () {
+    getAllAdmins() {
       /* 获得所有的二级管理员 */
-      var _this = this
+      var _this = this;
       this.getRequest(
-        '/root/getalladmins?page=' +
+        "/root/getalladmins?page=" +
           _this.currentPage +
-          '&size=' +
+          "&size=" +
           10 +
-          '&userInfo=' +
+          "&userInfo=" +
           _this.userInfo
       ).then(resp => {
-        _this.admins = resp.data.admins
-        _this.count = resp.data.count
-      })
+        _this.admins = resp.data.admins;
+        _this.count = resp.data.count;
+      });
     },
-    currentChange (currentPage) {
-      this.currnetPage = currentPage
-      this.getAllAdmins()
+    currentChange(currentPage) {
+      this.currnetPage = currentPage;
+      this.getAllAdmins();
     },
-    changeAdminInfo (admin) {
+    changeAdminInfo(admin) {
       this.updateVisible = true;
-        this.updateadmins.userId = admin.userId;
-        this.updateadmins.loginName = admin.loginName;
-        this.updateadmins.userName = admin.userName;
-        this.updateadmins.telephone = admin.telephone;
-        this.updateadmins.email = admin.email;
-        this.updateadmins.homeplace = admin.homeplace;
-        return;
+      this.updateadmins.userId = admin.userId;
+      this.updateadmins.loginName = admin.loginName;
+      this.updateadmins.userName = admin.userName;
+      this.updateadmins.telephone = admin.telephone;
+      this.updateadmins.email = admin.email;
+      this.updateadmins.homeplace = admin.homeplace;
+      return;
     },
-    updateAdmin(updateadmins){
+    updateAdmin(updateadmins) {
       var _this = this;
-        updateadmins = JSON.stringify(updateadmins);
-        _this.postRequest("/root/updateAdmin", {
-          admin: updateadmins
-        }).then(resp => {
-           _this.$message({
-            message: "修改成功",
+      updateadmins = JSON.stringify(updateadmins);
+      this.$refs.updateadminsRef.validate(valid => {
+        if (valid) {
+          _this
+            .postRequest("/root/updateAdmin", {
+              admin: updateadmins
+            })
+            .then(resp => {
+              _this.$message({
+                message: "修改成功",
+                type: "success"
+              });
+              var data = resp.data;
+              if (data) {
+                _this.updateVisible = false;
+                _this.getAllAdmins();
+              }
+            });
+        } else {
+          _this.$message({
+            type: "error",
+            message: "表单未按照规则填写"
+          })
+        }
+      });
+    },
+    deleteAdminInfo(userId) {
+      var _this = this;
+      _this.userId = userId;
+      this.$confirm("确定要删除该管理员信息吗", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.deleteRequest("/root/deleteAdmin?userId=" + _this.userId).then(
+          () => {
+            this.getAllAdmins();
+          }
+        );
+      });
+    },
+    insertAdmins(addadmins) {
+      var _this = this;
+      addadmins = JSON.stringify(addadmins);
+      _this
+        .postRequest("/root/addAdmin", {
+          admin: addadmins
+        })
+        .then(resp => {
+          this.$message({
+            message: "添加成功",
             type: "success"
           });
           var data = resp.data;
           if (data) {
-            _this.updateVisible = false;
-            _this.getAllAdmins();
+            this.insertVisible = false;
+            this.getAllAdmins();
           }
-        })
-    },
-    deleteAdminInfo (userId) {
-      var _this = this;
-      _this.userId = userId;
-      this.$confirm("确定要删除该管理员信息吗","提示",{
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.deleteRequest("/root/deleteAdmin?userId=" + _this.userId).then(() => {
-          this.getAllAdmins();
         });
-      });
-    },
-    insertAdmins (addadmins) {
-      var _this = this;
-        addadmins = JSON.stringify(addadmins);
-        _this.postRequest("/root/addAdmin", {
-            admin: addadmins
-        }).then(resp => {
-          this.$message({
-          message: "添加成功",
-          type: "success"
-        });
-          var data = resp.data;
-            if (data) {
-          this.insertVisible = false;
-          this.getAllAdmins();
-        }
-        })
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

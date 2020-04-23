@@ -1,47 +1,49 @@
 <template>
-  <el-table
-    :data="tableData"
-    stripe
-    style="width: 100%">
-    <el-table-column
-      prop="date"
-      label="日期"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="地址">
-    </el-table-column>
-  </el-table>
+  <div>
+    <el-table :data="buildings" style="width: 100%">
+      <el-table-column label="商品 ID" prop="bid"> </el-table-column>
+      <el-table-column label="商品名称" prop="bname"> </el-table-column>
+    </el-table>
+    <div style="margin-top: 5px">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="buildingCounts"
+        :currentPage="currentPageBuildings"
+        @current-change="currentChangeBuildings"
+      >
+      </el-pagination>
+    </div>
+  </div>
 </template>
-
 <script>
-  export default {
-    data() {
-      return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
-      }
+export default {
+  data() {
+    return {
+      buildings: [],
+      buildingCounts: 0,
+      currentPageBuildings: 1
+    };
+  },
+  mounted() {
+    this.getAllBuildings();
+  },
+  methods: {
+    getAllBuildings() {
+      var _this = this;
+      this.postRequest("/getallbuildings", {
+        houseId: -1,
+        page: _this.currentPageBuildings,
+        size: 10
+      }).then(resp => {
+        _this.buildings = resp.data.buildings;
+        _this.buildingCounts = resp.data.buildingCounts;
+      });
+    },
+    currentChangeBuildings(currentPageBuildings) {
+      this.currentPageBuildings = currentPageBuildings;
+      this.getAllBuildings();
     }
   }
+};
 </script>
