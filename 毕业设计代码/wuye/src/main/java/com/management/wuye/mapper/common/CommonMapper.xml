@@ -47,15 +47,7 @@
         where bid=#{buildings.bid}
     </update>
 
-
-    <select id="getAllHouse" resultType="com.management.wuye.bean.House">
-        select * from p_house
-        <if test='houseInfo != ""'>
-            and concat(hid, hname, hArea) LIKE CONCAT ('%', #{houseInfo},'%')
-        </if>
-        limit #{page}, #{size}
-    </select>
-    <select id="getAllHouses" resultMap="houseMap">
+    <select id="getAllHouses" resultMap="houseMap" >
         select ph.*, pu.userName, pu.telephone, pu.email from p_house ph LEFT JOIN
         p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
         limit #{page}, #{size}

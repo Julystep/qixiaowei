@@ -33,7 +33,7 @@ public class CommonController {
     public Map<String, Object> getAllHouses(@RequestParam("bid") int bid,
                                             @RequestParam("page") int page,
                                             @RequestParam("size") int size
-                                               ){
+                                            ){
 
         return commonService.getAllHouses(bid, page, size);
 
