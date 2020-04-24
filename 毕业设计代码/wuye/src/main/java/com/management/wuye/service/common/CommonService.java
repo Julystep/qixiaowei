@@ -4,6 +4,9 @@ import com.management.wuye.bean.Buildings;
 import com.management.wuye.bean.House;
 import com.management.wuye.mapper.common.CommonMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -40,6 +43,19 @@ public class CommonService {
 
     }
 
+    public Map<String,Object> getHousePage(int bid,int page,int size, String houseInfo){
+        page = (page-1)*10;
+        Map<String,Object> map = new HashMap<>();
+        List<House> house = commonMapper.getHousePage(bid,page, size, houseInfo);
+        Integer count = commonMapper.getCount(bid);
+        map.put("houses",house);
+        map.put("count",count);
+        return map;
+    }
+
+    public int getCount(int bid){
+        return commonMapper.getCount(bid);
+    }
 
     public boolean deleteBuilding(int bid){
         return commonMapper.deleteBuilding(bid);

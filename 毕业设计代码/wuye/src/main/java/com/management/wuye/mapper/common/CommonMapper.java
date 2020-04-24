@@ -22,8 +22,11 @@ public interface CommonMapper {
 
      List<House> getAllHouses(int bid, int page, int size);
 
-
      int getAllHousesCount(int bid);
+
+     public List<House> getHousePage(int bid,int page, int size, String houseInfo);
+
+     public Integer getCount(int bid);
 
      boolean deleteHouse(@Param("hid")String hid);
 

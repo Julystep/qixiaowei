@@ -56,6 +56,22 @@
         select count(*) from p_house ph LEFT JOIN
         p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
     </select>
+    <select id="getHousePage" resultType="com.management.wuye.bean.House">
+        select * from p_house
+        <if test="bid != -1">
+            where bid=#{bid}
+        </if>
+        <if test="houseInfo != null and houseInfo != ''">
+            where hname like "%${houseInfo}%"
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from p_house
+        <if test="bid != -1">
+            where bid=#{bid}
+        </if>
+    </select>
     <delete id="deleteHouse">
 	    delete from p_house where hid=#{hid}
 	</delete>

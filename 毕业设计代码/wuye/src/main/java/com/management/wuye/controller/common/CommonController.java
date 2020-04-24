@@ -39,6 +39,15 @@ public class CommonController {
 
     }
 
+    @RequestMapping(value = "/getHousePage", method = RequestMethod.POST)
+    public Map<String,Object> getHousePage(@RequestParam("bid") int bid,
+                                           @RequestParam("page") int page,
+                                           @RequestParam("size") int size,
+                                           @RequestParam("houseInfo") String houseInfo){
+        return commonService.getHousePage(bid,page,size,houseInfo);
+    }
+
+
 
     @RequestMapping(value = "/root/deleteBuilding",method = RequestMethod.DELETE)
     public boolean deleteBuilding(@RequestParam("bid")int bid){

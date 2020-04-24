@@ -37,10 +37,11 @@
               <el-input
                 placeholder="请输入内容"
                 v-model="houseInfo"
+                clearable @clear="getHouseList"
                 class="input-with-select"
                 size="mini"
               >
-                <el-button slot="append" icon="el-icon-search" @click="currentChangeHouses()"></el-button>
+                <el-button slot="append" icon="el-icon-search" @click="getHouseList()" ></el-button>
               </el-input>
             </el-col>
             <el-col :span="2" :offset="16">
@@ -286,6 +287,7 @@ export default {
       housesCount: 0,
       houses: [],
       houseInfo:"",
+      count:0,
       insertBuildingVisible: false,
       insertHouseVisible: false,
       updateBuildingVisible: false,
@@ -418,6 +420,19 @@ export default {
         }
         });
     },
+    getHouseList(){
+      var _this = this;
+      _this.postRequest("/getHousePage", {
+        bid: -1,
+        page: _this.currentPageHouses,
+        size: 10,
+        houseInfo: _this.houseInfo
+      }).then(resp =>{
+          var data = resp.data;  
+          _this.houses = data.houses;
+          _this.housesCount = data.count;      
+      })
+    },
     changeHouseInfo(house){
       this.updateHouseVisible = true;
       this.updatehouse.hid = house.hid;
@@ -445,6 +460,7 @@ export default {
               var data = resp.data;
               if (data) {
                 _this.updateHouseVisible = false;
+                _this.getHouseList();
               }
             });
         } else {
@@ -465,6 +481,7 @@ export default {
       }).then(() => {
         this.deleteRequest("/root/deleteHouse?hid=" + _this.hid).then(
           () => {
+            _this.getHouseList();
           }
         );
       });
@@ -486,6 +503,7 @@ export default {
           var data = resp.data;
           if (data) {
             this.insertHouseVisible = false;
+            _this.getHouseList();
           }
         });
         }else {
