@@ -184,15 +184,29 @@ export default {
       },
       formRules: {
         userId: [
-          { required: true, message: "请输入用户编号", trigger: "blur" }
+          { required: true, message: "请输入用户编号", trigger: "blur" },
+          { pattern: /^[1]{1}[0]{2,3}[0-9]{2}$/, message: "请输入合理的房间面积" }
         ],
-        loginName: [{ required: true, message: "请输入账号", trigger: "blur" }],
-        userName: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        loginName: [
+          { required: true, message: "请输入账号", trigger: "blur" },
+          { pattern: /^[0-9a-zA-Z]{2,5}$/, message: "请输入合理的房间面积" }
+        ],
+        userName: [
+          { required: true, message: "请输入姓名", trigger: "blur" },
+          { pattern: /^[\u0391-\uFFE5]{2,4}$/, message: "请输入合理的用户名" }
+        ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { pattern: /^[0-9a-zA-Z]{6,15}$/, message: "请输入正确的密码，包含6~15位字母大小写或数字" }
+        ],
         telephone: [
-          { required: true, message: "请输入手机号", trigger: "blur" }
+          { required: true, message: "请输入手机号", trigger: "blur" },
+          { pattern: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/, message: "请输入正确的手机号" }
         ],
-        email: [{ required: true, message: "请输入邮箱", trigger: "blur" }]
+        email: [
+          { required: true, message: "请输入邮箱", trigger: "blur" },
+          { pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,3})$/, message: "请输入合理的邮箱格式" }
+        ]
       }
     };
   },

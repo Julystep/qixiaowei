@@ -375,7 +375,8 @@ export default {
       updateHouseVisible: false,
       addbuilding: {
         bid: "",
-        bname: ""
+        bname: "",
+        userId:"",
       },
       updatebuilding: {
         bid: "",
@@ -399,17 +400,39 @@ export default {
         telephone: ""
       },
       formRules: {
-        bid: [{ required: true, message: "请输入楼号", trigger: "blur" }],
-        bname: [{ required: true, message: "请输入楼名", trigger: "blur" }],
-        hid: [{ required: true, message: "请输入房间号", trigger: "blur" }],
-        hname: [{ required: true, message: "请输入房间名", trigger: "blur" }],
+        bid: [
+          { required: true, message: "请输入楼号", trigger: "blur" },
+          { pattern: /^[1-9]{1}[0-9]{1}$/,message: "请输入正确的楼号"}
+        ],
+        bname: [
+          { required: true, message: "请输入楼名", trigger: "blur" },
+          { pattern: /^[\u0391-\uFFE5]{3,5}$/,message: "请输入正确的楼名"}
+          ],
+        hid: [
+          { required: true, message: "请输入房间号", trigger: "blur" },
+          { pattern: /^([1-9]{1}|[1-9]{1}[0-9]{1})\-[1-6]{1}\-([1-6]{1}[0][1-2]{1})$/,
+            message: "请输入正确的房间号"}
+          ],
+        hname: [
+          { required: true, message: "请输入房间名", trigger: "blur" },
+          { pattern: /^[\u0391-\uFFE5]{9,11}$/,message: "请输入正确的房间名"}
+        ],
         hArea: [
           { required: true, message: "请输入房间面积", trigger: "blur" },
           { pattern: /^[1-9]{1}[0-9]{1,4}$/, message: "请输入合理的房间面积" }
         ],
+        userName: [
+          { required: true, message: "请输入姓名", trigger: "blur" },
+          { pattern: /^[\u0391-\uFFE5]{2,4}$/, message: "请输入合理的用户名" }
+        ],
+        telephone: [
+          { required: true, message: "请输入手机号", trigger: "blur" },
+          { pattern: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/, 
+            message: "请输入正确的手机号" }
+        ],
         email: [
           {
-            pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
+            pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,3})$/,
             message: "请输入正确的邮箱格式"
           }
         ]
@@ -430,7 +453,7 @@ export default {
     },
     dismissWithAdmin(row) {
       var _this = this;
-      this.$confirm("确定要接触信息吗？", "提示", {
+      this.$confirm("确定要解除关联信息吗？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -445,7 +468,7 @@ export default {
               message: "解除关联成功"
             });
           });
-      });
+      }).catch(()=>{});
     },
     getAllBuildings() {
       var _this = this;
