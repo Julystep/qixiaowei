@@ -27,8 +27,23 @@
                 <span>系统管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/manageAdmins">二级管理员管理</el-menu-item>
-                <el-menu-item index="/manageBuildings">楼栋信息管理</el-menu-item>
+                <el-menu-item index="/manageAdmins"
+                  >二级管理员管理</el-menu-item
+                >
+                <el-menu-item index="/manageBuildings"
+                  >楼栋信息管理</el-menu-item
+                >
+              </el-menu-item-group>
+            </el-submenu>
+          </template>
+          <template v-if="limitid === '2'">
+            <el-submenu index="/system">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>楼层管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/manageAdmins">楼层管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </template>
@@ -44,26 +59,26 @@
 
 <script>
 export default {
-  created () {},
+  created() {},
   methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
     },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
     },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/login')
+    logout() {
+      window.sessionStorage.clear();
+      this.$router.push("/login");
     }
   },
-  name: 'HelloWorld',
-  data () {
+  name: "HelloWorld",
+  data() {
     return {
       limitid: this.$store.state.user.limitid
-    }
+    };
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

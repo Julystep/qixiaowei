@@ -18,4 +18,10 @@ public interface RootMapper {
     Boolean deleteAdmin(@Param("userId") String userId);
 
     Boolean updateAdmin(@Param("admin") User user);
+
+    List<User> getAdminsWithoutHouses(@Param("userIds") List<String> userIds);
+
+    boolean dismissWithAdmin(int bid);
+
+    List<String> getAdminsWithHouses();
 }

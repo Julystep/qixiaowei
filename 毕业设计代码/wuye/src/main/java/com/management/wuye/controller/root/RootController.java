@@ -47,4 +47,19 @@ public class RootController {
         return rootService.updateAdmin(user);
     }
 
+    @RequestMapping(value = "/getadminswithouthouses", method = RequestMethod.GET)
+    public List<User> getAdminsWithoutHouses(){
+
+        return rootService.getAdminsWithoutHouses();
+
+    }
+
+
+    @RequestMapping(value = "/dismissWithAdmin", method = RequestMethod.POST)
+    public boolean dismissWithAdmin(@RequestParam("bid") int bid){
+
+        return rootService.dismissWithAdmin(bid);
+
+    }
+
 }

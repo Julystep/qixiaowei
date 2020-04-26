@@ -58,6 +58,19 @@
         </set>
         where userId=#{admin.userId} and limitid=2
     </update>
+    <select id="getAdminsWithHouses" resultType="java.lang.String">
+        select u.userId from p_user u where u.userId in  (select userId from p_buildings)
+         and u.limitid=2
+    </select>
+    <select id="getAdminsWithoutHouses" resultMap="User">
+         select u.* from p_user u where u.limitid=2 and u.userId not in
+         <foreach collection="userIds" separator="," open="(" close=")" item="item">
+             #{item}
+         </foreach>
+    </select>
+    <update id="dismissWithAdmin">
+        update p_buildings set userId=NULL where bid=#{bid}
+    </update>
 
 
 </mapper>

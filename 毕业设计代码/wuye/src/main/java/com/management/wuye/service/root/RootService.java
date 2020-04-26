@@ -39,4 +39,18 @@ public class RootService {
     public Boolean updateAdmin(User admin){
         return rootMapper.updateAdmin(admin);
     }
+
+    public List<User> getAdminsWithoutHouses() {
+
+        List<String> userIds = rootMapper.getAdminsWithHouses();
+
+        return rootMapper.getAdminsWithoutHouses(userIds);
+
+    }
+
+    public boolean dismissWithAdmin(int bid) {
+
+        return rootMapper.dismissWithAdmin(bid);
+
+    }
 }

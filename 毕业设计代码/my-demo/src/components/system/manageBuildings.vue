@@ -8,11 +8,20 @@
           class="input-with-select"
           size="mini"
         >
-          <el-button slot="append" icon="el-icon-search" @click="getAllBuildings()"></el-button>
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="getAllBuildings()"
+          ></el-button>
         </el-input>
       </el-col>
       <el-col :span="2" :offset="16">
-        <el-button type="primary" size="mini" @click="insertBuildingVisible = true" style="width: 100%" >添加楼层</el-button
+        <el-button
+          type="primary"
+          size="mini"
+          @click="insertBuildingVisible = true"
+          style="width: 100%"
+          >添加楼层</el-button
         >
       </el-col>
     </el-row>
@@ -37,15 +46,25 @@
               <el-input
                 placeholder="请输入内容"
                 v-model="houseInfo"
-                clearable @clear="getHouseList"
+                clearable
+                @clear="getHouseList"
                 class="input-with-select"
                 size="mini"
               >
-                <el-button slot="append" icon="el-icon-search" @click="getHouseList()" ></el-button>
+                <el-button
+                  slot="append"
+                  icon="el-icon-search"
+                  @click="getHouseList()"
+                ></el-button>
               </el-input>
             </el-col>
             <el-col :span="2" :offset="16">
-              <el-button type="primary" size="mini" @click="insertHouseVisible = true" style="width: 100%">添加房间</el-button
+              <el-button
+                type="primary"
+                size="mini"
+                @click="insertHouseVisible = true"
+                style="width: 100%"
+                >添加房间</el-button
               >
             </el-col>
           </el-row>
@@ -113,7 +132,11 @@
             >
             </el-pagination>
 
-            <el-dialog title="添加房间信息" :visible.sync="insertHouseVisible" width="50%">
+            <el-dialog
+              title="添加房间信息"
+              :visible.sync="insertHouseVisible"
+              width="50%"
+            >
               <el-form
                 :model="addhouse"
                 :rules="formRules"
@@ -147,7 +170,11 @@
                 >
               </span>
             </el-dialog>
-            <el-dialog title="编辑房间信息" :visible.sync="updateHouseVisible" width="50%">
+            <el-dialog
+              title="编辑房间信息"
+              :visible.sync="updateHouseVisible"
+              width="50%"
+            >
               <el-form
                 :model="updatehouse"
                 :rules="formRules"
@@ -181,7 +208,6 @@
                 >
               </span>
             </el-dialog>
-
           </div>
         </template>
       </el-table-column>
@@ -194,10 +220,25 @@
             placement="top"
           >
             <el-button
-              type="primary"
+              type="success"
               size="small"
               circle
               @click="changeBuildingInfo(scope.row)"
+              class="el-icon-info"
+            ></el-button>
+          </el-tooltip>
+
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="接触与管理员的关联"
+            placement="top"
+          >
+            <el-button
+              type="primary"
+              size="small"
+              circle
+              @click="dismissWithAdmin(scope.row)"
               class="el-icon-info"
             ></el-button>
           </el-tooltip>
@@ -229,7 +270,11 @@
       >
       </el-pagination>
     </div>
-    <el-dialog title="添加楼栋信息" :visible.sync="insertBuildingVisible" width="50%">
+    <el-dialog
+      title="添加楼栋信息"
+      :visible.sync="insertBuildingVisible"
+      width="50%"
+    >
       <el-form
         :model="addbuilding"
         :rules="formRules"
@@ -243,6 +288,21 @@
         <el-form-item label="楼名" prop="bname">
           <el-input v-model="addbuilding.bname"></el-input>
         </el-form-item>
+        <el-form-item label="管理员信息" prop="userId">
+          <el-select
+            v-model="updatebuilding.userId"
+            placeholder="请选择"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="item in userIdOptions"
+              :key="item.userId"
+              :label="item.userName"
+              :value="item.userId"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="insertBuildingVisible = false">取 消</el-button>
@@ -251,7 +311,11 @@
         >
       </span>
     </el-dialog>
-    <el-dialog title="编辑楼栋信息" :visible.sync="updateBuildingVisible" width="50%">
+    <el-dialog
+      title="编辑楼栋信息"
+      :visible.sync="updateBuildingVisible"
+      width="50%"
+    >
       <el-form
         :model="updatebuilding"
         :rules="formRules"
@@ -264,6 +328,21 @@
         </el-form-item>
         <el-form-item label="楼名" prop="bname">
           <el-input v-model="updatebuilding.bname"></el-input>
+        </el-form-item>
+        <el-form-item label="管理员信息" prop="userId">
+          <el-select
+            v-model="updatebuilding.userId"
+            placeholder="请选择"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="item in userIdOptions"
+              :key="item.userId"
+              :label="item.userName"
+              :value="item.userId"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -279,58 +358,95 @@
 export default {
   data() {
     return {
+      row: "",
       buildings: [],
-      buildingInfo:"",
+      buildingInfo: "",
       buildingCounts: 0,
       currentPageBuildings: 1,
       currentPageHouses: 1,
       housesCount: 0,
       houses: [],
-      houseInfo:"",
-      count:0,
+      houseInfo: "",
+      count: 0,
+      userIdOptions: [],
       insertBuildingVisible: false,
       insertHouseVisible: false,
       updateBuildingVisible: false,
-      updateHouseVisible:false,
-      addbuilding:{
-        bid:'',
-        bname:''
+      updateHouseVisible: false,
+      addbuilding: {
+        bid: "",
+        bname: ""
       },
-      updatebuilding:{
-        bid:'',
-        bname:''
+      updatebuilding: {
+        bid: "",
+        bname: "",
+        userId: ""
       },
-      addhouse:{
-        hid:'',
-        hname:'',
-        hArea:'',
-        userName:'',
-        email:'',
-        telephone:''
+      addhouse: {
+        hid: "",
+        hname: "",
+        hArea: "",
+        userName: "",
+        email: "",
+        telephone: ""
       },
-      updatehouse:{
-        hid:'',
-        hname:'',
-        hArea:'',
-        userName:'',
-        email:'',
-        telephone:''
+      updatehouse: {
+        hid: "",
+        hname: "",
+        hArea: "",
+        userName: "",
+        email: "",
+        telephone: ""
       },
       formRules: {
-        bid: [
-          { required: true, message: "请输入楼号", trigger: "blur" }
-        ],
+        bid: [{ required: true, message: "请输入楼号", trigger: "blur" }],
         bname: [{ required: true, message: "请输入楼名", trigger: "blur" }],
         hid: [{ required: true, message: "请输入房间号", trigger: "blur" }],
         hname: [{ required: true, message: "请输入房间名", trigger: "blur" }],
-        hArea: [{ required: true, message: "请输入房间面积", trigger: "blur" }],
+        hArea: [
+          { required: true, message: "请输入房间面积", trigger: "blur" },
+          { pattern: /^[1-9]{1}[0-9]{1,4}$/, message: "请输入合理的房间面积" }
+        ],
+        email: [
+          {
+            pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
+            message: "请输入正确的邮箱格式"
+          }
+        ]
       }
     };
   },
   mounted() {
     this.getAllBuildings();
+    this.getUserIdOptions();
   },
   methods: {
+    getUserIdOptions() {
+      var _this = this;
+      this.getRequest("/root/getadminswithouthouses").then(resp => {
+        _this.userIdOptions = resp.data;
+        console.log(_this.userIdOptions);
+      });
+    },
+    dismissWithAdmin(row) {
+      var _this = this;
+      this.$confirm("确定要接触信息吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        _this
+          .postRequest("/root/dismissWithAdmin", {
+            bid: row.bid
+          })
+          .then(resp => {
+            this.$message({
+              type: "sucess",
+              message: "解除关联成功"
+            });
+          });
+      });
+    },
     getAllBuildings() {
       var _this = this;
       this.postRequest("/getallbuildings", {
@@ -343,13 +459,13 @@ export default {
         _this.buildingCounts = resp.data.buildingCounts;
       });
     },
-    changeBuildingInfo(building){
+    changeBuildingInfo(building) {
       this.updateBuildingVisible = true;
       this.updatebuilding.bid = building.bid;
       this.updatebuilding.bname = building.bname;
       return;
     },
-    updateBuilding(updatebuilding){
+    updateBuilding(updatebuilding) {
       var _this = this;
       updatebuilding = JSON.stringify(updatebuilding);
       this.$refs.updatebuildingRef.validate(valid => {
@@ -367,73 +483,79 @@ export default {
               if (data) {
                 _this.updateBuildingVisible = false;
                 _this.getAllBuildings();
+                _this.getUserIdOptions();
               }
             });
         } else {
           _this.$message({
             type: "error",
             message: "表单未按照规则填写"
-          })
+          });
         }
       });
     },
-    deleteBuildinginfo(bid){
+    deleteBuildinginfo(bid) {
       var _this = this;
       _this.bid = bid;
-      _this.$confirm("确定要删除该楼栋信息吗", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        _this.deleteRequest("/root/deleteBuilding?bid=" + _this.bid).then(
-          () => {
-            _this.getAllBuildings();
-          }
-        );
-      });
+      _this
+        .$confirm("确定要删除该楼栋信息吗", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(() => {
+          _this
+            .deleteRequest("/root/deleteBuilding?bid=" + _this.bid)
+            .then(() => {
+              _this.getAllBuildings();
+            });
+        });
     },
-    insertBuilding(addbuilding){
+    insertBuilding(addbuilding) {
       var _this = this;
       addbuilding = JSON.stringify(addbuilding);
-        _this.$refs.addbuildingRef.validate(valid => {
+      _this.$refs.addbuildingRef.validate(valid => {
         if (valid) {
-           _this
-        .postRequest("/root/addBuilding", {
-          buildings: addbuilding
-        })
-        .then(resp => {
-          this.$message({
-            message: "添加成功",
-            type: "success"
-          });
-          var data = resp.data;
-          if (data) {
-            this.insertBuildingVisible = false;
-            this.getAllBuildings();
-          }
-        });
-        }else {
+          _this
+            .postRequest("/root/addBuilding", {
+              buildings: addbuilding
+            })
+            .then(resp => {
+              this.$message({
+                message: "添加成功",
+                type: "success"
+              });
+              var data = resp.data;
+              if (data) {
+                _this.insertBuildingVisible = false;
+                _this.getAllBuildings();
+                _this.getUserIdOptions();
+              }
+            });
+        } else {
           _this.$message({
             type: "error",
             message: "表单未按照规则填写"
-          })
+          });
         }
+      });
+    },
+    getHouseList() {
+      var _this = this;
+      _this
+        .postRequest("/getHousePage", {
+          bid: _this.row.bid,
+          page: _this.currentPageHouses,
+          size: 10,
+          houseInfo: _this.houseInfo
+        })
+        .then(resp => {
+          var data = resp.data;
+          _this.houses = data.houses;
+          _this.housesCount = data.count;
         });
     },
-    getHouseList(){
-      var _this = this;
-      _this.postRequest("/getHousePage", {
-        bid: -1,
-        page: _this.currentPageHouses,
-        size: 10,
-        houseInfo: _this.houseInfo
-      }).then(resp =>{
-          var data = resp.data;  
-          _this.houses = data.houses;
-          _this.housesCount = data.count;      
-      })
-    },
-    changeHouseInfo(house){
+    changeHouseInfo(house) {
       this.updateHouseVisible = true;
       this.updatehouse.hid = house.hid;
       this.updatehouse.hname = house.hname;
@@ -443,7 +565,7 @@ export default {
       this.updatehouse.telephone = house.telephone;
       return;
     },
-    updateHouse(updatehouse){
+    updateHouse(updatehouse) {
       var _this = this;
       updatehouse = JSON.stringify(updatehouse);
       this.$refs.updatehouseRef.validate(valid => {
@@ -467,11 +589,11 @@ export default {
           _this.$message({
             type: "error",
             message: "表单未按照规则填写"
-          })
+          });
         }
       });
     },
-    deleteHouseInfo(hid){
+    deleteHouseInfo(hid) {
       var _this = this;
       _this.hid = hid;
       this.$confirm("确定要删除该管理员信息吗", "提示", {
@@ -479,40 +601,38 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        this.deleteRequest("/root/deleteHouse?hid=" + _this.hid).then(
-          () => {
-            _this.getHouseList();
-          }
-        );
+        this.deleteRequest("/root/deleteHouse?hid=" + _this.hid).then(() => {
+          _this.getHouseList();
+        });
       });
     },
-    insertHouse(addhouse){
+    insertHouse(addhouse) {
       var _this = this;
       addhouse = JSON.stringify(addhouse);
-        _this.$refs.addhouseRef.validate(valid => {
+      _this.$refs.addhouseRef.validate(valid => {
         if (valid) {
-           _this
-        .postRequest("/root/addHouse", {
-          house: addhouse
-        })
-        .then(resp => {
-          this.$message({
-            message: "添加成功",
-            type: "success"
-          });
-          var data = resp.data;
-          if (data) {
-            this.insertHouseVisible = false;
-            _this.getHouseList();
-          }
-        });
-        }else {
+          _this
+            .postRequest("/root/addHouse", {
+              house: addhouse
+            })
+            .then(resp => {
+              this.$message({
+                message: "添加成功",
+                type: "success"
+              });
+              var data = resp.data;
+              if (data) {
+                this.insertHouseVisible = false;
+                _this.getHouseList();
+              }
+            });
+        } else {
           _this.$message({
             type: "error",
             message: "表单未按照规则填写"
-          })
+          });
         }
-        });
+      });
     },
     currentChangeBuildings(currentPageBuildings) {
       this.currentPageBuildings = currentPageBuildings;
@@ -532,6 +652,7 @@ export default {
     toogleExpand(row, column, event) {
       let $table = this.$refs.table;
       var _this = this;
+      this.row = row;
       this.postRequest("/gethousesbybuildingid", {
         bid: row.bid,
         page: _this.currentPageHouses,

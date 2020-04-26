@@ -5,6 +5,15 @@ import java.util.Date;
 public class Buildings {
     private int bid;
     private String bname;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public int getBid() {
         return bid;
