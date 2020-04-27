@@ -1,6 +1,7 @@
 package com.management.wuye.bean;
 
 public class House {
+    private String id;
     private String hid;
     private String hname;
     private double hArea;
@@ -9,6 +10,14 @@ public class House {
     private String telephone;
     private String email;
     private String userName;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUserName() {
         return userName;

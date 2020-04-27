@@ -185,7 +185,10 @@ export default {
       formRules: {
         userId: [
           { required: true, message: "请输入用户编号", trigger: "blur" },
-          { pattern: /^[1]{1}[0]{2,3}[0-9]{2}$/, message: "请输入合理的房间面积" }
+          {
+            pattern: /^[1]{1}[0]{2,3}[0-9]{2}$/,
+            message: "请输入合理的房间面积"
+          }
         ],
         loginName: [
           { required: true, message: "请输入账号", trigger: "blur" },
@@ -197,15 +200,24 @@ export default {
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
-          { pattern: /^[0-9a-zA-Z]{6,15}$/, message: "请输入正确的密码，包含6~15位字母大小写或数字" }
+          {
+            pattern: /^[0-9a-zA-Z]{6,15}$/,
+            message: "请输入正确的密码，包含6~15位字母大小写或数字"
+          }
         ],
         telephone: [
           { required: true, message: "请输入手机号", trigger: "blur" },
-          { pattern: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/, message: "请输入正确的手机号" }
+          {
+            pattern: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/,
+            message: "请输入正确的手机号"
+          }
         ],
         email: [
           { required: true, message: "请输入邮箱", trigger: "blur" },
-          { pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,3})$/, message: "请输入合理的邮箱格式" }
+          {
+            pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,3})$/,
+            message: "请输入合理的邮箱格式"
+          }
         ]
       }
     };
@@ -267,52 +279,54 @@ export default {
           _this.$message({
             type: "error",
             message: "表单未按照规则填写"
-          })
+          });
         }
       });
     },
     deleteAdminInfo(userId) {
       var _this = this;
       _this.userId = userId;
-      _this.$confirm("确定要删除该管理员信息吗", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        this.deleteRequest("/root/deleteAdmin?userId=" + _this.userId).then(
-          () => {
-            _this.getAllAdmins();
-          }
-        );
-      });
+      _this
+        .$confirm("确定要删除该管理员信息吗", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(() => {
+          this.deleteRequest("/root/deleteAdmin?userId=" + _this.userId).then(
+            () => {
+              _this.getAllAdmins();
+            }
+          );
+        });
     },
     insertAdmins(addadmins) {
       var _this = this;
       addadmins = JSON.stringify(addadmins);
-        _this.$refs.addadminsRef.validate(valid => {
+      _this.$refs.addadminsRef.validate(valid => {
         if (valid) {
-           _this
-        .postRequest("/root/addAdmin", {
-          admin: addadmins
-        })
-        .then(resp => {
-          this.$message({
-            message: "添加成功",
-            type: "success"
-          });
-          var data = resp.data;
-          if (data) {
-            this.insertVisible = false;
-            this.getAllAdmins();
-          }
-        });
-        }else {
+          _this
+            .postRequest("/root/addAdmin", {
+              admin: addadmins
+            })
+            .then(resp => {
+              this.$message({
+                message: "添加成功",
+                type: "success"
+              });
+              var data = resp.data;
+              if (data) {
+                this.insertVisible = false;
+                this.getAllAdmins();
+              }
+            });
+        } else {
           _this.$message({
             type: "error",
             message: "表单未按照规则填写"
-          })
+          });
         }
-        });
+      });
     }
   }
 };

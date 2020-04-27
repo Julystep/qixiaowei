@@ -359,6 +359,7 @@ export default {
   data() {
     return {
       row: "",
+      rowhouse: "",
       buildings: [],
       buildingInfo: "",
       buildingCounts: 0,
@@ -376,7 +377,7 @@ export default {
       addbuilding: {
         bid: "",
         bname: "",
-        userId:"",
+        userId: ""
       },
       updatebuilding: {
         bid: "",
@@ -392,6 +393,7 @@ export default {
         telephone: ""
       },
       updatehouse: {
+        id: "",
         hid: "",
         hname: "",
         hArea: "",
@@ -402,20 +404,22 @@ export default {
       formRules: {
         bid: [
           { required: true, message: "请输入楼号", trigger: "blur" },
-          { pattern: /^[1-9]{1}[0-9]{1}$/,message: "请输入正确的楼号"}
+          { pattern: /^[1-9]{1}[0-9]{1}$/, message: "请输入正确的楼号" }
         ],
         bname: [
           { required: true, message: "请输入楼名", trigger: "blur" },
-          { pattern: /^[\u0391-\uFFE5]{3,5}$/,message: "请输入正确的楼名"}
-          ],
+          { pattern: /^[\u0391-\uFFE5]{3,5}$/, message: "请输入正确的楼名" }
+        ],
         hid: [
           { required: true, message: "请输入房间号", trigger: "blur" },
-          { pattern: /^([1-9]{1}|[1-9]{1}[0-9]{1})\-[1-6]{1}\-([1-6]{1}[0][1-2]{1})$/,
-            message: "请输入正确的房间号"}
-          ],
+          {
+            pattern: /^([1-9]{1}|[1-9]{1}[0-9]{1})\-[1-6]{1}\-([1-6]{1}[0][1-2]{1})$/,
+            message: "请输入正确的房间号"
+          }
+        ],
         hname: [
           { required: true, message: "请输入房间名", trigger: "blur" },
-          { pattern: /^[\u0391-\uFFE5]{9,11}$/,message: "请输入正确的房间名"}
+          { pattern: /^[\u0391-\uFFE5]{9,11}$/, message: "请输入正确的房间名" }
         ],
         hArea: [
           { required: true, message: "请输入房间面积", trigger: "blur" },
@@ -427,8 +431,10 @@ export default {
         ],
         telephone: [
           { required: true, message: "请输入手机号", trigger: "blur" },
-          { pattern: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/, 
-            message: "请输入正确的手机号" }
+          {
+            pattern: /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/,
+            message: "请输入正确的手机号"
+          }
         ],
         email: [
           {
@@ -457,18 +463,20 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(() => {
-        _this
-          .postRequest("/root/dismissWithAdmin", {
-            bid: row.bid
-          })
-          .then(resp => {
-            this.$message({
-              type: "sucess",
-              message: "解除关联成功"
+      })
+        .then(() => {
+          _this
+            .postRequest("/root/dismissWithAdmin", {
+              bid: row.bid
+            })
+            .then(resp => {
+              this.$message({
+                type: "sucess",
+                message: "解除关联成功"
+              });
             });
-          });
-      }).catch(()=>{});
+        })
+        .catch(() => {});
     },
     getAllBuildings() {
       var _this = this;
@@ -579,6 +587,7 @@ export default {
         });
     },
     changeHouseInfo(house) {
+      this.rowhouse = house;
       this.updateHouseVisible = true;
       this.updatehouse.hid = house.hid;
       this.updatehouse.hname = house.hname;
@@ -590,6 +599,7 @@ export default {
     },
     updateHouse(updatehouse) {
       var _this = this;
+      updatehouse.id = this.rowhouse.id;
       updatehouse = JSON.stringify(updatehouse);
       this.$refs.updatehouseRef.validate(valid => {
         if (valid) {

@@ -34,4 +34,5 @@ public interface CommonMapper {
 
      boolean addHouse(@Param("house")House house);
 
+     boolean upateUser(@Param("house")House house);
 }

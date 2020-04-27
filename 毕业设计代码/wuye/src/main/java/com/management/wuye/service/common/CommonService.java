@@ -74,7 +74,7 @@ public class CommonService {
     }
 
     public boolean updateHouse(House house){
-        return commonMapper.updateHouse(house);
+        return commonMapper.updateHouse(house)  && commonMapper.upateUser(house);
     }
 
     public boolean addHouse(House house){

@@ -13,6 +13,7 @@ import Lostandfound from '@/components/information/Lostandfound'
 import Announcement from '@/components/information/Announcement'
 import manageAdmin from '@/components/system/manageAdmin'
 import manageBuildings from '@/components/system/manageBuildings'
+import BuildingUser from "@/components/admin/building&user/Building&User"
 
 Vue.use(Router)
 
@@ -69,6 +70,9 @@ export default new Router({
 
           ]
         },
+        /**
+         * 超级管理员url
+         */
         {
           path: '/manageAdmins',
           component: manageAdmin
@@ -77,6 +81,13 @@ export default new Router({
           path: '/manageBuildings',
           component: manageBuildings
         },
+        /*
+         次级管理员url
+        */
+        {
+          path: '/buildinganduser',
+          component: BuildingUser
+        }
       ]
     },
   ]

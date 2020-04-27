@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.management.wuye.mapper.common.CommonMapper">
     <resultMap id="houseMap" type="com.management.wuye.bean.House">
+        <id column="id" property="id" />
         <result column="hid" property="hid" />
         <result column="hname" property="hname" />
         <result column="hArea" property="hArea" />
@@ -94,6 +95,21 @@
             </if>
         </set>
         where hid=#{house.hid}
+    </update>
+    <update id="upateUser">
+        update p_user
+        <set>
+            <if test="house.userName!=null and house.userName!=''">
+                userName=#{house.userName},
+            </if>
+            <if test="house.email!=null and house.email!=''">
+                email=#{house.email},
+            </if>
+            <if test="house.telephone!=null and house.telephone!=''">
+                telephone=#{house.telephone},
+            </if>
+        </set>
+        where houseid=#{house.id}
     </update>
 
 

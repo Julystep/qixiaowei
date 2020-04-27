@@ -43,7 +43,7 @@
                 <span>楼层管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/manageAdmins">楼层管理</el-menu-item>
+                <el-menu-item index="/buildinganduser">楼层管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </template>
