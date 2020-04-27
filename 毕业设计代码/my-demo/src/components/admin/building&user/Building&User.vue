@@ -131,9 +131,9 @@
                   >
                     <el-option
                       v-for="item in userNameOptions"
-                      :key="item.userId"
+                      :key="item.userName"
                       :label="item.userName"
-                      :value="item.userId"
+                      :value="item.userName"
                     >
                     </el-option>
                   </el-select>

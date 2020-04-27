@@ -57,6 +57,7 @@ public class AdminService {
 
         List<String> userIds = adminMapper.getUsersWithHouses();
 
+        System.out.println(userIds);
         return adminMapper.getUsersWithoutHouses(userIds);
 
     }

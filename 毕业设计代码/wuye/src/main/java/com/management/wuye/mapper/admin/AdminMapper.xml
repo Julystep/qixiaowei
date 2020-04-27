@@ -71,11 +71,11 @@
         where houseid=#{house.id}
     </update>
     <select id="getUsersWithHouses" resultType="java.lang.String">
-        select u.userName from p_user u where u.houseid is null
+        select u.userName from p_user u where u.houseid  in (select houseid from p_user)
          and u.limitid=3
     </select>
     <select id="getUsersWithoutHouses" resultMap="User">
-        select u.* from p_user u where u.limitid=3 and u.houseid in
+        select u.* from p_user u where u.limitid=3 and u.houseid not in
         <foreach collection="userIds" separator="," open="(" close=")" item="item">
             #{item}
         </foreach>

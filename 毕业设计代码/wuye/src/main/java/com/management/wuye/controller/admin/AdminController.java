@@ -49,6 +49,7 @@ public class AdminController {
     @RequestMapping(value = "/getuserswithouthouses", method = RequestMethod.GET)
     public List<User> getAdminsWithoutHouses(){
 
+
         return adminService.getUsersWithoutHouses();
 
     }
