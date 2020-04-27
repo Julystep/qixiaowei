@@ -63,10 +63,10 @@
          and u.limitid=2
     </select>
     <select id="getAdminsWithoutHouses" resultMap="User">
-         select u.* from p_user u where u.limitid=2 and u.userId not in
-         <foreach collection="userIds" separator="," open="(" close=")" item="item">
-             #{item}
-         </foreach>
+        select u.* from p_user u where u.limitid=2 and u.userId not in
+        <foreach collection="userIds" separator="," open="(" close=")" item="item">
+            #{item}
+        </foreach>
     </select>
     <update id="dismissWithAdmin">
         update p_buildings set userId=NULL where bid=#{bid}

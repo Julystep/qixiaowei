@@ -75,8 +75,8 @@
 	</delete>
     <insert id="addHouse" >
 	    insert into
-	    p_house(hid, hname, hArea, status)
-	    values(#{house.hid}, #{house.hname}, #{house.hArea}, false)
+	    p_house(hid, hname, hArea, status,bid)
+	    values(#{house.hid}, #{house.hname}, #{house.hArea}, false,#{bid})
 	</insert>
     <update id="updateHouse" parameterType="com.management.wuye.bean.House">
         update p_house

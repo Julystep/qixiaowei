@@ -231,7 +231,7 @@
           <el-tooltip
             class="item"
             effect="dark"
-            content="接触与管理员的关联"
+            content="解除与管理员的关联"
             placement="top"
           >
             <el-button
@@ -290,7 +290,7 @@
         </el-form-item>
         <el-form-item label="管理员信息" prop="userId">
           <el-select
-            v-model="updatebuilding.userId"
+            v-model="addbuilding.userId"
             placeholder="请选择"
             style="width: 100%"
           >
@@ -448,6 +448,7 @@ export default {
   mounted() {
     this.getAllBuildings();
     this.getUserIdOptions();
+    this.getHouseList();
   },
   methods: {
     getUserIdOptions() {

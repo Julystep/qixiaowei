@@ -3,9 +3,84 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.management.wuye.mapper.admin.AdminMapper">
-
+    <resultMap id="houseMap" type="com.management.wuye.bean.House">
+        <id column="id" property="id" />
+        <result column="hid" property="hid" />
+        <result column="hname" property="hname" />
+        <result column="hArea" property="hArea" />
+        <result column="status" property="status" />
+        <result column="userName" property="userName" />
+        <result column="telephone" property="telephone"/>
+        <result column="email" property="email" />
+    </resultMap>
+    <resultMap id="User" type="com.management.wuye.bean.User">
+        <id column="userId" property="userId" jdbcType="CHAR"></id>
+        <result column="loginName" property="loginName" jdbcType="VARCHAR"></result>
+        <result column="userName" property="userName" jdbcType="VARCHAR"></result>
+        <result column="password" property="password" jdbcType="VARCHAR"></result>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"></result>
+        <result column="email" property="email" jdbcType="VARCHAR"></result>
+        <result column="homeplace" property="homeplace" jdbcType="VARCHAR"></result>
+    </resultMap>
     <select id="getBuilding" resultType="com.management.wuye.bean.Buildings">
         select * from p_buildings where userId=#{userId}
     </select>
 
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from p_house
+    </select>
+    <delete id="deleteHouse">
+	    delete from p_house where hid=#{hid}
+	</delete>
+    <insert id="addHouse" >
+	    insert into
+	    p_house(hid, hname, hArea, status)
+	    values(#{house.hid}, #{house.hname}, #{house.hArea}, false)
+	</insert>
+    <update id="updateHouse" parameterType="com.management.wuye.bean.House">
+        update p_house
+        <set>
+            <if test="house.hname!=null and house.hname!=''">
+                hname=#{house.hname},
+            </if>
+            <if test="house.hArea!=null and house.hArea!=''">
+                hArea=#{house.hArea},
+            </if>
+            <if test="house.status!=null and house.status!=''">
+                status=#{house.status},
+            </if>
+            <if test="house.bid!=null and house.bid!=''">
+                bid=#{house.bid},
+            </if>
+        </set>
+        where hid=#{house.hid}
+    </update>
+    <update id="upateUser">
+        update p_user
+        <set>
+            <if test="house.userName!=null and house.userName!=''">
+                userName=#{house.userName},
+            </if>
+            <if test="house.email!=null and house.email!=''">
+                email=#{house.email},
+            </if>
+            <if test="house.telephone!=null and house.telephone!=''">
+                telephone=#{house.telephone},
+            </if>
+        </set>
+        where houseid=#{house.id}
+    </update>
+    <select id="getUsersWithHouses" resultType="java.lang.String">
+        select u.userName from p_user u where u.houseid is null
+         and u.limitid=3
+    </select>
+    <select id="getUsersWithoutHouses" resultMap="User">
+        select u.* from p_user u where u.limitid=3 and u.houseid in
+        <foreach collection="userIds" separator="," open="(" close=")" item="item">
+            #{item}
+        </foreach>
+    </select>
+    <delete id="dismissWithUser">
+        delete from p_user where houseid=#{id}
+    </delete>
 </mapper>
