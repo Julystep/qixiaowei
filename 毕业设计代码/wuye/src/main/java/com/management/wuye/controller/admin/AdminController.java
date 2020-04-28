@@ -68,4 +68,9 @@ public class AdminController {
         return adminService.getAllInformations(info);
     }
 
+    @RequestMapping(value = "/deleteInfo", method = RequestMethod.DELETE)
+    public boolean deleteInfo(@RequestParam("id") int id){
+        return adminService.deleteInfo(id);
+    }
+
 }

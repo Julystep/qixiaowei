@@ -109,7 +109,11 @@
     <select id="getAllInformations" resultType="com.management.wuye.bean.Information">
         select * from p_information
         <if test="info != null and info != ''">
-            and concat(head, content, infotime, userId) LIKE CONCAT ('%', #{info},'%')
+            where concat(head, content, infotime, userId) LIKE CONCAT ('%', #{info},'%')
         </if>
     </select>
+    <delete id="deleteInfo">
+	    delete from p_information where id=#{id}
+	</delete>
+
 </mapper>

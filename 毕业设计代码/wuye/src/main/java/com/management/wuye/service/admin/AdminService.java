@@ -109,4 +109,8 @@ public class AdminService {
         return map;
     }
 
+    public boolean deleteInfo(int id){
+        return adminMapper.deleteInfo(id);
+    }
+
 }

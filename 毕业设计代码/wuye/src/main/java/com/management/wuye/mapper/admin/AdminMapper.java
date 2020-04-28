@@ -36,4 +36,6 @@ public interface AdminMapper {
     boolean submitInfomation(String head, String content, Date infotime, String userId, int type);
 
     List<Information> getAllInformations(String info);
+
+    boolean deleteInfo(@Param("id") int id);
 }
