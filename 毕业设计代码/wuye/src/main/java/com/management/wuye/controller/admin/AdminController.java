@@ -60,4 +60,10 @@ public class AdminController {
 
     }
 
+    @RequestMapping(value = "/submitInfomation", method = RequestMethod.POST)
+    public boolean submitInfomation(@RequestParam("ruleForm") String ruleForm){
+        return adminService.submitInfomation(ruleForm);
+
+    }
+
 }

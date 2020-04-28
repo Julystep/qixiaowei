@@ -7,9 +7,18 @@ public class House {
     private double hArea;
     private boolean status;
     private int bid;
+    private String userId;
     private String telephone;
     private String email;
     private String userName;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;

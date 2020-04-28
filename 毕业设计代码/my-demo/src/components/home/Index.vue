@@ -37,13 +37,23 @@
             </el-submenu>
           </template>
           <template v-if="limitid === '2'">
-            <el-submenu index="/system">
+            <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>楼层管理</span>
               </template>
               <el-menu-item-group>
                 <el-menu-item index="/buildinganduser">楼层管理</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="2">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>公告管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/infomation">发布公告</el-menu-item>
+                <el-menu-item index="/manageInfomation">公告管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </template>

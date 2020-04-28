@@ -9,6 +9,7 @@
         <result column="hname" property="hname" />
         <result column="hArea" property="hArea" />
         <result column="status" property="status" />
+        <result column="userId" property="userId" />
         <result column="userName" property="userName" />
         <result column="telephone" property="telephone"/>
         <result column="email" property="email" />
@@ -56,31 +57,53 @@
         where hid=#{house.hid}
     </update>
     <update id="upateUser">
-        update p_user
-        <set>
-            <if test="house.userName!=null and house.userName!=''">
-                userName=#{house.userName},
-            </if>
-            <if test="house.email!=null and house.email!=''">
-                email=#{house.email},
-            </if>
-            <if test="house.telephone!=null and house.telephone!=''">
-                telephone=#{house.telephone},
-            </if>
-        </set>
-        where houseid=#{house.id}
+
+            update p_user
+            <set>
+                <if test="house.id!=null and house.id!=''">
+                    houseid=#{house.id},
+                </if>
+                <if test="house.email!=null and house.email!=''">
+                    email=#{house.email},
+                </if>
+                <if test="house.telephone!=null and house.telephone!=''">
+                    telephone=#{house.telephone},
+                </if>
+            </set>
+                where userId=#{house.userName}
     </update>
     <select id="getUsersWithHouses" resultType="java.lang.String">
-        select u.userName from p_user u where u.houseid  in (select houseid from p_user)
-         and u.limitid=3
+        select u.userId from p_user u, p_house ph where u.houseid=ph.id
     </select>
     <select id="getUsersWithoutHouses" resultMap="User">
-        select u.* from p_user u where u.limitid=3 and u.houseid not in
-        <foreach collection="userIds" separator="," open="(" close=")" item="item">
-            #{item}
-        </foreach>
+        select u.* from p_user u where u.limitid=3
+        <if test="userIds.size() != 0">
+            and u.userId not in
+            <foreach collection="userIds" separator="," open="(" close=")" item="item">
+                #{item}
+            </foreach>
+        </if>
     </select>
     <delete id="dismissWithUser">
         delete from p_user where houseid=#{id}
     </delete>
+    <select id="getHousePage" resultType="com.management.wuye.bean.House">
+        select ph.*, pu.userName, pu.telephone, pu.email, pu.userId from p_house ph LEFT JOIN
+        p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
+        <if test="houseInfo != null and houseInfo != ''">
+            and concat(hid, hname) LIKE CONCAT ('%', #{houseInfo},'%')
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getHouseCount" resultType="java.lang.Integer">
+        select count(*) from p_house ph LEFT JOIN
+        p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
+        <if test="houseInfo != null and houseInfo != ''">
+            and concat(hid, hname) LIKE CONCAT ('%', #{houseInfo},'%')
+        </if>
+    </select>
+    <insert id="submitInfomation" >
+        insert into p_information(head, content, infotime, userId, type)
+        value (#{head}, #{content}, #{infotime}, #{userId}, #{type})
+    </insert>
 </mapper>

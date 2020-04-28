@@ -6,6 +6,7 @@ import com.management.wuye.bean.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -27,4 +28,9 @@ public interface AdminMapper {
 
     boolean upateUser(@Param("house")House house);
 
+    List<House> getHousePage(int bid, int page, int size, String houseInfo);
+
+    int getHouseCount(int bid, String houseInfo);
+
+    boolean submitInfomation(String head, String content, Date infotime, String userId, int type);
 }

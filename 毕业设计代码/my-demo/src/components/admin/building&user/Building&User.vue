@@ -35,11 +35,23 @@
       highlight-current-row
     >
       <el-table-column label="房间号" prop="hid" width="200"></el-table-column>
-      <el-table-column label="房间名" prop="hname" width="200"></el-table-column>
+      <el-table-column
+        label="房间名"
+        prop="hname"
+        width="200"
+      ></el-table-column>
       <el-table-column label="面积" prop="hArea" width="200"></el-table-column>
-      <el-table-column label="业主" prop="userName" width="200"></el-table-column>
+      <el-table-column
+        label="业主"
+        prop="userName"
+        width="200"
+      ></el-table-column>
       <el-table-column label="邮箱" prop="email" width="230"> </el-table-column>
-      <el-table-column label="电话" prop="telephone" width="230"></el-table-column>
+      <el-table-column
+        label="电话"
+        prop="telephone"
+        width="230"
+      ></el-table-column>
       <el-table-column label="操作" width="330">
         <template slot-scope="scope">
           <el-tooltip
@@ -99,109 +111,109 @@
       >
       </el-pagination>
 
-            <el-dialog
-              title="添加房间信息"
-              :visible.sync="insertHouseVisible"
-              width="50%"
+      <el-dialog
+        title="添加房间信息"
+        :visible.sync="insertHouseVisible"
+        width="50%"
+      >
+        <el-form
+          :model="addhouse"
+          :rules="formRules"
+          ref="addhouseRef"
+          label-width="100px"
+          class="demo-ruleForm"
+        >
+          <el-form-item label="房间号" prop="hid">
+            <el-input v-model="addhouse.hid"></el-input>
+          </el-form-item>
+          <el-form-item label="房间名" prop="hname">
+            <el-input v-model="addhouse.hname"></el-input>
+          </el-form-item>
+          <el-form-item label="面积" prop="hArea">
+            <el-input v-model="addhouse.hArea"></el-input>
+          </el-form-item>
+          <el-form-item label="楼号" prop="bid">
+            <el-input v-model="addhouse.bid"></el-input>
+          </el-form-item>
+          <el-form-item label="业主" prop="userName">
+            <el-select
+              v-model="addhouse.userName"
+              placeholder="请选择"
+              style="width: 100%"
             >
-              <el-form
-                :model="addhouse"
-                :rules="formRules"
-                ref="addhouseRef"
-                label-width="100px"
-                class="demo-ruleForm"
+              <el-option
+                v-for="item in userNameOptions"
+                :key="item.userName"
+                :label="item.userName"
+                :value="item.userName"
               >
-                <el-form-item label="房间号" prop="hid">
-                  <el-input v-model="addhouse.hid"></el-input>
-                </el-form-item>
-                <el-form-item label="房间名" prop="hname">
-                  <el-input v-model="addhouse.hname"></el-input>
-                </el-form-item>
-                <el-form-item label="面积" prop="hArea">
-                  <el-input v-model="addhouse.hArea"></el-input>
-                </el-form-item>
-                <el-form-item label="楼号" prop="bid">
-                  <el-input v-model="addhouse.bid"></el-input>
-                </el-form-item>
-                <el-form-item label="业主" prop="userName">
-                  <el-select
-                    v-model="addhouse.userName"
-                    placeholder="请选择"
-                    style="width: 100%"
-                  >
-                    <el-option
-                      v-for="item in userNameOptions"
-                      :key="item.userName"
-                      :label="item.userName"
-                      :value="item.userName"
-                    >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                  <el-input v-model="addhouse.email"></el-input>
-                </el-form-item>
-                <el-form-item label="电话" prop="telephone">
-                  <el-input v-model="addhouse.telephone"></el-input>
-                </el-form-item>
-              </el-form>
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="insertHouseVisible = false">取 消</el-button>
-                <el-button type="primary" @click="insertHouse(addhouse)"
-                  >确 定</el-button
-                >
-              </span>
-            </el-dialog>
-            <el-dialog
-              title="编辑房间信息"
-              :visible.sync="updateHouseVisible"
-              width="50%"
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="addhouse.email"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="telephone">
+            <el-input v-model="addhouse.telephone"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="insertHouseVisible = false">取 消</el-button>
+          <el-button type="primary" @click="insertHouse(addhouse)"
+            >确 定</el-button
+          >
+        </span>
+      </el-dialog>
+      <el-dialog
+        title="编辑房间信息"
+        :visible.sync="updateHouseVisible"
+        width="50%"
+      >
+        <el-form
+          :model="updatehouse"
+          :rules="formRules"
+          ref="updatehouseRef"
+          label-width="100px"
+          class="demo-ruleForm"
+        >
+          <el-form-item label="房间号" prop="hid">
+            <el-input v-model="updatehouse.hid"></el-input>
+          </el-form-item>
+          <el-form-item label="房间名" prop="hname">
+            <el-input v-model="updatehouse.hname"></el-input>
+          </el-form-item>
+          <el-form-item label="面积" prop="hArea">
+            <el-input v-model="updatehouse.hArea"></el-input>
+          </el-form-item>
+          <el-form-item label="业主" prop="userName">
+            <el-select
+              v-model="updatehouse.userName"
+              placeholder="请选择"
+              style="width: 100%"
             >
-              <el-form
-                :model="updatehouse"
-                :rules="formRules"
-                ref="updatehouseRef"
-                label-width="100px"
-                class="demo-ruleForm"
+              <el-option
+                v-for="item in userNameOptions"
+                :key="item.userId"
+                :label="item.userName"
+                :value="item.userId"
               >
-                <el-form-item label="房间号" prop="hid">
-                  <el-input v-model="updatehouse.hid"></el-input>
-                </el-form-item>
-                <el-form-item label="房间名" prop="hname">
-                  <el-input v-model="updatehouse.hname"></el-input>
-                </el-form-item>
-                <el-form-item label="面积" prop="hArea">
-                  <el-input v-model="updatehouse.hArea"></el-input>
-                </el-form-item>
-                <el-form-item label="业主" prop="userName">
-                  <el-select
-                    v-model="updatehouse.userName"
-                    placeholder="请选择"
-                    style="width: 100%"
-                  >
-                    <el-option
-                      v-for="item in userNameOptions"
-                      :key="item.userId"
-                      :label="item.userName"
-                      :value="item.userId"
-                    >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                  <el-input v-model="updatehouse.email"></el-input>
-                </el-form-item>
-                <el-form-item label="电话" prop="telephone">
-                  <el-input v-model="updatehouse.telephone"></el-input>
-                </el-form-item>
-              </el-form>
-              <span slot="footer" class="dialog-footer">
-                <el-button @click="updateHouseVisible = false">取 消</el-button>
-                <el-button type="primary" @click="updateHouse(updatehouse)"
-                  >确 定</el-button
-                >
-              </span>
-            </el-dialog>
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="updatehouse.email"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="telephone">
+            <el-input v-model="updatehouse.telephone"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="updateHouseVisible = false">取 消</el-button>
+          <el-button type="primary" @click="updateHouse(updatehouse)"
+            >确 定</el-button
+          >
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -209,21 +221,21 @@
 export default {
   data() {
     return {
-      houseInfo:"",
+      houseInfo: "",
       building: {},
       houses: [],
       currentPage: 1,
       count: 0,
       currentPageHouses: 1,
       housesCount: 0,
-      userNameOptions:[],
+      userNameOptions: [],
       insertHouseVisible: false,
       updateHouseVisible: false,
       addhouse: {
         hid: "",
         hname: "",
         hArea: "",
-        bid:"",
+        bid: "",
         userName: "",
         email: "",
         telephone: ""
@@ -233,6 +245,7 @@ export default {
         hid: "",
         hname: "",
         hArea: "",
+        userId: "",
         userName: "",
         email: "",
         telephone: ""
@@ -290,7 +303,7 @@ export default {
           _this.currentPage +
           "&size=" +
           10 +
-          "&houseInfo="+
+          "&houseInfo=" +
           _this.houseInfo
       ).then(resp => {
         console.log(resp.data);
@@ -299,7 +312,7 @@ export default {
         _this.count = resp.data.count;
       });
     },
-    getUserNameOption(row){
+    getUserNameOption(row) {
       var _this = this;
       this.getRequest("/admin/getuserswithouthouses").then(resp => {
         _this.userNameOptions = resp.data;
@@ -341,6 +354,7 @@ export default {
     updateHouse(updatehouse) {
       var _this = this;
       updatehouse.id = this.rowhouse.id;
+      updatehouse.userId = this.rowhouse.userId;
       updatehouse = JSON.stringify(updatehouse);
       this.$refs.updatehouseRef.validate(valid => {
         if (valid) {
@@ -358,7 +372,7 @@ export default {
               if (data) {
                 _this.updateHouseVisible = false;
                 _this.getUserNameOption();
-                
+                _this.$router.go(0);
               }
             });
         } else {
@@ -411,8 +425,8 @@ export default {
         }
       });
     },
-    handleCurrentChange(newPage){
-      this.currentPage=newPage;
+    handleCurrentChange(newPage) {
+      this.currentPage = newPage;
       this.getBuildingOfUser();
     }
   }

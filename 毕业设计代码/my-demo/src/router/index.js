@@ -14,6 +14,8 @@ import Announcement from '@/components/information/Announcement'
 import manageAdmin from '@/components/system/manageAdmin'
 import manageBuildings from '@/components/system/manageBuildings'
 import BuildingUser from "@/components/admin/building&user/Building&User"
+import infomation from '@/components/admin/infomation/infomation'
+import manageInfomation from '@/components/admin/infomation/manageInfomation'
 
 Vue.use(Router)
 
@@ -87,6 +89,14 @@ export default new Router({
         {
           path: '/buildinganduser',
           component: BuildingUser
+        },
+        {
+          path: '/infomation',
+          component: infomation
+        },
+        {
+          path: "/manageInfomation",
+          component: manageInfomation
         }
       ]
     },

@@ -1,0 +1,74 @@
+<template>
+  <el-form
+    :model="ruleForm"
+    :rules="rules"
+    ref="ruleForm"
+    label-width="100px"
+    class="demo-ruleForm"
+  >
+    <el-form-item label="标题" prop="head">
+      <el-input v-model="ruleForm.head"></el-input>
+    </el-form-item>
+    <el-form-item label="内容" prop="content">
+      <el-input type="textarea" v-model="ruleForm.content"></el-input>
+    </el-form-item>
+    <el-form-item label="选择类型" prop="content">
+      <el-select
+        v-model="ruleForm.type"
+        placeholder="请选择消息类型"
+        style="width: 100%"
+      >
+        <el-option label="失物招领" value="1"></el-option>
+        <el-option label="业主通知" value="2"></el-option>
+        <el-option label="新鲜事" value="3"></el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="submitForm('ruleForm')"
+        >立即创建</el-button
+      >
+    </el-form-item>
+  </el-form>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      ruleForm: {
+        head: "",
+        content: "",
+        infotime: "",
+        userId: "",
+        type: ""
+      },
+      rules: {}
+    };
+  },
+  methods: {
+    submitForm(formName) {
+      var _this = this;
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          _this.ruleForm.userId = _this.$store.state.user.userId;
+          _this.ruleForm.infotime = new Date();
+          var ruleForm = JSON.stringify(_this.ruleForm);
+          _this
+            .postRequest("/admin/submitInfomation", { ruleForm: ruleForm })
+            .then(resp => {
+              _this.$message({ message: "发布成功", type: "success" });
+              _this.$router.go(0);
+            });
+        } else {
+          this.$message({
+            type: "warning",
+            message: "请按规则填写表单"
+          });
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  }
+};
+</script>
