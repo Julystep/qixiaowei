@@ -47,65 +47,80 @@
               {{ item.infotime }}
             </div></el-col
           >
+    <div>
+        <el-row style="margin-bottom: 10px">
+            <el-col :span="6">
+                <el-input
+                placeholder="请输入内容"
+                v-model="info"
+                class="input-with-select"
+                size="mini"
+                >
+                <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="getAllInformations()"
+                ></el-button>
+                </el-input>
+            </el-col>
         </el-row>
       </el-card>
     </template>
-  </div>
-</template>
 
 <script>
 export default {
-  data() {
-    return {
-      information: [],
-      info: ""
-    };
-  },
-  mounted() {
-    this.getAllInformations();
-  },
-  methods: {
-    getAllInformations() {
-      /* 获得所有的二级管理员 */
-      var _this = this;
-      this.getRequest("/admin/getallinformations?info=" + _this.info).then(
-        resp => {
-          _this.information = resp.data.information;
-          console.log(_this.information);
+    data() {
+        return {
+            information: [],
+            info: "",
         }
-      );
+    },
+    mounted() {
+        this.getAllInformations();
+    },
+    methods: {
+        getAllInformations() {
+            /* 获得所有的二级管理员 */
+            var _this = this;
+            this.getRequest(
+                "/admin/getallinformations?info="
+                + _this.info
+            ).then(resp => {
+                _this.information = resp.data.information;
+                console.log(_this.information);
+            });
+        },
     }
-  }
-};
+}
 </script>
 
 <style scoped>
 .el-card {
-  width: 75%;
+    width: 75%;
 }
-.el-row {
-  margin-bottom: 20px;
-}
-.el-col {
-  border-radius: 4px;
-}
-.bg-purple-dark {
-  background: #99a9bf;
-}
-.bg-purple {
-  background: #dfe3e9;
-}
-.grid-head {
-  border-radius: 4px;
-  min-height: 36px;
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 80px;
-  width: auto;
-}
-.grid-bottom {
-  border-radius: 4px;
-  min-height: 36px;
-}
+ .el-row {
+    margin-bottom: 20px;
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #dfe3e9;
+  }
+  .grid-head {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 80px;
+    width: auto;
+  }
+  .grid-bottom {
+    border-radius: 4px;
+    min-height: 36px;
+  }
 </style>
