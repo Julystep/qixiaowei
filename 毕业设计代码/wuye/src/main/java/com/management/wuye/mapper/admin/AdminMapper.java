@@ -2,6 +2,7 @@ package com.management.wuye.mapper.admin;
 
 import com.management.wuye.bean.Buildings;
 import com.management.wuye.bean.House;
+import com.management.wuye.bean.Information;
 import com.management.wuye.bean.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -33,4 +34,6 @@ public interface AdminMapper {
     int getHouseCount(int bid, String houseInfo);
 
     boolean submitInfomation(String head, String content, Date infotime, String userId, int type);
+
+    List<Information> getAllInformations(String info);
 }

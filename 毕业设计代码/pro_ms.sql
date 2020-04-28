@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : mysql
+ Source Server         : root
  Source Server Type    : MySQL
- Source Server Version : 80015
+ Source Server Version : 80018
  Source Host           : localhost:3306
  Source Schema         : pro_ms
 
  Target Server Type    : MySQL
- Target Server Version : 80015
+ Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 23/04/2020 18:25:53
+ Date: 28/04/2020 08:38:30
 */
 
 SET NAMES utf8mb4;
@@ -24,36 +24,39 @@ DROP TABLE IF EXISTS `p_buildings`;
 CREATE TABLE `p_buildings`  (
   `bid` int(20) NOT NULL AUTO_INCREMENT,
   `bname` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`bid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  `userId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`bid`) USING BTREE,
+  INDEX `userid`(`userId`) USING BTREE,
+  CONSTRAINT `userid` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_buildings
 -- ----------------------------
-INSERT INTO `p_buildings` VALUES (1, '1号楼');
-INSERT INTO `p_buildings` VALUES (2, '2号楼');
-INSERT INTO `p_buildings` VALUES (3, '3号楼');
-INSERT INTO `p_buildings` VALUES (4, '4号楼');
-INSERT INTO `p_buildings` VALUES (5, '5号楼');
-INSERT INTO `p_buildings` VALUES (6, '6号楼');
-INSERT INTO `p_buildings` VALUES (7, '7号楼');
-INSERT INTO `p_buildings` VALUES (8, '8号楼');
-INSERT INTO `p_buildings` VALUES (9, '9号楼');
-INSERT INTO `p_buildings` VALUES (10, '10号楼');
-INSERT INTO `p_buildings` VALUES (11, '11号楼');
-INSERT INTO `p_buildings` VALUES (12, '12号楼');
-INSERT INTO `p_buildings` VALUES (13, '13号楼');
-INSERT INTO `p_buildings` VALUES (14, '14号楼');
-INSERT INTO `p_buildings` VALUES (15, '15号楼');
-INSERT INTO `p_buildings` VALUES (16, '16号楼');
-INSERT INTO `p_buildings` VALUES (17, '17号楼');
-INSERT INTO `p_buildings` VALUES (18, '18号楼');
-INSERT INTO `p_buildings` VALUES (19, '19号楼');
-INSERT INTO `p_buildings` VALUES (20, '20号楼');
-INSERT INTO `p_buildings` VALUES (21, '21号楼');
-INSERT INTO `p_buildings` VALUES (22, '22号楼');
-INSERT INTO `p_buildings` VALUES (23, '23号楼');
-INSERT INTO `p_buildings` VALUES (24, '24号楼');
+INSERT INTO `p_buildings` VALUES (1, '1号楼', 'wy02');
+INSERT INTO `p_buildings` VALUES (2, '2号楼', NULL);
+INSERT INTO `p_buildings` VALUES (3, '3号楼', NULL);
+INSERT INTO `p_buildings` VALUES (4, '4号楼', NULL);
+INSERT INTO `p_buildings` VALUES (5, '5号楼', NULL);
+INSERT INTO `p_buildings` VALUES (6, '6号楼', NULL);
+INSERT INTO `p_buildings` VALUES (7, '7号楼', NULL);
+INSERT INTO `p_buildings` VALUES (8, '8号楼', NULL);
+INSERT INTO `p_buildings` VALUES (9, '9号楼', NULL);
+INSERT INTO `p_buildings` VALUES (10, '10号楼', NULL);
+INSERT INTO `p_buildings` VALUES (11, '11号楼', NULL);
+INSERT INTO `p_buildings` VALUES (12, '12号楼', NULL);
+INSERT INTO `p_buildings` VALUES (13, '13号楼', NULL);
+INSERT INTO `p_buildings` VALUES (14, '14号楼', NULL);
+INSERT INTO `p_buildings` VALUES (15, '15号楼', NULL);
+INSERT INTO `p_buildings` VALUES (16, '16号楼', NULL);
+INSERT INTO `p_buildings` VALUES (17, '17号楼', NULL);
+INSERT INTO `p_buildings` VALUES (18, '18号楼', NULL);
+INSERT INTO `p_buildings` VALUES (19, '19号楼', NULL);
+INSERT INTO `p_buildings` VALUES (20, '20号楼', NULL);
+INSERT INTO `p_buildings` VALUES (21, '21号楼', NULL);
+INSERT INTO `p_buildings` VALUES (22, '22号楼', NULL);
+INSERT INTO `p_buildings` VALUES (23, '23号楼', NULL);
+INSERT INTO `p_buildings` VALUES (24, '24号楼', NULL);
 
 -- ----------------------------
 -- Table structure for p_charge
@@ -119,28 +122,32 @@ CREATE TABLE `p_house`  (
   `hid` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `hname` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `hArea` double(20, 3) NOT NULL,
-  `status` tinyint(10) NOT NULL,
-  `bid` int(10) NOT NULL,
+  `status` tinyint(10) NULL DEFAULT NULL,
+  `bid` int(10) NULL DEFAULT NULL,
   PRIMARY KEY (`id`, `hid`) USING BTREE,
   INDEX `house_bid`(`bid`) USING BTREE,
   INDEX `id`(`id`) USING BTREE,
-  CONSTRAINT `house_bid` FOREIGN KEY (`bid`) REFERENCES `p_buildings` (`bid`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `house_bid` FOREIGN KEY (`bid`) REFERENCES `p_buildings` (`bid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_house
 -- ----------------------------
 INSERT INTO `p_house` VALUES (1, '1-1-101', '一号楼一单元一零一', 87.000, 1, 1);
 INSERT INTO `p_house` VALUES (2, '1-1-102', '一号楼一单元一零二', 90.000, 0, 1);
-INSERT INTO `p_house` VALUES (3, '1-1-202', '一号楼一单元二零二', 100.000, 0, 1);
-INSERT INTO `p_house` VALUES (4, '1-1-301', '一号楼一单元三零一', 109.000, 0, 1);
-INSERT INTO `p_house` VALUES (5, '1-2-102', '一号楼二单元一零二', 87.000, 0, 1);
+INSERT INTO `p_house` VALUES (3, '1-1-202', '一号楼一单元二零二', 99.000, 0, 1);
 INSERT INTO `p_house` VALUES (6, '2-1-202', '二号楼一单元二零二', 87.000, 0, 2);
 INSERT INTO `p_house` VALUES (7, '2-2-301', '二号楼二单元三零一', 105.000, 0, 2);
 INSERT INTO `p_house` VALUES (8, '3-1-501', '三号楼一单元五零一', 87.000, 0, 3);
 INSERT INTO `p_house` VALUES (9, '4-2-201', '四号楼四单元二零一', 105.000, 0, 4);
 INSERT INTO `p_house` VALUES (10, '4-2-302', '四号楼二单元三零二', 87.000, 0, 4);
 INSERT INTO `p_house` VALUES (11, '5-2-502', '五号楼二单元五零二', 87.000, 0, 5);
+INSERT INTO `p_house` VALUES (21, '1-1-502', '一号楼一单元五零一', 99.000, 0, 1);
+INSERT INTO `p_house` VALUES (22, '1-1-301', '一号楼一单元三零一', 102.000, 0, 1);
+INSERT INTO `p_house` VALUES (23, '1-1-401', '一号楼一单元四零一', 98.000, 0, 1);
+INSERT INTO `p_house` VALUES (24, '1-2-101', '一号楼二单元一零一', 100.000, 0, NULL);
+INSERT INTO `p_house` VALUES (25, '1-2-501', '一号楼二单元五零一', 100.000, 0, NULL);
+INSERT INTO `p_house` VALUES (26, '2-1-101', '二号楼一单元一零一', 120.000, 0, NULL);
 
 -- ----------------------------
 -- Table structure for p_information
@@ -239,7 +246,7 @@ CREATE TABLE `p_repair`  (
 -- Records of p_repair
 -- ----------------------------
 INSERT INTO `p_repair` VALUES (1, '网络', NULL, NULL, NULL, 0, NULL);
-INSERT INTO `p_repair` VALUES (6, '没网', '李琦', '1-1-101', '13384785234', NULL, '网络');
+INSERT INTO `p_repair` VALUES (6, '没网', NULL, '1-1-101', '13384785234', NULL, '网络');
 
 -- ----------------------------
 -- Table structure for p_user
@@ -263,7 +270,7 @@ CREATE TABLE `p_user`  (
   INDEX `house_id`(`houseid`) USING BTREE,
   INDEX `limit_id`(`limitid`) USING BTREE,
   INDEX `userName`(`userName`) USING BTREE,
-  CONSTRAINT `house_id12` FOREIGN KEY (`houseid`) REFERENCES `p_house` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `house_id12` FOREIGN KEY (`houseid`) REFERENCES `p_house` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `limit_id` FOREIGN KEY (`limitid`) REFERENCES `p_limit` (`lid`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -271,13 +278,10 @@ CREATE TABLE `p_user`  (
 -- Records of p_user
 -- ----------------------------
 INSERT INTO `p_user` VALUES ('1000', 'admin', '王明', 'admin', '男', '22', '211382199909280089', '15621345643', '9876789@qq.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
-INSERT INTO `p_user` VALUES ('11101', 'qq', '李琦', '123', '女', '32', '211322198909170089', '13234323433', '12345654@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
-INSERT INTO `p_user` VALUES ('11102', 'li', '李浩', '123456', '男', '24', '211321199709100089', '18890900000', '28372487@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
-INSERT INTO `p_user` VALUES ('12102', 'qa', '李四', '123456', '男', '24', '211321199708080089', '13256744433', '12678544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
+INSERT INTO `p_user` VALUES ('12102', 'qa', '李四', '123456', '男', '24', '211321199708080089', '13256744433', '12678544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 1);
 INSERT INTO `p_user` VALUES ('21202', 'asd', '孙俪', '123456', '女', '32', '21132119891230092x', '18909098756', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
 INSERT INTO `p_user` VALUES ('31501', 'df', '琪琪', '123456', '女', '32', '21138219891230092x', '15643545555', '675655512@qq.com', '辽宁凌源', '辽宁沈阳', '3', NULL);
 INSERT INTO `p_user` VALUES ('42302', 'zmd', '张怡', '123456', '女', '32', '211321198911120089', '13256744433', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', NULL);
-INSERT INTO `p_user` VALUES ('52502', 'spring', '孙莉', '123123', '女', '30', '21138219900918001x', '18892389244', '8374835@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 1);
 INSERT INTO `p_user` VALUES ('wy01', 'qwe', '李丽', '123456', '女', '23', '211321199809090012', '13421345643', '15815403421@163.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
 INSERT INTO `p_user` VALUES ('wy02', 'qaz', '孙杨', '123456', '男', '34', '211321198702030034', '15521232323', '1581540342@163.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
 INSERT INTO `p_user` VALUES ('wy03', 'wsx', '黄浩', '123456', '男', '35', '211342178602030023', '13234343232', '269039241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);

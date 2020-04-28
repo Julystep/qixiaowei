@@ -106,4 +106,10 @@
         insert into p_information(head, content, infotime, userId, type)
         value (#{head}, #{content}, #{infotime}, #{userId}, #{type})
     </insert>
+    <select id="getAllInformations" resultType="com.management.wuye.bean.Information">
+        select * from p_information
+        <if test="info != null and info != ''">
+            and concat(head, content, infotime, userId) LIKE CONCAT ('%', #{info},'%')
+        </if>
+    </select>
 </mapper>

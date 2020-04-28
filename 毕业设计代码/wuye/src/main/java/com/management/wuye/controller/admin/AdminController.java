@@ -48,10 +48,7 @@ public class AdminController {
 
     @RequestMapping(value = "/getuserswithouthouses", method = RequestMethod.GET)
     public List<User> getAdminsWithoutHouses(){
-
-
         return adminService.getUsersWithoutHouses();
-
     }
 
     @RequestMapping(value = "/dismissWithUser", method = RequestMethod.POST)
@@ -63,7 +60,12 @@ public class AdminController {
     @RequestMapping(value = "/submitInfomation", method = RequestMethod.POST)
     public boolean submitInfomation(@RequestParam("ruleForm") String ruleForm){
         return adminService.submitInfomation(ruleForm);
+    }
 
+    @RequestMapping(value = "/getallinformations", method = RequestMethod.GET)
+    public Map<String, Object> getAllInformations(@RequestParam("info") String info){
+
+        return adminService.getAllInformations(info);
     }
 
 }

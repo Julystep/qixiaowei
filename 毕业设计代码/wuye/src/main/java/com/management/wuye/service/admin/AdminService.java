@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.management.wuye.bean.Buildings;
 import com.management.wuye.bean.House;
+import com.management.wuye.bean.Information;
 import com.management.wuye.bean.User;
 import com.management.wuye.mapper.admin.AdminMapper;
 import com.management.wuye.mapper.common.CommonMapper;
@@ -97,6 +98,15 @@ public class AdminService {
 
         return adminMapper.submitInfomation(head, content, date, userId, type);
 
+    }
+
+    public Map<String, Object> getAllInformations(String info){
+        List<Information> information = adminMapper.getAllInformations(info);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("information", information);
+        return map;
     }
 
 }

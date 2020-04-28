@@ -1,16 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
-import User from '@/components/user/User'
+import User from '@/components/admin/user/User'
 import Index from '@/components/home/Index'
 import Welcome from '@/components/home/Welcome'
-import Buildings from '@/components/houseManage/Buildings'
-import House from '@/components/houseManage/House'
-
 import Repair from '@/components/repair/Repair'
-import Novelty from '@/components/information/Novelty'
-import Lostandfound from '@/components/information/Lostandfound'
-import Announcement from '@/components/information/Announcement'
 import manageAdmin from '@/components/system/manageAdmin'
 import manageBuildings from '@/components/system/manageBuildings'
 import BuildingUser from "@/components/admin/building&user/Building&User"
@@ -42,28 +36,8 @@ export default new Router({
           component: User
         },
         {
-          path: '/buildings',
-          component: Buildings
-        },
-        {
-          path: '/house',
-          component: House
-        },
-        {
           path: '/repair',
           component: Repair,
-        },
-        {
-          path: '/announcement',
-          component: Announcement,
-        },
-        {
-          path: '/lostandfound',
-          component: Lostandfound
-        },
-        {
-          path: '/novelty',
-          component: Novelty
         },
         {
           path: '/system',
