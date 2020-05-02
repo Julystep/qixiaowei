@@ -15,14 +15,6 @@ public class UserService {
     public User login(String loginName, String password){
         return userDao.login(loginName,password);
     }
-    public List<User> getPage(Integer page, Integer size, String userInfo){
-        page = (page-1)*10;
-        return userDao.getPage(page,size,userInfo);
-    }
-
-    public Integer getCount(){
-        return userDao.getCount();
-    }
 
     public Boolean addUser(User user){
         return userDao.addUser(user);

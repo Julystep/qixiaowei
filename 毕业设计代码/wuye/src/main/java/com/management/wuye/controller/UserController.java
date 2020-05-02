@@ -18,19 +18,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
-    @RequestMapping(value = "/getUserPage", method = RequestMethod.GET)
-    public Map<String,Object> getPage(@RequestParam(value = "page",defaultValue = "1") Integer page,
-                                      @RequestParam(value = "size",defaultValue = "10") Integer size,
-                                      @RequestParam(value = "userInfo",defaultValue = "") String userInfo){
-        Map<String,Object> map = new HashMap<>();
-        Integer count = userService.getCount();
-        List<User> user = userService.getPage(page, size, userInfo);
-        map.put("user",user);
-        map.put("count",count);
-        return map;
-    }
-
     @RequestMapping(value = "/user/addUser",method = RequestMethod.POST)
     public Boolean addUser(@RequestParam("user") String info){
         User user = JSON.parseObject(info,User.class);

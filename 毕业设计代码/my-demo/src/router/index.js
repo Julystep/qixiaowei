@@ -4,7 +4,8 @@ import Login from '@/components/Login'
 import User from '@/components/admin/user/User'
 import Index from '@/components/home/Index'
 import Welcome from '@/components/home/Welcome'
-import Repair from '@/components/repair/Repair'
+import Repair from '@/components/user/repair/Repair'
+import manageRepair from '@/components/user/repair/manageRepair'
 import manageAdmin from '@/components/system/manageAdmin'
 import manageBuildings from '@/components/system/manageBuildings'
 import BuildingUser from "@/components/admin/building&user/Building&User"
@@ -38,6 +39,10 @@ export default new Router({
         {
           path: '/repair',
           component: Repair,
+        },
+        {
+          path: '/managerepair',
+          component: manageRepair,
         },
         {
           path: '/system',

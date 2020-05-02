@@ -40,13 +40,22 @@
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>楼层管理</span>
+                <span>用户管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/buildinganduser">楼层管理</el-menu-item>
+                <el-menu-item index="/user">用户管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>楼层管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/buildinganduser">房间管理</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="3">
               <template slot="title">
                 <i class="el-icon-menu"></i>
                 <span>公告管理</span>
@@ -54,6 +63,18 @@
               <el-menu-item-group>
                 <el-menu-item index="/infomation">发布公告</el-menu-item>
                 <el-menu-item index="/manageInfomation">公告管理</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+          </template>
+          <template v-if="limitid === '3'">
+            <el-submenu index="1">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>报修</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/repair">提交报修信息</el-menu-item>
+                <el-menu-item index="/managerepair">查看报修状态</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </template>

@@ -73,4 +73,21 @@ public class AdminController {
         return adminService.deleteInfo(id);
     }
 
+    @RequestMapping(value = "/getalluser", method = RequestMethod.GET)
+    public Map<String, Object> getAllUsers(@RequestParam("id") int id,
+                                            @RequestParam("page") int page,
+                                            @RequestParam("size") int size
+    ){
+
+        return adminService.getAllUsers(id, page, size);
+
+    }
+
+    @RequestMapping(value = "/getUserPage", method = RequestMethod.GET)
+    public Map<String,Object> getUserList(@RequestParam(value = "userid", required = true) String userid,
+                                          @RequestParam("page") Integer page,
+                                          @RequestParam("size") Integer size,
+                                          @RequestParam("userInfo") String userInfo){
+        return adminService.getUserList(userid,page,size,userInfo);
+    }
 }

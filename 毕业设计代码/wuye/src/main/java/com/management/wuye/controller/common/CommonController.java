@@ -43,8 +43,8 @@ public class CommonController {
     public Map<String,Object> getHousePage(@RequestParam("bid") int bid,
                                            @RequestParam("page") int page,
                                            @RequestParam("size") int size,
-                                           @RequestParam("houseInfo") String houseInfo){
-        return commonService.getHousePage(bid,page,size,houseInfo);
+                                           @RequestParam("userInfo") String userInfo){
+        return commonService.getHousePage(bid,page,size,userInfo);
     }
 
 

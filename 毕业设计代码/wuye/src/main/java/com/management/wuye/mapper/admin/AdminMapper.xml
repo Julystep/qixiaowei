@@ -15,13 +15,13 @@
         <result column="email" property="email" />
     </resultMap>
     <resultMap id="User" type="com.management.wuye.bean.User">
-        <id column="userId" property="userId" jdbcType="CHAR"></id>
-        <result column="loginName" property="loginName" jdbcType="VARCHAR"></result>
-        <result column="userName" property="userName" jdbcType="VARCHAR"></result>
-        <result column="password" property="password" jdbcType="VARCHAR"></result>
-        <result column="telephone" property="telephone" jdbcType="VARCHAR"></result>
-        <result column="email" property="email" jdbcType="VARCHAR"></result>
-        <result column="homeplace" property="homeplace" jdbcType="VARCHAR"></result>
+        <id column="userId" property="userId" />
+        <result column="loginName" property="loginName" />
+        <result column="userName" property="userName" />
+        <result column="password" property="password" />
+        <result column="telephone" property="telephone" />
+        <result column="email" property="email" />
+        <result column="homeplace" property="homeplace" />
     </resultMap>
     <select id="getBuilding" resultType="com.management.wuye.bean.Buildings">
         select * from p_buildings where userId=#{userId}
@@ -57,7 +57,6 @@
         where hid=#{house.hid}
     </update>
     <update id="upateUser">
-
             update p_user
             <set>
                 <if test="house.id!=null and house.id!=''">
@@ -87,6 +86,9 @@
     <delete id="dismissWithUser">
         delete from p_user where houseid=#{id}
     </delete>
+    <select id="getHouse" resultType="com.management.wuye.bean.House">
+        select * from p_house where id=#{id}
+    </select>
     <select id="getHousePage" resultType="com.management.wuye.bean.House">
         select ph.*, pu.userName, pu.telephone, pu.email, pu.userId from p_house ph LEFT JOIN
         p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
@@ -116,4 +118,32 @@
 	    delete from p_information where id=#{id}
 	</delete>
 
+    <select id="getAllUsers" resultMap="User" >
+        select u.* from p_user u LEFT JOIN
+        p_house h on h.id=u.houseid where h.bid=#{bid}
+        <if test="userInfo != null and userInfo != ''">
+            and concat(userId, userName) LIKE CONCAT ('%', #{userInfo},'%')
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getAllUsersCount" resultType="java.lang.Integer">
+        select count(*) from p_user u LEFT JOIN
+        p_house h on h.id=u.houseid where h.bid=#{bid}
+    </select>
+
+    <select id="getUserPage" resultType="com.management.wuye.bean.User">
+        select u.* from p_user u LEFT JOIN
+        p_house h on h.id=u.houseid where h.bid=#{bid}
+        <if test="userInfo != null and userInfo != ''">
+            and concat(userId, userName) LIKE CONCAT ('%', #{userInfo},'%')
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getUserCount" resultType="java.lang.Integer">
+        select COUNT(*) from p_user u LEFT JOIN
+        p_house h on h.id=u.houseid where h.bid=#{bid}
+        <if test="userInfo != null and userInfo != ''">
+            and concat(userId, userName) LIKE CONCAT ('%', #{userInfo},'%')
+        </if>
+    </select>
 </mapper>

@@ -38,4 +38,12 @@ public interface AdminMapper {
     List<Information> getAllInformations(String info);
 
     boolean deleteInfo(@Param("id") int id);
+
+    List<User> getAllUsers(int id, int page, int size);
+
+    int getAllUsersCount(int id);
+
+    List<User> getUserPage(int bid,int page, int size, String userInfo);
+
+    int getUserCount(int bid, String userInfo);
 }

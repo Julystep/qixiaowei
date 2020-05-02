@@ -3,90 +3,58 @@ package com.management.wuye.bean;
 import java.util.Date;
 
 public class Repair {
-    private int repairId;
-    private String repairInfo;
-    private Date repairTime;
-    private String devicename;
-    private String username;
-    private String houseid;
-    private String phone;
-    private Boolean status;
+    private int id;
+    private String detail;
+    private Date time;
+    private String userid;
+    private int type;
+    private boolean status;
 
-    public int getRepairId() {
-        return repairId;
+    public int getId() {
+        return id;
     }
 
-    public void setRepairId(int repairId) {
-        this.repairId = repairId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getRepairInfo() {
-        return repairInfo;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setRepairInfo(String repairInfo) {
-        this.repairInfo = repairInfo;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
-    public Date getRepairTime() {
-        return repairTime;
+    public Date getTime() {
+        return time;
     }
 
-    public void setRepairTime(Date repairTime) {
-        this.repairTime = repairTime;
+    public void setTime(Date time) {
+        this.time = time;
     }
 
-    public String getDevicename() {
-        return devicename;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setDevicename(String devicename) {
-        this.devicename = devicename;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
-    public String getUsername() {
-        return username;
+    public int getType() {
+        return type;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public String getHouseid() {
-        return houseid;
-    }
-
-    public void setHouseid(String houseid) {
-        this.houseid = houseid;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Boolean getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "Repair{" +
-                "repairId=" + repairId +
-                ", repairInfo='" + repairInfo + '\'' +
-                ", repairTime=" + repairTime +
-                ", devicename='" + devicename + '\'' +
-                ", username='" + username + '\'' +
-                ", houseid='" + houseid + '\'' +
-                ", phone='" + phone + '\'' +
-                ", status=" + status +
-                '}';
     }
 }

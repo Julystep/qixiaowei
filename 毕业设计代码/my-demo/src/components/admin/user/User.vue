@@ -11,15 +11,10 @@
           <el-button type="primary" @click="insertVisible = true">添加用户</el-button>
         </el-col>
       </el-row>
-      <el-table :data="userlist" >
+      <el-table :data="users" >
         <el-table-column
           prop="userId"
           label="用户编号"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="loginName"
-          label="账号"
           width="180">
         </el-table-column>
         <el-table-column
@@ -67,11 +62,6 @@
           label="邮箱"
           width="180">
         </el-table-column>
-        <el-table-column
-          prop="limitid"
-          label="权限"
-          width="180">
-        </el-table-column>
         <el-table-column label="操作" width="180">
             <template slot-scope="scope">
                 <el-button
@@ -88,13 +78,13 @@
       </el-table>
       
       <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-size="pagesize"
-      layout="total, prev, pager, next, jumper"
-      :total="count">
-      </el-pagination> 
+        background
+        layout="prev, pager, next"
+        :total="count"
+        :currentPage="currentPage"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
     </el-card>
     
     <!-- 添加用户对话框 -->
@@ -201,13 +191,12 @@
 export default {
     data() {
       return {
-          userId:'',
-          userlist:[],
+        row: "",
           users: [],
-          userInfo: '',
+          buildings: {},
+          userInfo: "",
           currentPage: 1,
-          pagesize: 10,
-          count:'',
+          count:0,
           iconFormVisible: false,
           rowIndex: null,
           insertVisible: false,
@@ -275,20 +264,22 @@ export default {
       //获取用户列表信息
       getUserList(){
         var _this = this;
-        this.getRequest("/getUserPage?page=" + this.currentPage+ "&size=10" + "&userInfo=" + this.userInfo).then(resp =>{
-          var data = resp.data;  
-          _this.userlist = data.user;
-         console.log(resp.data);
-        _this.count = data.count;      
+        _this.getRequest("/admin/getalluser",{
+         id: _this.row.id,
+         page: _this.currentPage,
+         size: 10,
+         userInfo: _this.userInfo
+      }).then(resp =>{
+          var data = resp.data;
+          _this.buildings = resp.data.buildings;  
+          _this.users = data.users;
+          console.log(_this.users);
+         _this.count = data.userCount;      
       })
       },
       //处理分页
-      handleSizeChange(newSize){
-        this.size=newSize;
-        this.getUserList()
-      },
       handleCurrentChange(newPage){
-        this.currentPage=newPage;
+        this.userPage=newPage;
           this.getUserList()
       },
       addUser(addFormData){

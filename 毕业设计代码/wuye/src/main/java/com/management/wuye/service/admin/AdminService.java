@@ -113,4 +113,36 @@ public class AdminService {
         return adminMapper.deleteInfo(id);
     }
 
+    public Map<String, Object> getAllUsers(int id, int page, int size) {
+
+        page = (page - 1) * 10;
+        Map<String, Object> map = new HashMap<>();
+        List<User> users =  adminMapper.getAllUsers(id, page, size);
+        int userCount = adminMapper.getAllUsersCount(id);
+        map.put("houses", users);
+        map.put("housesCount", userCount);
+        return map;
+
+    }
+    public Map<String,Object> getUserList(String userid,int page,int size, String userInfo){
+        page = (page-1)*10;
+
+        Buildings buildings = adminMapper.getBuilding(userid);
+
+        List<User> users = adminMapper.getUserPage(buildings.getBid(), page, size, userInfo);
+
+        int usercount = adminMapper.getUserCount(buildings.getBid(), userInfo);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("buildings", buildings);
+        map.put("users", users);
+        map.put("usercount", usercount);
+
+        return map;
+    }
+
+    public int getCount(int id){
+        return commonMapper.getCount(id);
+    }
 }

@@ -573,7 +573,7 @@ export default {
       });
     },
     getHouseList() {
-      var _this = this;
+      var _this = this;  
       _this
         .postRequest("/getHousePage", {
           bid: _this.row.bid,

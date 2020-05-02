@@ -29,12 +29,11 @@
             </div></el-col
           >
             <el-col :span="4" :offset="12" >
-            <template slot-scope="scope">
               <el-button
               type="primary"
               size="small"
               circle
-              @click="changeInfo(scope.row)"
+              @click="changeInfo(index)"
               class="el-icon-edit"
               >
               </el-button>
@@ -42,11 +41,10 @@
               type="danger"
               size="small"
               circle
-              @click="deleteInfo(scope.row.id)"
+              @click="deleteInfo(index.id)"
               class="el-icon-delete"
               >
               </el-button>
-            </template>
             </el-col>
         </el-row>
         <el-row>
@@ -138,7 +136,7 @@ export default {
                 label: '新鲜事'
                 }],
             value: '',
-            formRules: [],
+            formRules: {},
         }
     },
     mounted() {
@@ -150,7 +148,7 @@ export default {
             var _this = this;
             this.getRequest(
                 "/admin/getallinformations?info="
-                + _this.info
+                + _this.info 
             ).then(resp => {
                 _this.information = resp.data.information;
                 console.log(_this.information);
@@ -192,9 +190,9 @@ export default {
                 }
             });
             },
-        deleteHouseInfo(id) {
+        deleteInfo(id) {
             var _this = this;
-            _this.id = id;
+            _this.id = index.id;
             this.$confirm("确定要删除该公告信息吗", "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",

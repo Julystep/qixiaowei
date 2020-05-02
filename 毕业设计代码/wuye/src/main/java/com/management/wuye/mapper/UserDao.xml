@@ -15,7 +15,7 @@
         <result column="email" property="email" jdbcType="VARCHAR"></result>
         <result column="homeplace" property="homeplace" jdbcType="VARCHAR"></result>
         <result column="workplace" property="workplace" jdbcType="VARCHAR"></result>
-        <result column="houseid" property="houseid" jdbcType="CHAR"></result>
+        <result column="houseid" property="houseid" jdbcType="INTEGER"></result>
         <result column="limitid" property="limitid" jdbcType="CHAR"></result>
     </resultMap>
 
@@ -23,17 +23,6 @@
          select * from p_user where loginName = #{loginName}
     </select>
 
-    <select id="getPage" resultMap="User">
-    select * from p_user
-    <if test="userInfo != null and userInfo != ''">
-        where userName like "%${userInfo}%"
-    </if>
-    limit #{page}, #{size}
-</select>
-
-    <select id="getCount" resultType="Integer">
-        select Count(*) from p_user
-    </select>
 
     <!-- 查找用户 -->
     <select id="getUserByName" resultType="int">

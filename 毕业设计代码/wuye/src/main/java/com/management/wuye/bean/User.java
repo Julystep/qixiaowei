@@ -14,7 +14,7 @@ public class User {
     private String email;
     private String homeplace;
     private String workplace;
-    private String houseid;
+    private int houseid;
     private String limitid;
 
     public String getUserId() {
@@ -106,11 +106,11 @@ public class User {
         this.workplace = workplace;
     }
 
-    public String getHouseid() {
+    public int getHouseid() {
         return houseid;
     }
 
-    public void setHouseid(String houseid) {
+    public void setHouseid(int houseid) {
         this.houseid = houseid;
     }
 
@@ -122,22 +122,5 @@ public class User {
         this.limitid = limitid;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", loginName='" + loginName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", sex='" + sex + '\'' +
-                ", gender='" + gender + '\'' +
-                ", idCard='" + idCard + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", email='" + email + '\'' +
-                ", homeplace='" + homeplace + '\'' +
-                ", workplace='" + workplace + '\'' +
-                ", houseid='" + houseid + '\'' +
-                ", limitid='" + limitid + '\'' +
-                '}';
-    }
+
 }
