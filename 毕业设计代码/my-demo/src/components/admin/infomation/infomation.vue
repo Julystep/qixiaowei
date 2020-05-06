@@ -19,8 +19,9 @@
         style="width: 100%"
       >
         <el-option label="失物招领" value="1"></el-option>
-        <el-option label="业主通知" value="2"></el-option>
-        <el-option label="新鲜事" value="3"></el-option>
+        <el-option label="寻物启事" value="2"></el-option>
+        <el-option label="业主通知" value="3"></el-option>
+        <el-option label="新鲜事" value="4"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item>

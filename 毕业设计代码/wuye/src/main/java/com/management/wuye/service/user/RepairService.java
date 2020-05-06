@@ -27,7 +27,9 @@ public class RepairService {
 
         int type = jsonObject.getInteger("type");
 
-        return repairMapper.submitRepair(detail, date, userid, type);
+        boolean status = jsonObject.getBooleanValue("status");
+
+        return repairMapper.submitRepair(detail, date, userid, type, status);
 
     }
 }

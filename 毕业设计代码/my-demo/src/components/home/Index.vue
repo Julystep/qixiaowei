@@ -65,16 +65,34 @@
                 <el-menu-item index="/manageInfomation">公告管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+            <el-submenu index="4">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>报修管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/managerepair">报修管理</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
           </template>
           <template v-if="limitid === '3'">
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>报修</span>
+                <span>物业报修</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/repair">提交报修信息</el-menu-item>
-                <el-menu-item index="/managerepair">查看报修状态</el-menu-item>
+                <el-menu-item index="/repair">我要报修</el-menu-item>
+                <el-menu-item index="/viewRepair">报修状态</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="2">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>公告信息</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/viewInfo">小区公告</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </template>

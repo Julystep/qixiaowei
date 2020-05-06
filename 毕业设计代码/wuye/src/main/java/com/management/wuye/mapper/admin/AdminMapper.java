@@ -1,9 +1,6 @@
 package com.management.wuye.mapper.admin;
 
-import com.management.wuye.bean.Buildings;
-import com.management.wuye.bean.House;
-import com.management.wuye.bean.Information;
-import com.management.wuye.bean.User;
+import com.management.wuye.bean.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,11 +36,13 @@ public interface AdminMapper {
 
     boolean deleteInfo(@Param("id") int id);
 
-    List<User> getAllUsers(int id, int page, int size);
-
-    int getAllUsersCount(int id);
+    boolean updateInfo(@Param("item") Information information);
 
     List<User> getUserPage(int bid,int page, int size, String userInfo);
 
     int getUserCount(int bid, String userInfo);
+
+    List<Repair> getRepairsPage(int bid, int page,int size, String repairInfo);
+
+    int getRepairCount(int bid,String repairInfo);
 }

@@ -6,5 +6,5 @@ import java.util.Date;
 
 @Mapper
 public interface RepairMapper {
-    boolean submitRepair(String detail, Date time, String userid, int type);
+    boolean submitRepair(String detail, Date time, String userid, int type, boolean status);
 }

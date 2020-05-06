@@ -2,10 +2,7 @@ package com.management.wuye.service.admin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.management.wuye.bean.Buildings;
-import com.management.wuye.bean.House;
-import com.management.wuye.bean.Information;
-import com.management.wuye.bean.User;
+import com.management.wuye.bean.*;
 import com.management.wuye.mapper.admin.AdminMapper;
 import com.management.wuye.mapper.common.CommonMapper;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,7 @@ public class AdminService {
     @Resource
     CommonMapper commonMapper;
 
-    public Map<String, Object> getBuildingAndHouses(String userId, int page, int size, String houseInfo) {
+        public Map<String, Object> getBuildingAndHouses(String userId, int page, int size, String houseInfo) {
 
         page = (page - 1) * 10;
 
@@ -113,17 +110,10 @@ public class AdminService {
         return adminMapper.deleteInfo(id);
     }
 
-    public Map<String, Object> getAllUsers(int id, int page, int size) {
-
-        page = (page - 1) * 10;
-        Map<String, Object> map = new HashMap<>();
-        List<User> users =  adminMapper.getAllUsers(id, page, size);
-        int userCount = adminMapper.getAllUsersCount(id);
-        map.put("houses", users);
-        map.put("housesCount", userCount);
-        return map;
-
+    public boolean updateInfo(Information information){
+            return adminMapper.updateInfo(information);
     }
+
     public Map<String,Object> getUserList(String userid,int page,int size, String userInfo){
         page = (page-1)*10;
 
@@ -131,18 +121,34 @@ public class AdminService {
 
         List<User> users = adminMapper.getUserPage(buildings.getBid(), page, size, userInfo);
 
-        int usercount = adminMapper.getUserCount(buildings.getBid(), userInfo);
+        int userCount = adminMapper.getUserCount(buildings.getBid(), userInfo);
 
         Map<String, Object> map = new HashMap<>();
 
         map.put("buildings", buildings);
         map.put("users", users);
-        map.put("usercount", usercount);
+        map.put("userCount", userCount);
 
         return map;
     }
 
-    public int getCount(int id){
-        return commonMapper.getCount(id);
+    public int getUserCount(int bid,String userInfo){
+        return adminMapper.getUserCount(bid,userInfo);
+    }
+
+    public Map<String, Object> getAllRepairs(String userId, int page,int size, String repairInfo) {
+
+        Buildings building = adminMapper.getBuilding(userId);
+
+        List<Repair> repairs = adminMapper.getRepairsPage(building.getBid(),page, size, repairInfo);
+
+        int repairCount = adminMapper.getRepairCount(building.getBid(),repairInfo);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("repairs", repairs);
+        map.put("building",building);
+        map.put("repairCount",repairCount);
+        return map;
     }
 }

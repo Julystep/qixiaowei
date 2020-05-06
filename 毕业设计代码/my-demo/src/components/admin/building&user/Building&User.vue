@@ -307,7 +307,7 @@ export default {
           _this.houseInfo
       ).then(resp => {
         console.log(resp.data);
-        _this.building = resp.data.building;
+        _this.building = resp.data.buildings;
         _this.houses = resp.data.houses;
         _this.count = resp.data.count;
       });

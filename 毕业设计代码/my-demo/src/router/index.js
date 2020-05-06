@@ -5,12 +5,14 @@ import User from '@/components/admin/user/User'
 import Index from '@/components/home/Index'
 import Welcome from '@/components/home/Welcome'
 import Repair from '@/components/user/repair/Repair'
-import manageRepair from '@/components/user/repair/manageRepair'
+import viewRepair from '@/components/user/repair/viewRepair'
 import manageAdmin from '@/components/system/manageAdmin'
 import manageBuildings from '@/components/system/manageBuildings'
 import BuildingUser from "@/components/admin/building&user/Building&User"
 import infomation from '@/components/admin/infomation/infomation'
 import manageInfomation from '@/components/admin/infomation/manageInfomation'
+import viewInfo from '@/components/user/info/viewInfo'
+import manageRepair from '@/components/admin/managerepair/manageRepair'
 
 Vue.use(Router)
 
@@ -41,8 +43,8 @@ export default new Router({
           component: Repair,
         },
         {
-          path: '/managerepair',
-          component: manageRepair,
+          path: '/viewRepair',
+          component: viewRepair,
         },
         {
           path: '/system',
@@ -71,12 +73,20 @@ export default new Router({
         },
         {
           path: '/infomation',
-          component: infomation
+          component: infomation,
         },
         {
           path: "/manageInfomation",
           component: manageInfomation
-        }
+        },
+        {
+          path: "/viewInfo",
+          component: viewInfo
+        },
+        {
+          path: "/managerepair",
+          component: manageRepair
+        },
       ]
     },
   ]

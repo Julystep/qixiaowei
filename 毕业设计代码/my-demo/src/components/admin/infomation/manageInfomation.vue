@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row style="margin-bottom: 10px">
-      <el-col :span="6">
+      <el-col :span="8">
         <el-input
           placeholder="请输入内容"
           v-model="info"
@@ -21,7 +21,7 @@
 
     
     <template v-for="(item, index) in information">
-      <el-card>
+      <el-card :key="index">
         <el-row>
           <el-col :span="8"
             ><div class="grid-head bg-purple-dark">
@@ -33,7 +33,7 @@
               type="primary"
               size="small"
               circle
-              @click="changeInfo(index)"
+              @click="changeInfo(item)"
               class="el-icon-edit"
               >
               </el-button>
@@ -41,7 +41,7 @@
               type="danger"
               size="small"
               circle
-              @click="deleteInfo(index.id)"
+              @click="deleteInfo(item.id)"
               class="el-icon-delete"
               >
               </el-button>
@@ -90,16 +90,13 @@
           <el-form-item label="类型" prop="type">
             <el-select
               v-model="updateinfo.type"
-              placeholder="请选择"
+              placeholder="请选择消息类型"
               style="width: 100%"
             >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              >
-              </el-option>
+              <el-option label="失物招领" value="1"></el-option>
+              <el-option label="寻物启事" value="2"></el-option>
+              <el-option label="业主通知" value="3"></el-option>
+              <el-option label="新鲜事" value="4"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -123,19 +120,10 @@ export default {
             updateinfo: {
                 head: "",
                 content: "",
+                infotime: "",
+                userId: "",
                 type: "",
             },
-            options: [{
-                value: '选项1',
-                label: '失物招领'
-                }, {
-                value: '选项2',
-                label: '业主通知'
-                }, {
-                value: '选项3',
-                label: '新鲜事'
-                }],
-            value: '',
             formRules: {},
         }
     },
@@ -158,17 +146,21 @@ export default {
             this.updateInfoVisible = true;
             this.head = informations.head;
             this.content = informations.content;
+            this.infotime = informations.infotime;
+            this.userId = informations.userId;
             this.type = informations.type;
             return;
         },
         updateInfo(updateinfo) {
             var _this = this;
-            updateinfo = JSON.stringify(updateinfo);
-            this.$refs.updateinfoRef.validate(valid => {
+            _this.$refs.updateinfoRef.validate(valid => {
                 if (valid) {
-                _this
+                  _this.updateinfo.userId = _this.$store.state.user.userId;
+                  _this.updateinfo.infotime=new Date();
+                  updateinfo = JSON.stringify(_this.updateinfo);
+                  _this
                     .postRequest("/admin/updateInfo", {
-                    imformation: updateinfo
+                    item: updateinfo
                     })
                     .then(resp => {
                     _this.$message({
@@ -192,7 +184,7 @@ export default {
             },
         deleteInfo(id) {
             var _this = this;
-            _this.id = index.id;
+            _this.id = id;
             this.$confirm("确定要删除该公告信息吗", "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",

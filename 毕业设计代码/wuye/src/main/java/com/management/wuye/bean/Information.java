@@ -57,4 +57,16 @@ public class Information {
     public void setType(int type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Information{" +
+                "id=" + id +
+                ", head='" + head + '\'' +
+                ", content='" + content + '\'' +
+                ", infotime=" + infotime +
+                ", userId='" + userId + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

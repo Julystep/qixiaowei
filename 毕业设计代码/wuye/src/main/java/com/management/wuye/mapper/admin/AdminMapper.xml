@@ -86,9 +86,6 @@
     <delete id="dismissWithUser">
         delete from p_user where houseid=#{id}
     </delete>
-    <select id="getHouse" resultType="com.management.wuye.bean.House">
-        select * from p_house where id=#{id}
-    </select>
     <select id="getHousePage" resultType="com.management.wuye.bean.House">
         select ph.*, pu.userName, pu.telephone, pu.email, pu.userId from p_house ph LEFT JOIN
         p_user pu on pu.houseid=ph.id where ph.bid=#{bid}
@@ -117,19 +114,15 @@
     <delete id="deleteInfo">
 	    delete from p_information where id=#{id}
 	</delete>
-
-    <select id="getAllUsers" resultMap="User" >
-        select u.* from p_user u LEFT JOIN
-        p_house h on h.id=u.houseid where h.bid=#{bid}
-        <if test="userInfo != null and userInfo != ''">
-            and concat(userId, userName) LIKE CONCAT ('%', #{userInfo},'%')
-        </if>
-        limit #{page}, #{size}
-    </select>
-    <select id="getAllUsersCount" resultType="java.lang.Integer">
-        select count(*) from p_user u LEFT JOIN
-        p_house h on h.id=u.houseid where h.bid=#{bid}
-    </select>
+    <update id="updateInfo" parameterType="com.management.wuye.bean.Information">
+        update p_information
+        set head=#{item.head},
+            content=#{item.content},
+            infotime=#{item.infotime},
+            userId=#{item.userId},
+            type=#{item.type}
+        where id=#{item.id}
+    </update>
 
     <select id="getUserPage" resultType="com.management.wuye.bean.User">
         select u.* from p_user u LEFT JOIN
@@ -146,4 +139,19 @@
             and concat(userId, userName) LIKE CONCAT ('%', #{userInfo},'%')
         </if>
     </select>
+    <select id="getRepairsPage" resultType="com.management.wuye.bean.Repair">
+        select r.*,u.userId,u.userName,u.telephone,h.hname from p_repair r left join p_user u on u.userId=r.userid
+        left join p_house h on u.houseid=h.id where h.bid=#{bid}
+        <if test="repairInfo != null and repairInfo != ''">
+            where concat(type, detail) LIKE CONCAT ('%', #{repairInfo},'%')
+        </if>
+    </select>
+    <select id="getRepairCount" resultType="java.lang.Integer">
+        select COUNT(*) from p_repair r left join p_user u  on u.userId=r.userid
+        left join p_house h on u.houseid=h.id where bid=#{bid}
+        <if test="repairInfo != null and repairInfo != ''">
+            and concat(type, detail) LIKE CONCAT ('%', #{repairInfo},'%')
+        </if>
+    </select>
+
 </mapper>

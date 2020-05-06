@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.wuye.mapper.user.InfoMapper">
+    <select id="getInfos" resultType="com.management.wuye.bean.Information">
+        select * from p_information
+        <if test="info != null and info != ''">
+            where concat(head, content, infotime, userId) LIKE CONCAT ('%', #{info},'%')
+        </if>
+    </select>
+    <select id="getRepair" resultType="com.management.wuye.bean.Repair">
+        select * from p_repair where userid=#{userid}
+        <if test="repairInfo != null and repairInfo != ''">
+            and concat(detail,type) LIKE CONCAT ('%', #{repairInfo},'%')
+        </if>
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select COUNT(*) from p_repair where userid=#{userid}
+        <if test="repairInfo != null and repairInfo != ''">
+            and concat(detail,type) LIKE CONCAT ('%', #{repairInfo},'%')
+        </if>
+    </select>
+</mapper>

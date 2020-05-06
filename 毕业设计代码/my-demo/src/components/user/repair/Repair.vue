@@ -12,9 +12,11 @@
         placeholder="请选择报修类型"
         style="width: 100%"
       >
-        <el-option label="下水道" value="1"></el-option>
-        <el-option label="电路" value="2"></el-option>
+        <el-option label="排水系统" value="1"></el-option>
+        <el-option label="电路系统" value="2"></el-option>
         <el-option label="煤气" value="3"></el-option>
+        <el-option label="网络" value="4"></el-option>
+        <el-option label="供暖系统" value="5"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="报修详情" prop="detail">

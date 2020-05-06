@@ -1,17 +1,21 @@
 <template>
   <div>
     <el-card>
-      <el-row :gutter="20">
+      <el-row style="margin-bottom: 10px" :gutter="20">
         <el-col :span=8>
-          <el-input placeholder="请输入用户名" v-model="userInfo"  clearable @clear="getUserList">
+          <el-input placeholder="请输入用户名" v-model="userInfo"  clearable @clear="getUserList" class="input-with-select"
+          size="mini">
           <el-button slot="append" icon="el-icon-search" @click="getUserList" ></el-button>
           </el-input>
         </el-col>
         <el-col :span=4>
-          <el-button type="primary" @click="insertVisible = true">添加用户</el-button>
+          <el-button type="primary" size="mini" @click="insertVisible = true">添加用户</el-button>
         </el-col>
       </el-row>
-      <el-table :data="users" >
+      <el-table :data="users"
+      border
+      size="mini"
+      >
         <el-table-column
           prop="userId"
           label="用户编号"
@@ -264,8 +268,8 @@ export default {
       //获取用户列表信息
       getUserList(){
         var _this = this;
-        _this.getRequest("/admin/getalluser",{
-         id: _this.row.id,
+        _this.postRequest("/admin/getUserPage",{
+         userid: _this.$store.state.user.userId,
          page: _this.currentPage,
          size: 10,
          userInfo: _this.userInfo
@@ -274,7 +278,8 @@ export default {
           _this.buildings = resp.data.buildings;  
           _this.users = data.users;
           console.log(_this.users);
-         _this.count = data.userCount;      
+         _this.count = data.userCount;
+         console.log(data.userCount);      
       })
       },
       //处理分页
@@ -318,7 +323,7 @@ export default {
 
       updateUser(updateuser) {
         var _this = this;
-        updateadmin = JSON.stringify(updateuser);
+        updateuser = JSON.stringify(updateuser);
         _this.postRequest("/user/updateUser", {
           user: updateuser
         }).then(resp => {
