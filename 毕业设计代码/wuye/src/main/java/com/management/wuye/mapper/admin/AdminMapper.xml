@@ -120,7 +120,7 @@
             content=#{item.content},
             infotime=#{item.infotime},
             userId=#{item.userId},
-            type=#{item.type}
+            type=#{item.value}
         where id=#{item.id}
     </update>
 
