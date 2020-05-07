@@ -29,7 +29,7 @@
       <el-table-column prop="status" label="状态" width="300">
         <template slot-scope="scope">
         <el-switch
-          v-model="scope.row.status">
+          v-model="scope.row.status" :disabled="true">
         </el-switch>
         </template>
       </el-table-column>
@@ -92,7 +92,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="updateVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateRepair()">确 定</el-button>
+        <el-button type="primary" @click="updateRepair(updaterepairs)">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -106,7 +106,6 @@ export default {
       repairs: [],
       repairCount: 0,
       repairInfo: "",
-      insertVisible: false,
       updateVisible: false,
       updaterepairs: {
         status: "",
@@ -150,6 +149,32 @@ export default {
       return;
     },
     updateRepair(updaterepairs) {
+      var _this = this;
+      this.$refs.updaterepairsRef.validate(valid => {
+        if (valid) {
+          _this
+            .postRequest("/admin/updateRepair", {
+              repair: updaterepairs
+            })
+            .then(resp => {
+              _this.$message({
+                message: "修改成功",
+                type: "success"
+              });
+              var data = resp.data;
+              if (data) {
+                _this.updateVisible = false;
+                _this.getAllRepairs();
+                _this.$router.go(0);
+              }
+            });
+        } else {
+          _this.$message({
+            type: "error",
+            message: "表单未按照规则填写"
+          });
+        }
+      });
     },
     deleteInfo(id) {
       var _this = this;
@@ -161,7 +186,7 @@ export default {
           type: "warning"
         })
         .then(() => {
-          this.deleteRequest("/root/deleteAdmin?userId=" + _this.userId).then(
+          this.deleteRequest("/admin/deleteRepair?id=" + _this.id).then(
             () => {
               _this.getAllRepairs();
             }

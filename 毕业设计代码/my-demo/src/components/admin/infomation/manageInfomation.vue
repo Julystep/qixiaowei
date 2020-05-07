@@ -24,8 +24,19 @@
       <el-card :key="index">
         <el-row>
           <el-col :span="8"
-            ><div class="grid-head bg-purple-dark">
-              {{ item.head }}
+            ><div>
+              <template v-if="item.type === 1">
+              <el-tag type="danger">{{ item.head }}</el-tag>
+              </template>
+              <template v-if="item.type === 2">
+              <el-tag type="warning">{{ item.head }}</el-tag>
+              </template>
+              <template v-if="item.type === 3">
+              <el-tag type="primary">{{ item.head }}</el-tag>
+              </template>
+              <template v-if="item.type === 4">
+              <el-tag type="success">{{ item.head }}</el-tag>
+              </template>
             </div></el-col
           >
             <el-col :span="4" :offset="12" >
@@ -89,7 +100,7 @@
           </el-form-item>
           <el-form-item label="类型" prop="type">
             <el-select
-              v-model="updateinfo.type"
+              v-model="updateinfo.value"
               placeholder="请选择消息类型"
               style="width: 100%"
             >
@@ -118,11 +129,12 @@ export default {
             info: "",
             updateInfoVisible: false,
             updateinfo: {
+                id: "",
                 head: "",
                 content: "",
                 infotime: "",
                 userId: "",
-                type: "",
+                value: "",
             },
             formRules: {},
         }
@@ -144,11 +156,12 @@ export default {
         },
         changeInfo(informations){
             this.updateInfoVisible = true;
-            this.head = informations.head;
-            this.content = informations.content;
-            this.infotime = informations.infotime;
-            this.userId = informations.userId;
-            this.type = informations.type;
+            this.updateinfo.id = informations.id;
+            this.updateinfo.head = informations.head;
+            this.updateinfo.content = informations.content;
+            this.updateinfo.infotime = informations.infotime;
+            this.updateinfo.userId = informations.userId;
+            this.updateinfo.value = informations.type + "";
             return;
         },
         updateInfo(updateinfo) {

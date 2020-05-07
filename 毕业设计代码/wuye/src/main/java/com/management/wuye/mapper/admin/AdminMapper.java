@@ -45,4 +45,8 @@ public interface AdminMapper {
     List<Repair> getRepairsPage(int bid, int page,int size, String repairInfo);
 
     int getRepairCount(int bid,String repairInfo);
+
+    boolean deleteRepair(@Param("id") int id);
+
+    boolean updateRepair(@Param("repair") Repair repair);
 }

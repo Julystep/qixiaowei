@@ -3,6 +3,7 @@ package com.management.wuye.controller.admin;
 import com.alibaba.fastjson.JSON;
 import com.management.wuye.bean.House;
 import com.management.wuye.bean.Information;
+import com.management.wuye.bean.Repair;
 import com.management.wuye.bean.User;
 import com.management.wuye.service.admin.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,5 +97,17 @@ public class AdminController {
                                              @RequestParam("repairInfo") String repairInfo){
 
         return adminService.getAllRepairs(userId, page, size, repairInfo);
+    }
+
+    @RequestMapping(value = "/deleteRepair", method = RequestMethod.DELETE)
+    public boolean deleteRepair(@RequestParam("id") int id){
+        return adminService.deleteRepair(id);
+    }
+
+    @RequestMapping(value = "/updateRepair",method = RequestMethod.POST)
+    public boolean updateRepair(@RequestParam("repair")String info){
+        Repair repair = JSON.parseObject(info,Repair.class);
+        System.out.println(repair.toString());
+        return adminService.updateRepair(repair);
     }
 }

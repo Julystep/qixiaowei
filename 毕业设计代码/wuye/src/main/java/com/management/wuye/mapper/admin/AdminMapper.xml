@@ -120,7 +120,7 @@
             content=#{item.content},
             infotime=#{item.infotime},
             userId=#{item.userId},
-            type=#{item.type}
+            type=#{item.value}
         where id=#{item.id}
     </update>
 
@@ -153,5 +153,16 @@
             and concat(type, detail) LIKE CONCAT ('%', #{repairInfo},'%')
         </if>
     </select>
-
+    <delete id="deleteRepair">
+	    delete from p_repair where id=#{id}
+	</delete>
+    <update id="updateRepair" parameterType="com.management.wuye.bean.Repair">
+        update p_repair
+        <set>
+            <if test="repair.status!=null and repair.status!=''">
+                status=#{repair.status},
+            </if>
+        </set>
+        where id=#{repair.id}
+    </update>
 </mapper>

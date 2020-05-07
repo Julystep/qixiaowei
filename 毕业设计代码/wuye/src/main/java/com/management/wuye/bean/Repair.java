@@ -9,6 +9,33 @@ public class Repair {
     private String userid;
     private int type;
     private boolean status;
+    private String userName;
+    private String telephone;
+    private String hname;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getHname() {
+        return hname;
+    }
+
+    public void setHname(String hname) {
+        this.hname = hname;
+    }
 
     public int getId() {
         return id;

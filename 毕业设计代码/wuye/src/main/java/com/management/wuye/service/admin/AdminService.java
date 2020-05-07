@@ -132,10 +132,6 @@ public class AdminService {
         return map;
     }
 
-    public int getUserCount(int bid,String userInfo){
-        return adminMapper.getUserCount(bid,userInfo);
-    }
-
     public Map<String, Object> getAllRepairs(String userId, int page,int size, String repairInfo) {
 
         Buildings building = adminMapper.getBuilding(userId);
@@ -150,5 +146,13 @@ public class AdminService {
         map.put("building",building);
         map.put("repairCount",repairCount);
         return map;
+    }
+
+    public boolean deleteRepair(int id) {
+        return adminMapper.deleteRepair(id);
+    }
+
+    public boolean updateRepair(Repair repair) {
+        return adminMapper.updateRepair(repair);
     }
 }
