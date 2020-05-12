@@ -9,9 +9,18 @@ public class Repair {
     private String userid;
     private int type;
     private boolean status;
+    private int value;
     private String userName;
     private String telephone;
     private String hname;
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
 
     public String getUserName() {
         return userName;
@@ -83,5 +92,21 @@ public class Repair {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Repair{" +
+                "id=" + id +
+                ", detail='" + detail + '\'' +
+                ", time=" + time +
+                ", userid='" + userid + '\'' +
+                ", type=" + type +
+                ", status=" + status +
+                ", value=" + value +
+                ", userName='" + userName + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", hname='" + hname + '\'' +
+                '}';
     }
 }

@@ -108,6 +108,13 @@ export default {
       repairInfo: "",
       updateVisible: false,
       updaterepairs: {
+        id: "",
+        userName: "",
+        telephone: "",
+        hname: "",
+        type: "",
+        detail: "",
+        time: "",
         status: "",
       },
       formRules: {
@@ -145,13 +152,21 @@ export default {
     },
     changeInfo(repair) {
       this.updateVisible = true;
+      this.updaterepairs.id = repair.id;
+      this.updaterepairs.userName = repair.userName;
+      this.updaterepairs.telephone = repair.telephone;
+      this.updaterepairs.hname = repair.hname;
+      this.updaterepairs.type = repair.type;
+      this.updaterepairs.detail = repair.detail;
       this.updaterepairs.status = repair.status;
       return;
     },
     updateRepair(updaterepairs) {
       var _this = this;
+      updaterepairs = JSON.stringify(updaterepairs);
       this.$refs.updaterepairsRef.validate(valid => {
         if (valid) {
+          _this.updaterepairs.time = new Date();
           _this
             .postRequest("/admin/updateRepair", {
               repair: updaterepairs
@@ -165,7 +180,6 @@ export default {
               if (data) {
                 _this.updateVisible = false;
                 _this.getAllRepairs();
-                _this.$router.go(0);
               }
             });
         } else {

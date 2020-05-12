@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 07/05/2020 07:52:27
+ Date: 12/05/2020 08:20:41
 */
 
 SET NAMES utf8mb4;
@@ -63,35 +63,16 @@ INSERT INTO `p_buildings` VALUES (24, '24号楼', NULL);
 -- ----------------------------
 DROP TABLE IF EXISTS `p_charge`;
 CREATE TABLE `p_charge`  (
-  `chargeId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `chargeName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `chargePrice` double(10, 2) NOT NULL,
-  `chargeTypeId` int(10) NOT NULL,
-  `chargeTime` datetime(6) NOT NULL,
-  PRIMARY KEY (`chargeId`) USING BTREE,
-  INDEX `charge_type`(`chargeTypeId`) USING BTREE,
-  INDEX `chargePrice`(`chargePrice`) USING BTREE,
-  CONSTRAINT `charge_type` FOREIGN KEY (`chargeTypeId`) REFERENCES `p_chargetype` (`chargeTypeId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for p_chargetype
--- ----------------------------
-DROP TABLE IF EXISTS `p_chargetype`;
-CREATE TABLE `p_chargetype`  (
-  `chargeTypeId` int(10) NOT NULL,
-  `typeName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`chargeTypeId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of p_chargetype
--- ----------------------------
-INSERT INTO `p_chargetype` VALUES (1, '水费');
-INSERT INTO `p_chargetype` VALUES (2, '电费');
-INSERT INTO `p_chargetype` VALUES (3, '燃气费');
-INSERT INTO `p_chargetype` VALUES (4, '取暖费');
-INSERT INTO `p_chargetype` VALUES (5, '其他费用');
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `type` int(10) NOT NULL,
+  `price` double(10, 2) NOT NULL,
+  `sum` double(10, 2) NOT NULL,
+  `time` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `charge_type`(`sum`) USING BTREE,
+  INDEX `chargePrice`(`price`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for p_house
@@ -149,7 +130,7 @@ CREATE TABLE `p_information`  (
 -- ----------------------------
 -- Records of p_information
 -- ----------------------------
-INSERT INTO `p_information` VALUES (2, '停电通知', '通知一号楼一二单元4月30日停电一天，停电时间早7:00-晚5:00', '2020-04-28 04:08:32.264000', 'wy02', 2);
+INSERT INTO `p_information` VALUES (2, '停电通知', '通知一号楼一二单元4月30日停电一天，停电时间早7:00-晚5:00', '2020-05-07 01:34:54.778000', 'wy02', 3);
 INSERT INTO `p_information` VALUES (3, '失物招领', '今天早上某业主在一号楼附近拾到一部黑色苹果手机，失主联系物业取手机', '2020-05-03 08:25:21.459000', 'wy02', 1);
 INSERT INTO `p_information` VALUES (4, '寻物启事', '今天傍晚某业主在一号楼附近丢失一个黑色钱包，拾到者可联系物业', '2020-05-04 05:30:00.945000', 'wy02', 2);
 
@@ -171,28 +152,6 @@ INSERT INTO `p_limit` VALUES ('2', '管理员');
 INSERT INTO `p_limit` VALUES ('3', '住户');
 
 -- ----------------------------
--- Table structure for p_pay
--- ----------------------------
-DROP TABLE IF EXISTS `p_pay`;
-CREATE TABLE `p_pay`  (
-  `payId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `paySum` double(50, 3) NOT NULL,
-  `payDate` datetime(6) NOT NULL,
-  `payPrice` double(10, 2) NOT NULL,
-  `chargeType` int(10) NOT NULL,
-  `houseid` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `userid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`payId`) USING BTREE,
-  INDEX `house_hid`(`houseid`) USING BTREE,
-  INDEX `pay_item`(`chargeType`) USING BTREE,
-  INDEX `pay_price`(`payPrice`) USING BTREE,
-  INDEX `pay_user`(`userid`) USING BTREE,
-  CONSTRAINT `pay_item` FOREIGN KEY (`chargeType`) REFERENCES `p_chargetype` (`chargeTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `pay_price` FOREIGN KEY (`payPrice`) REFERENCES `p_charge` (`chargePrice`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `pay_user` FOREIGN KEY (`userid`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
 -- Table structure for p_repair
 -- ----------------------------
 DROP TABLE IF EXISTS `p_repair`;
@@ -203,7 +162,9 @@ CREATE TABLE `p_repair`  (
   `userid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `type` int(10) NOT NULL,
   `status` tinyint(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_id`(`userid`) USING BTREE,
+  CONSTRAINT `user_id` FOREIGN KEY (`userid`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -212,7 +173,6 @@ CREATE TABLE `p_repair`  (
 INSERT INTO `p_repair` VALUES (1, '下水道堵塞', '2020-05-02 06:04:15.352000', '12102', 1, 0);
 INSERT INTO `p_repair` VALUES (2, '今天早上突然断电，电费余额充足，邻居家有电', '2020-05-02 06:06:26.273000', '12102', 2, 0);
 INSERT INTO `p_repair` VALUES (12, '煤气故障，煤气费充足', '2020-05-02 08:57:51.256000', '21202', 3, 0);
-INSERT INTO `p_repair` VALUES (13, '下班回家回家突然停网了', '2020-05-05 06:27:25.968000', '21202', 4, 0);
 
 -- ----------------------------
 -- Table structure for p_user

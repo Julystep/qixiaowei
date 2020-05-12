@@ -107,7 +107,6 @@ public class AdminController {
     @RequestMapping(value = "/updateRepair",method = RequestMethod.POST)
     public boolean updateRepair(@RequestParam("repair")String info){
         Repair repair = JSON.parseObject(info,Repair.class);
-        System.out.println(repair.toString());
         return adminService.updateRepair(repair);
     }
 }

@@ -23,7 +23,7 @@
       <el-table-column prop="status" label="状态" width="300">
         <template slot-scope="scope">
         <el-switch
-          v-model="scope.row.status">
+          v-model="scope.row.status" :disabled="true">
         </el-switch>
       </template>
       </el-table-column>

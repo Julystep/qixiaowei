@@ -158,11 +158,8 @@
 	</delete>
     <update id="updateRepair" parameterType="com.management.wuye.bean.Repair">
         update p_repair
-        <set>
-            <if test="repair.status!=null and repair.status!=''">
-                status=#{repair.status},
-            </if>
-        </set>
+        set status=#{repair.value}
         where id=#{repair.id}
+
     </update>
 </mapper>
