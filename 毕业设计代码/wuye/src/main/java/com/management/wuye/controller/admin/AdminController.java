@@ -7,11 +7,14 @@ import com.management.wuye.bean.Repair;
 import com.management.wuye.bean.User;
 import com.management.wuye.service.admin.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +93,15 @@ public class AdminController {
         return adminService.getUserList(userid,page,size,userInfo);
     }
 
+    @RequestMapping(value = "/getUserPageBytime", method = RequestMethod.POST)
+    public Map<String,Object> getUserListByDate(@RequestParam("userid") String userid,
+                                                @RequestParam("page") Integer page,
+                                                @RequestParam("size") Integer size,
+                                                @RequestParam("userInfo") String userInfo,
+                                                @RequestParam("date") Date date){
+        return adminService.getUserListByDate(userid,page,size,userInfo, date);
+    }
+
     @RequestMapping(value = "/getallrepairs", method = RequestMethod.GET)
     public Map<String, Object> getAllRepairs(@RequestParam("userId") String userId,
                                              @RequestParam("page") int page,
@@ -109,4 +121,37 @@ public class AdminController {
         Repair repair = JSON.parseObject(info,Repair.class);
         return adminService.updateRepair(repair);
     }
+
+    @RequestMapping(value = "/insertRecording", method = RequestMethod.POST)
+    public boolean insertRecording(@RequestParam("addFormData")String addFormData){
+
+        return adminService.insertRecording(addFormData);
+
+    }
+
+    @RequestMapping(value = "/importRecordings", method = RequestMethod.POST)
+    public boolean importRecordings(MultipartFile file){
+
+        return adminService.importRecordings(file);
+
+    }
+
+    @RequestMapping(value = "/exportRecordings", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> exportRecordings(@RequestParam("userid") String userid,
+                                                   @RequestParam("date") String date) throws Exception {
+
+
+        return adminService.exportRecordings(userid, date);
+
+    }
+
+    @RequestMapping(value = "/changeState", method = RequestMethod.POST)
+    public boolean changeState(@RequestParam("userId") String userId,
+                               @RequestParam("date") String date){
+
+        return adminService.changeState(userId, date);
+
+    }
+
+
 }

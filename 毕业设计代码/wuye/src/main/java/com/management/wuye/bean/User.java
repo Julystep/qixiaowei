@@ -15,7 +15,25 @@ public class User {
     private String homeplace;
     private String workplace;
     private int houseid;
+    private String hid;
     private String limitid;
+    private Charge charge;
+
+    public String getHid() {
+        return hid;
+    }
+
+    public void setHid(String hid) {
+        this.hid = hid;
+    }
+
+    public Charge getCharge() {
+        return charge;
+    }
+
+    public void setCharge(Charge charge) {
+        this.charge = charge;
+    }
 
     public String getUserId() {
         return userId;

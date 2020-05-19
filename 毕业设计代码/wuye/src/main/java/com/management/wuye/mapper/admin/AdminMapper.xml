@@ -23,6 +23,25 @@
         <result column="email" property="email" />
         <result column="homeplace" property="homeplace" />
     </resultMap>
+    <resultMap id="userMap" type="com.management.wuye.bean.User">
+        <id column="userId" property="userId" />
+        <result column="loginName" property="loginName" />
+        <result column="userName" property="userName" />
+        <result column="password" property="password" />
+        <result column="telephone" property="telephone" />
+        <result column="email" property="email" />
+        <result column="homeplace" property="homeplace" />
+        <result column="hid" property="hid" />
+        <collection property="charge" ofType="com.management.wuye.bean.Charge" >
+            <id column="id" property="id" />
+            <result column="waterFee" property="waterFee" />
+            <result column="electricityFee" property="electricityFee" />
+            <result column="propertyCosts" property="propertyCosts" />
+            <result column="userId" property="userId" />
+            <result column="state" property="state" />
+            <result column="subtime" property="date" />
+        </collection>
+    </resultMap>
     <select id="getBuilding" resultType="com.management.wuye.bean.Buildings">
         select * from p_buildings where userId=#{userId}
     </select>
@@ -132,6 +151,30 @@
         </if>
         limit #{page}, #{size}
     </select>
+    <select id="getUserPageByDate" resultMap="userMap">
+        select u.*, c.*, h.hid from p_user u LEFT JOIN
+        p_house h on h.id=u.houseid left join p_charge c on u.userId=c.userId
+        and DATE_FORMAT(subtime,'%Y%m')=#{accDate}
+        where h.bid=#{bid}
+        <if test="userInfo != null and userInfo != ''">
+            and concat(u.userId, u.userName) LIKE CONCAT ('%', #{userInfo},'%')
+        </if>
+        limit #{page}, #{size}
+    </select>
+    <select id="getUsers" resultMap="userMap">
+        select u.*, c.*, h.hid from p_user u LEFT JOIN
+        p_house h on h.id=u.houseid left join p_charge c on u.userId=c.userId
+        and DATE_FORMAT(subtime,'%Y%m')=#{accDate}
+    </select>
+    <select id="getUserPageByDate1" resultMap="userMap">
+        select u.*, c.*, h.hid from p_user u LEFT JOIN
+        p_house h on h.id=u.houseid left join p_charge c on u.userId=c.userId
+        and DATE_FORMAT(subtime,'%Y%m')=#{accDate}
+        where h.bid=#{bid}
+    </select>
+    <select id="getUserByDate" resultType="com.management.wuye.bean.Charge">
+        select * from p_charge where userId=#{userId} and DATE_FORMAT(subtime,'%Y%m')=#{accDate}
+    </select>
     <select id="getUserCount" resultType="java.lang.Integer">
         select COUNT(*) from p_user u LEFT JOIN
         p_house h on h.id=u.houseid where h.bid=#{bid}
@@ -161,5 +204,17 @@
         set status=#{repair.value}
         where id=#{repair.id}
 
+    </update>
+    <insert id="insertRecording">
+        insert into p_charge(waterFee, electricityFee, propertyCosts, userId, subtime)
+        value (#{waterFee}, #{electricityFee}, #{propertyCosts}, #{userId}, #{date})
+    </insert>
+    <update id="updateRecording">
+        update p_charge
+        set waterFee=#{waterFee}, electricityFee=#{electricityFee}, propertyCosts=#{propertyCosts}
+        where userId=#{userId} and DATE_FORMAT(subtime,'%Y%m')=#{accDate}
+    </update>
+    <update id="changeState">
+        update p_charge set state=1 where userId=#{userId} and DATE_FORMAT(subtime,'%Y%m')=#{accDate}
     </update>
 </mapper>

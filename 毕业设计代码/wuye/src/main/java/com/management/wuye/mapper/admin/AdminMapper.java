@@ -49,4 +49,18 @@ public interface AdminMapper {
     boolean deleteRepair(@Param("id") int id);
 
     boolean updateRepair(@Param("repair") Repair repair);
+
+    List<User> getUserPageByDate(int bid, Integer page, Integer size, String userInfo, String accDate);
+
+    boolean insertRecording(String userId, String waterFee, String electricityFee, String propertyCosts, Date date);
+
+    Charge getUserByDate(String userId, String accDate);
+
+    boolean updateRecording(String userId, String waterFee, String electricityFee, String propertyCosts, String accDate);
+
+    List<User> getUserPageByDate1(int bid, String accDate);
+
+    boolean changeState(String userId, String accDate);
+
+    List<User> getUsers(String accDate);
 }

@@ -74,6 +74,15 @@
                 <el-menu-item index="/managerepair">报修管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+            <el-submenu index="5">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>缴费管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/managepayment">缴费管理</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
           </template>
           <template v-if="limitid === '3'">
             <el-submenu index="1">
@@ -93,6 +102,15 @@
               </template>
               <el-menu-item-group>
                 <el-menu-item index="/viewInfo">小区公告</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="5">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>缴费管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/payment">缴费</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </template>

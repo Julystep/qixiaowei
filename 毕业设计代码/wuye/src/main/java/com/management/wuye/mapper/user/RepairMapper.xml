@@ -7,4 +7,13 @@
         insert into p_repair(detail, time, userid, type, status)
         value (#{detail}, #{time}, #{userid}, #{type}, false)
     </insert>
+    <select id="getUserPaymentByUserId" resultType="com.management.wuye.bean.Charge">
+        select * from p_charge where userId=#{userId} and DATE_FORMAT(subtime,'%Y')=#{accDate}
+    </select>
+    <select id="getUserPaymentByUserId1" resultType="com.management.wuye.bean.Charge">
+        select * from p_charge where userId=#{userId} and DATE_FORMAT(subtime,'%Y%m')=#{accDate}
+    </select>
+    <select id="getUserById" resultType="com.management.wuye.bean.User">
+        select * from p_user where userId=#{userId}
+    </select>
 </mapper>

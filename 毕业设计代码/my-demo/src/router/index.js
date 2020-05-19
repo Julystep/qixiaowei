@@ -13,6 +13,8 @@ import infomation from '@/components/admin/infomation/infomation'
 import manageInfomation from '@/components/admin/infomation/manageInfomation'
 import viewInfo from '@/components/user/info/viewInfo'
 import manageRepair from '@/components/admin/managerepair/manageRepair'
+import managePayment from '@/components/admin/managepayment/managePayment'
+import payment from '@/components/user/payment/Payment'
 
 Vue.use(Router)
 
@@ -87,6 +89,14 @@ export default new Router({
           path: "/managerepair",
           component: manageRepair
         },
+        {
+          path: "/managepayment",
+          component: managePayment
+        },
+        {
+          path: "/payment",
+          component: payment
+        }
       ]
     },
   ]

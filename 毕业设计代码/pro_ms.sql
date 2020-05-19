@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : root
+ Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 80018
+ Source Server Version : 80015
  Source Host           : localhost:3306
  Source Schema         : pro_ms
 
  Target Server Type    : MySQL
- Target Server Version : 80018
+ Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 12/05/2020 08:20:41
+ Date: 19/05/2020 17:33:42
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `p_buildings`  (
   PRIMARY KEY (`bid`) USING BTREE,
   INDEX `userid`(`userId`) USING BTREE,
   CONSTRAINT `userid` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_buildings
@@ -64,15 +64,43 @@ INSERT INTO `p_buildings` VALUES (24, '24号楼', NULL);
 DROP TABLE IF EXISTS `p_charge`;
 CREATE TABLE `p_charge`  (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `type` int(10) NOT NULL,
-  `price` double(10, 2) NOT NULL,
-  `sum` double(10, 2) NOT NULL,
-  `time` datetime(6) NOT NULL,
+  `waterFee` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `electricityFee` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `propertyCosts` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `userId` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `state` int(1) NOT NULL DEFAULT 0,
+  `subtime` date NOT NULL COMMENT '发布时间(仅存储年份和月份)',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `charge_type`(`sum`) USING BTREE,
-  INDEX `chargePrice`(`price`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  INDEX `userId123`(`userId`) USING BTREE,
+  CONSTRAINT `userId123` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of p_charge
+-- ----------------------------
+INSERT INTO `p_charge` VALUES (1, '120', '120', '30', '12102', 1, '2020-04-17');
+INSERT INTO `p_charge` VALUES (2, '100', '100', '100', '11502', 0, '2020-04-17');
+INSERT INTO `p_charge` VALUES (3, '100', '100', '100', '21202', 0, '2020-04-17');
+
+-- ----------------------------
+-- Table structure for p_device
+-- ----------------------------
+DROP TABLE IF EXISTS `p_device`;
+CREATE TABLE `p_device`  (
+  `deviceId` int(20) NOT NULL AUTO_INCREMENT,
+  `deviceName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`deviceId`) USING BTREE,
+  INDEX `deviceId`(`deviceId`, `deviceName`) USING BTREE,
+  INDEX `deviceName`(`deviceName`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of p_device
+-- ----------------------------
+INSERT INTO `p_device` VALUES (2, '水管');
+INSERT INTO `p_device` VALUES (3, '煤气');
+INSERT INTO `p_device` VALUES (1, '电路');
+INSERT INTO `p_device` VALUES (4, '网络');
 
 -- ----------------------------
 -- Table structure for p_house
@@ -89,7 +117,7 @@ CREATE TABLE `p_house`  (
   INDEX `house_bid`(`bid`) USING BTREE,
   INDEX `id`(`id`) USING BTREE,
   CONSTRAINT `house_bid` FOREIGN KEY (`bid`) REFERENCES `p_buildings` (`bid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_house
@@ -125,12 +153,12 @@ CREATE TABLE `p_information`  (
   INDEX `info_publisher`(`type`) USING BTREE,
   INDEX `info_sort`(`userId`) USING BTREE,
   CONSTRAINT `info_publisher` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_information
 -- ----------------------------
-INSERT INTO `p_information` VALUES (2, '停电通知', '通知一号楼一二单元4月30日停电一天，停电时间早7:00-晚5:00', '2020-05-07 01:34:54.778000', 'wy02', 3);
+INSERT INTO `p_information` VALUES (2, '停电通知', '通知一号楼一二单元4月30日停电一天，停电时间早7:00-晚5:00', '2020-05-07 00:53:10.673000', 'wy02', 3);
 INSERT INTO `p_information` VALUES (3, '失物招领', '今天早上某业主在一号楼附近拾到一部黑色苹果手机，失主联系物业取手机', '2020-05-03 08:25:21.459000', 'wy02', 1);
 INSERT INTO `p_information` VALUES (4, '寻物启事', '今天傍晚某业主在一号楼附近丢失一个黑色钱包，拾到者可联系物业', '2020-05-04 05:30:00.945000', 'wy02', 2);
 
@@ -162,17 +190,16 @@ CREATE TABLE `p_repair`  (
   `userid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `type` int(10) NOT NULL,
   `status` tinyint(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_id`(`userid`) USING BTREE,
-  CONSTRAINT `user_id` FOREIGN KEY (`userid`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_repair
 -- ----------------------------
-INSERT INTO `p_repair` VALUES (1, '下水道堵塞', '2020-05-02 06:04:15.352000', '12102', 1, 0);
+INSERT INTO `p_repair` VALUES (1, '下水道堵塞', '2020-05-02 06:04:15.352000', '12102', 1, 1);
 INSERT INTO `p_repair` VALUES (2, '今天早上突然断电，电费余额充足，邻居家有电', '2020-05-02 06:06:26.273000', '12102', 2, 0);
 INSERT INTO `p_repair` VALUES (12, '煤气故障，煤气费充足', '2020-05-02 08:57:51.256000', '21202', 3, 0);
+INSERT INTO `p_repair` VALUES (13, '下班回家回家突然停网了', '2020-05-05 06:27:25.968000', '21202', 4, 0);
 
 -- ----------------------------
 -- Table structure for p_user
@@ -203,7 +230,7 @@ CREATE TABLE `p_user`  (
 -- Records of p_user
 -- ----------------------------
 INSERT INTO `p_user` VALUES ('1000', 'admin', '王明', 'admin', '男', '22', '211382199909280089', '15621345643', '9876789@qq.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
-INSERT INTO `p_user` VALUES ('11502', 'vue', '李晨', '123456', '男', '35', '211352198509120012', '15523627621', '23721847@qq.com', '辽宁锦州', '辽宁沈阳', '3', 21);
+INSERT INTO `p_user` VALUES ('11502', 'vue', '李晨', '123456', '男', '35', '211352198509120012', '15523627621', '1735805659@qq.com', '辽宁锦州', '辽宁沈阳', '3', 21);
 INSERT INTO `p_user` VALUES ('12102', 'qa', '李四', '12345678', '男', '24', '211321199708080089', '13256744433', '12678544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 1);
 INSERT INTO `p_user` VALUES ('21202', 'asd', '孙俪', '12345678', '女', '32', '21132119891230092x', '18909098756', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 2);
 INSERT INTO `p_user` VALUES ('42302', 'zmd', '张怡', '123456', '女', '32', '211321198911120089', '13256744433', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 6);
