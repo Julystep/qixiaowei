@@ -23,14 +23,25 @@
       </el-table-column>
       <el-table-column prop="telephone" label="联系方式" width="300">
       </el-table-column>
-      <el-table-column prop="type" label="报修类型" width="300"> </el-table-column>
+      <el-table-column prop="type" label="报修类型" width="300">
+      </el-table-column>
       <el-table-column prop="detail" label="报修详情" width="300">
       </el-table-column>
       <el-table-column prop="status" label="状态" width="300">
         <template slot-scope="scope">
-        <el-switch
-          v-model="scope.row.status" :disabled="true">
-        </el-switch>
+          <el-switch v-model="scope.row.status" :disabled="true"> </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column prop="status" label="查看图片" width="479">
+        <template slot-scope="scope"
+          ><template v-for="item in JSON.parse(scope.row.picture)">
+            <el-image
+              style="width: 40px; height: 40px"
+              :src="item.imgUrl"
+              :preview-src-list="handlePictureCardPreview(scope.row.picture)"
+            >
+            </el-image>
+          </template>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
@@ -92,7 +103,9 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="updateVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateRepair(updaterepairs)">确 定</el-button>
+        <el-button type="primary" @click="updateRepair(updaterepairs)"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -110,12 +123,10 @@ export default {
       updaterepairs: {
         id: "",
         time: "",
-        status: "",
+        status: ""
       },
       formRules: {
-        status: [
-          { required: true, message: "请输入修理状态", trigger: "blur" },
-        ],
+        status: [{ required: true, message: "请输入修理状态", trigger: "blur" }]
       }
     };
   },
@@ -123,6 +134,14 @@ export default {
     this.getAllRepairs();
   },
   methods: {
+    handlePictureCardPreview(picture) {
+      this.urls = [];
+      var x = JSON.parse(picture);
+      for (var i = 0; i < x.length; i++) {
+        this.urls.push(x[i].imgUrl);
+      }
+      return this.urls;
+    },
     getAllRepairs() {
       var _this = this;
       this.getRequest(
@@ -195,13 +214,11 @@ export default {
           type: "warning"
         })
         .then(() => {
-          this.deleteRequest("/admin/deleteRepair?id=" + _this.id).then(
-            () => {
-              _this.getAllRepairs();
-            }
-          );
+          this.deleteRequest("/admin/deleteRepair?id=" + _this.id).then(() => {
+            _this.getAllRepairs();
+          });
         });
-    },
+    }
   }
 };
 </script>

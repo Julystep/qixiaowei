@@ -12,6 +12,15 @@ public class Repair {
     private String userName;
     private String telephone;
     private String hname;
+    private String picture;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
 
     public String getUserName() {
