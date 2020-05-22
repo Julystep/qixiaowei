@@ -1,5 +1,7 @@
 <template>
-  <div class="login_container" >
+  <div class="login_container">
+    <span style="font-size:56px" class="span"><font color="white">小区物业管理系统</font></span><br><br><br><br><br><br>
+    <span style="font-size:56px" class="span"><font color="white">欢迎您！</font></span>
     <el-card>
       <div slot="header">
         <span>登录</span>
@@ -87,8 +89,14 @@ export default {
 
 <style scoped>
 .login_container{
-    background-color: #2b4b6b;
+    /*background-color: #2b4b6b;*/
+    background:url("../assets/img/city.jpg") no-repeat;
     height: 100%;
+}
+.span{
+  letter-spacing:24px;
+  position: absolute;
+  transform: translate(-100%, 140%);
 }
 .el-card {
   background-color:white;

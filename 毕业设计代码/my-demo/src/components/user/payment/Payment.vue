@@ -3,7 +3,6 @@
   <el-row style="margin-bottom: 10px" :gutter="20">
       <el-col :span="8">
         <el-form :inline="true">
-          </el-input>
           <el-date-picker
             size="mini"
             v-model="date"

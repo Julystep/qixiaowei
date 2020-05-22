@@ -1,5 +1,6 @@
 <template>
   <div>
+     <img class="my_img" src="src/img/city.jpg">
     <h1>欢迎{{ loginName }}使用小区物业管理系统</h1>
   </div>
 </template>
@@ -10,7 +11,6 @@ export default {
   data () {
     return {
       loginName: this.$store.state.user.loginName,
-      
     }
   }
 }
