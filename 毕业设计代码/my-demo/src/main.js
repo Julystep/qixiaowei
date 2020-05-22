@@ -7,10 +7,21 @@ import App from './App'
 import router from './router'
 import store from './store'
 import './assets/css/global.css'
-import {postRequest} from './utils/api'
-import {getRequest} from './utils/api'
-import {putRequest} from "./utils/api";
-import {deleteRequest} from "./utils/api";
+import {
+  postRequest
+} from './utils/api'
+import {
+  getRequest
+} from './utils/api'
+import {
+  putRequest
+} from "./utils/api";
+import {
+  deleteRequest
+} from "./utils/api";
+import {
+  postRequestUploadFile
+} from "./utils/api"
 
 //添加token验证
 import axios from 'axios'
@@ -21,12 +32,13 @@ axios.interceptors.request.use(config => {
 })
 
 Vue.config.productionTip = false,
-Vue.use(ElementUI)
+  Vue.use(ElementUI)
 
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
+Vue.prototype.postRequestUploadFile = postRequestUploadFile;
 
 
 
@@ -36,6 +48,8 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

@@ -16,4 +16,8 @@ public interface UserDao {
     public int getUserByName(String userName);
 
     public Boolean updateUser(@Param("user")User user);
+
+    boolean changeUserfaceById(String userId, String path);
+
+    String getUserfaceById(String userId);
 }
