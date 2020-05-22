@@ -11,7 +11,7 @@
  Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 19/05/2020 17:33:42
+ Date: 22/05/2020 20:37:04
 */
 
 SET NAMES utf8mb4;
@@ -190,23 +190,25 @@ CREATE TABLE `p_repair`  (
   `userid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `type` int(10) NOT NULL,
   `status` tinyint(1) NULL DEFAULT NULL,
+  `picture` json NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_repair
 -- ----------------------------
-INSERT INTO `p_repair` VALUES (1, '下水道堵塞', '2020-05-02 06:04:15.352000', '12102', 1, 1);
-INSERT INTO `p_repair` VALUES (2, '今天早上突然断电，电费余额充足，邻居家有电', '2020-05-02 06:06:26.273000', '12102', 2, 0);
-INSERT INTO `p_repair` VALUES (12, '煤气故障，煤气费充足', '2020-05-02 08:57:51.256000', '21202', 3, 0);
-INSERT INTO `p_repair` VALUES (13, '下班回家回家突然停网了', '2020-05-05 06:27:25.968000', '21202', 4, 0);
+INSERT INTO `p_repair` VALUES (1, '下水道堵塞', '2020-05-02 06:04:15.352000', '12102', 1, 1, '[]');
+INSERT INTO `p_repair` VALUES (2, '今天早上突然断电，电费余额充足，邻居家有电', '2020-05-02 06:06:26.273000', '12102', 2, 0, NULL);
+INSERT INTO `p_repair` VALUES (12, '煤气故障，煤气费充足', '2020-05-02 08:57:51.256000', '21202', 3, 0, NULL);
+INSERT INTO `p_repair` VALUES (13, '下班回家回家突然停网了', '2020-05-05 06:27:25.968000', '21202', 4, 0, NULL);
+INSERT INTO `p_repair` VALUES (22, 'asdasdafsdfsgdf\n', '2020-05-22 12:00:56.303000', '12102', 2, 0, '[{\"imgUrl\": \"/repair/img/22/40ba455e-2567-481a-81ff-9772db1ab2a4.jpeg\"}, {\"imgUrl\": \"/repair/img/22/f0f4e7b5-15f7-42ef-a89f-caa89f31f27d.jpg\"}, {\"imgUrl\": \"/repair/img/22/567710cd-a2df-41e9-b9f5-05af9f854468.jpg\"}]');
 
 -- ----------------------------
 -- Table structure for p_user
 -- ----------------------------
 DROP TABLE IF EXISTS `p_user`;
 CREATE TABLE `p_user`  (
-  `userId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `userId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `loginName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `userName` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -219,6 +221,7 @@ CREATE TABLE `p_user`  (
   `workplace` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `limitid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1',
   `houseid` int(11) NULL DEFAULT NULL,
+  `avator` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
   PRIMARY KEY (`userId`) USING BTREE,
   INDEX `house_id`(`houseid`) USING BTREE,
   INDEX `limit_id`(`limitid`) USING BTREE,
@@ -229,16 +232,16 @@ CREATE TABLE `p_user`  (
 -- ----------------------------
 -- Records of p_user
 -- ----------------------------
-INSERT INTO `p_user` VALUES ('1000', 'admin', '王明', 'admin', '男', '22', '211382199909280089', '15621345643', '9876789@qq.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
-INSERT INTO `p_user` VALUES ('11502', 'vue', '李晨', '123456', '男', '35', '211352198509120012', '15523627621', '1735805659@qq.com', '辽宁锦州', '辽宁沈阳', '3', 21);
-INSERT INTO `p_user` VALUES ('12102', 'qa', '李四', '12345678', '男', '24', '211321199708080089', '13256744433', '12678544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 1);
-INSERT INTO `p_user` VALUES ('21202', 'asd', '孙俪', '12345678', '女', '32', '21132119891230092x', '18909098756', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 2);
-INSERT INTO `p_user` VALUES ('42302', 'zmd', '张怡', '123456', '女', '32', '211321198911120089', '13256744433', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 6);
-INSERT INTO `p_user` VALUES ('wy01', 'qwe', '李丽', '123456', '女', '23', '211321199809090012', '13421345643', '15815403421@163.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
-INSERT INTO `p_user` VALUES ('wy02', 'qaz', '孙杨', '123456', '男', '34', '211321198702030034', '15521232323', '1581540342@163.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
-INSERT INTO `p_user` VALUES ('wy03', 'wsx', '黄浩', '123456', '男', '35', '211342178602030023', '13234343232', '269039241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
-INSERT INTO `p_user` VALUES ('wy04', 'wer', '张三', '1234', '男', '41', '211382198002030023', '18990909090', '2690399241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
-INSERT INTO `p_user` VALUES ('wy06', 'azq', '赵薇', '123456', '女', '34', '211353198709280013', '13899990000', '117667039@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
+INSERT INTO `p_user` VALUES ('1000', 'admin', '王明', 'admin', '男', '22', '211382199909280089', '15621345643', '9876789@qq.com', '辽宁朝阳', '辽宁沈阳', '1', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('11502', 'vue', '李晨', '123456', '男', '35', '211352198509120012', '15523627621', '1735805659@qq.com', '辽宁锦州', '辽宁沈阳', '3', 21, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('12102', 'qa', '李四', '12345678', '男', '24', '211321199708080089', '13256744433', '12678544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 1, '/img/12102/95b3b6a7-9507-4dad-82fe-36d9ec258c67.jpg');
+INSERT INTO `p_user` VALUES ('21202', 'asd', '孙俪', '12345678', '女', '32', '21132119891230092x', '18909098756', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 2, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('42302', 'zmd', '张怡', '123456', '女', '32', '211321198911120089', '13256744433', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 6, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('wy01', 'qwe', '李丽', '123456', '女', '23', '211321199809090012', '13421345643', '15815403421@163.com', '辽宁朝阳', '辽宁沈阳', '1', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('wy02', 'qaz', '孙杨', '123456', '男', '34', '211321198702030034', '15521232323', '1581540342@163.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('wy03', 'wsx', '黄浩', '123456', '男', '35', '211342178602030023', '13234343232', '269039241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('wy04', 'wer', '张三', '1234', '男', '41', '211382198002030023', '18990909090', '2690399241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('wy06', 'azq', '赵薇', '123456', '女', '34', '211353198709280013', '13899990000', '117667039@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
 
 -- ----------------------------
 -- Event structure for sess_cleanup
