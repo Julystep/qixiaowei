@@ -1,6 +1,9 @@
 <template>
-  <div class="note" :style="note">
+  <div class="login_container" >
     <el-card>
+      <div slot="header">
+        <span>登录</span>
+      </div>
       <el-form
         ref="loginFormRef"
         :model="loginForm"
@@ -42,19 +45,13 @@ export default {
       loginFormRules: {
         loginName: [
           { required: true, message: "请输入登录名", trigger: "blur" },
-          { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
+          { min: 3, max: 10, message: "长度在 2 到 10 个字符", trigger: "blur" }
         ],
         password: [
           { required: true, message: "请输入登录密码", trigger: "blur" },
           { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
         ]
       }
-      /* note: {
-            backgroundImage: "url(" + require("D:/毕业设计代码/qixiaowei/毕业设计代码/my-demo/src/assets/img/登录界面.jpg") + ")",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "25px auto",
-            marginTop: "5px",
-          }, */
     };
   },
   methods: {
@@ -89,8 +86,12 @@ export default {
 </script>
 
 <style scoped>
+.login_container{
+    background-color: #2b4b6b;
+    height: 100%;
+}
 .el-card {
-  background-color: steelblue;
+  background-color:white;
   left: 500px;
   right: 500px;
   top: 150px;

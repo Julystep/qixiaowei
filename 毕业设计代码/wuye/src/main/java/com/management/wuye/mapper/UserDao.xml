@@ -32,8 +32,8 @@
     <!-- 添加用户 -->
     <insert id="addUser" parameterType="com.management.wuye.bean.User">
 	    insert into
-	    p_user(userId, loginName, userName, password, telephone, email, sex, gender, idCard, homeplace, workplace, houseid, limitid)
-	    values(#{user.userId}, #{user.loginName}, #{user.userName}, #{user.password}, #{user.telephone},#{user.email},#{user.sex},#{user.gender},#{user.idCard},#{user.homeplace},#{user.workplace},#{user.houseid},3)
+	    p_user(userId, loginName, userName, password, telephone, email, sex, gender, idCard, homeplace, workplace, limitid)
+	    values(#{user.userId}, #{user.loginName}, #{user.userName}, #{user.password}, #{user.telephone},#{user.email},#{user.sex},#{user.gender},#{user.idCard},#{user.homeplace},#{user.workplace},3)
 	</insert>
 
     <!-- 删除用户 -->

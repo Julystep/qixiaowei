@@ -22,6 +22,33 @@
     <template v-for="(item, index) in information">
       <el-card :key="index">
         <el-row>
+          <el-col :span="8"
+            ><div>
+              <el-tag v-if="item.type === 1" type="danger" style="width:100%">{{
+                item.head
+              }}</el-tag>
+              <el-tag
+                v-if="item.type === 2"
+                type="warning"
+                style="width:100%"
+                >{{ item.head }}</el-tag
+              >
+              <el-tag
+                v-if="item.type === 3"
+                type="primary"
+                style="width:100%"
+                >{{ item.head }}</el-tag
+              >
+              <el-tag
+                v-if="item.type === 4"
+                type="success"
+                style="width:100%"
+                >{{ item.head }}</el-tag
+              >
+            </div></el-col
+          >
+        </el-row>
+        <el-row>
           <el-col :span="24"
             ><div class="grid-content bg-purple">
               {{ item.content }}
@@ -38,7 +65,7 @@
             ><div class="grid-bottom bg-purple">
               {{ item.infotime }}
             </div>
-         </el-col>
+          </el-col>
         </el-row>
       </el-card>
     </template> 

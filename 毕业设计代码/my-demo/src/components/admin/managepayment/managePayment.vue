@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row style="margin-bottom: 10px" :gutter="20">
-      <el-col :span="14">
+      <el-col :span="12">
         <el-form :inline="true">
           <el-input
             placeholder="请输入用户名"
@@ -28,7 +28,7 @@
           ></el-button
         ></el-form>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="6">
         <el-upload
           accept="application/vnd.ms-excel"
           action="/admin/importRecordings"
@@ -46,7 +46,7 @@
           </el-button>
         </el-upload>
       </el-col>
-      <el-col :offset="1" :span="4">
+      <el-col :offset="1" :span="6">
         <el-button
           class="el-icon-sort-up"
           type="primary"
@@ -133,7 +133,7 @@
       @current-change="handleCurrentChange"
     >
     </el-pagination>
-    <el-dialog title="添加用户" :visible.sync="insertDialog" width="50%">
+    <el-dialog title="添加缴费记录" :visible.sync="insertDialog" width="50%">
       <el-form
         :model="addFormData"
         :rules="formRules"
@@ -251,7 +251,7 @@ export default {
             message: "邮件发送成功"
           });
         } else {
-          _this.message({
+          _this.$message({
             type: "error",
             message: "邮件发送失败，可能原因是用户没有有效的邮箱地址"
           });
@@ -259,7 +259,8 @@ export default {
       });
     },
     confirmRecording(row) {
-      this.postRequest("/admin/changeState", {
+      var _this = this;
+      _this.postRequest("/admin/changeState", {
         userId: row.userId,
         date: _this.date
       }).then(resp => {
@@ -270,7 +271,7 @@ export default {
           });
           _this.$router.go(0);
         } else {
-          _this.message({
+          _this.$message({
             type: "error",
             message: "修改失败"
           });

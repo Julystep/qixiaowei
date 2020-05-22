@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : mysql
+ Source Server         : root
  Source Server Type    : MySQL
- Source Server Version : 80015
+ Source Server Version : 80018
  Source Host           : localhost:3306
  Source Schema         : pro_ms
 
  Target Server Type    : MySQL
- Target Server Version : 80015
+ Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 19/05/2020 17:33:42
+ Date: 21/05/2020 11:02:33
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `p_buildings`  (
   PRIMARY KEY (`bid`) USING BTREE,
   INDEX `userid`(`userId`) USING BTREE,
   CONSTRAINT `userid` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_buildings
@@ -73,14 +73,17 @@ CREATE TABLE `p_charge`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `userId123`(`userId`) USING BTREE,
   CONSTRAINT `userId123` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_charge
 -- ----------------------------
 INSERT INTO `p_charge` VALUES (1, '120', '120', '30', '12102', 1, '2020-04-17');
-INSERT INTO `p_charge` VALUES (2, '100', '100', '100', '11502', 0, '2020-04-17');
+INSERT INTO `p_charge` VALUES (2, '50', '50', '120', '11502', 0, '2020-04-17');
 INSERT INTO `p_charge` VALUES (3, '100', '100', '100', '21202', 0, '2020-04-17');
+INSERT INTO `p_charge` VALUES (4, '30', '70', '100', '12102', 0, '2020-02-29');
+INSERT INTO `p_charge` VALUES (5, '30', '70', '100', '12102', 0, '2020-02-29');
+INSERT INTO `p_charge` VALUES (6, '30', '70', '100', '12102', 0, '2020-02-29');
 
 -- ----------------------------
 -- Table structure for p_device
@@ -92,7 +95,7 @@ CREATE TABLE `p_device`  (
   PRIMARY KEY (`deviceId`) USING BTREE,
   INDEX `deviceId`(`deviceId`, `deviceName`) USING BTREE,
   INDEX `deviceName`(`deviceName`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_device
@@ -116,8 +119,8 @@ CREATE TABLE `p_house`  (
   PRIMARY KEY (`id`, `hid`) USING BTREE,
   INDEX `house_bid`(`bid`) USING BTREE,
   INDEX `id`(`id`) USING BTREE,
-  CONSTRAINT `house_bid` FOREIGN KEY (`bid`) REFERENCES `p_buildings` (`bid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `house_bid` FOREIGN KEY (`bid`) REFERENCES `p_buildings` (`bid`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_house
@@ -137,6 +140,9 @@ INSERT INTO `p_house` VALUES (23, '1-1-401', '一号楼一单元四零一', 98.0
 INSERT INTO `p_house` VALUES (24, '1-2-101', '一号楼二单元一零一', 100.000, 0, 1);
 INSERT INTO `p_house` VALUES (25, '1-2-501', '一号楼二单元五零一', 100.000, 0, 1);
 INSERT INTO `p_house` VALUES (26, '2-1-101', '二号楼一单元一零一', 120.000, 0, 2);
+INSERT INTO `p_house` VALUES (27, '2-1-502', '二号楼一单元五零二', 120.000, 0, 2);
+INSERT INTO `p_house` VALUES (28, '2-1-301', '二号楼一单元三零一', 120.000, 0, 2);
+INSERT INTO `p_house` VALUES (29, '3-1-101', '三号楼一单元一零一', 120.000, 0, 2);
 
 -- ----------------------------
 -- Table structure for p_information
@@ -153,7 +159,7 @@ CREATE TABLE `p_information`  (
   INDEX `info_publisher`(`type`) USING BTREE,
   INDEX `info_sort`(`userId`) USING BTREE,
   CONSTRAINT `info_publisher` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_information
@@ -190,8 +196,10 @@ CREATE TABLE `p_repair`  (
   `userid` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `type` int(10) NOT NULL,
   `status` tinyint(1) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `repairer`(`userid`) USING BTREE,
+  CONSTRAINT `repairer` FOREIGN KEY (`userid`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_repair
@@ -199,7 +207,8 @@ CREATE TABLE `p_repair`  (
 INSERT INTO `p_repair` VALUES (1, '下水道堵塞', '2020-05-02 06:04:15.352000', '12102', 1, 1);
 INSERT INTO `p_repair` VALUES (2, '今天早上突然断电，电费余额充足，邻居家有电', '2020-05-02 06:06:26.273000', '12102', 2, 0);
 INSERT INTO `p_repair` VALUES (12, '煤气故障，煤气费充足', '2020-05-02 08:57:51.256000', '21202', 3, 0);
-INSERT INTO `p_repair` VALUES (13, '下班回家回家突然停网了', '2020-05-05 06:27:25.968000', '21202', 4, 0);
+INSERT INTO `p_repair` VALUES (13, '下班回家回家突然停网了', '2020-05-05 06:27:25.968000', '21202', 4, 1);
+INSERT INTO `p_repair` VALUES (14, '卫生间下水道堵塞', '2020-05-20 01:13:39.423000', '12102', 1, 0);
 
 -- ----------------------------
 -- Table structure for p_user
@@ -223,17 +232,21 @@ CREATE TABLE `p_user`  (
   INDEX `house_id`(`houseid`) USING BTREE,
   INDEX `limit_id`(`limitid`) USING BTREE,
   INDEX `userName`(`userName`) USING BTREE,
-  CONSTRAINT `userhouseid` FOREIGN KEY (`houseid`) REFERENCES `p_house` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `userhouseid` FOREIGN KEY (`houseid`) REFERENCES `p_house` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `limit` FOREIGN KEY (`limitid`) REFERENCES `p_limit` (`lid`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_user
 -- ----------------------------
 INSERT INTO `p_user` VALUES ('1000', 'admin', '王明', 'admin', '男', '22', '211382199909280089', '15621345643', '9876789@qq.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
+INSERT INTO `p_user` VALUES ('11301', 'springboot', '郝帅', '123456', '男', '30', '211343199010010090', '15678343242', '2372897@qq.com', '', '', '3', 22);
+INSERT INTO `p_user` VALUES ('11401', 'springmvc', '周筱', '123456', '女', '20', '211321200012011112', '18212310212', '1232483@qq.com', '', '', '3', NULL);
 INSERT INTO `p_user` VALUES ('11502', 'vue', '李晨', '123456', '男', '35', '211352198509120012', '15523627621', '1735805659@qq.com', '辽宁锦州', '辽宁沈阳', '3', 21);
 INSERT INTO `p_user` VALUES ('12102', 'qa', '李四', '12345678', '男', '24', '211321199708080089', '13256744433', '12678544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 1);
 INSERT INTO `p_user` VALUES ('21202', 'asd', '孙俪', '12345678', '女', '32', '21132119891230092x', '18909098756', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 2);
 INSERT INTO `p_user` VALUES ('42302', 'zmd', '张怡', '123456', '女', '32', '211321198911120089', '13256744433', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 6);
+INSERT INTO `p_user` VALUES ('java', 'java', '李敏', '123456', '女', '24', '211346199709120092', '15242343453', '12132557@qq.com', '', '', '3', 7);
 INSERT INTO `p_user` VALUES ('wy01', 'qwe', '李丽', '123456', '女', '23', '211321199809090012', '13421345643', '15815403421@163.com', '辽宁朝阳', '辽宁沈阳', '1', NULL);
 INSERT INTO `p_user` VALUES ('wy02', 'qaz', '孙杨', '123456', '男', '34', '211321198702030034', '15521232323', '1581540342@163.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);
 INSERT INTO `p_user` VALUES ('wy03', 'wsx', '黄浩', '123456', '男', '35', '211342178602030023', '13234343232', '269039241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL);

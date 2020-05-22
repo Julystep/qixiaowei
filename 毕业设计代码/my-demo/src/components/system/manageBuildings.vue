@@ -162,6 +162,9 @@
                 <el-form-item label="电话" prop="telephone">
                   <el-input v-model="addhouse.telephone"></el-input>
                 </el-form-item>
+                <el-form-item label="楼号" prop="bid">
+                  <el-input v-model="addhouse.bid"></el-input>
+                </el-form-item>
               </el-form>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="insertHouseVisible = false">取 消</el-button>
@@ -385,6 +388,7 @@ export default {
         userId: ""
       },
       addhouse: {
+        bid:"",
         hid: "",
         hname: "",
         hArea: "",
@@ -404,7 +408,7 @@ export default {
       formRules: {
         bid: [
           { required: true, message: "请输入楼号", trigger: "blur" },
-          { pattern: /^[1-9]{1}[0-9]{1}$/, message: "请输入正确的楼号" }
+          { pattern: /^[1-9]{1}|[1-9]{1}[0-9]{1}$/, message: "请输入正确的楼号" }
         ],
         bname: [
           { required: true, message: "请输入楼名", trigger: "blur" },
@@ -425,7 +429,7 @@ export default {
           { required: true, message: "请输入房间面积", trigger: "blur" },
           { pattern: /^[1-9]{1}[0-9]{1,4}$/, message: "请输入合理的房间面积" }
         ],
-        userName: [
+        /* userName: [
           { required: true, message: "请输入姓名", trigger: "blur" },
           { pattern: /^[\u0391-\uFFE5]{2,4}$/, message: "请输入合理的用户名" }
         ],
@@ -441,7 +445,7 @@ export default {
             pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,3})$/,
             message: "请输入正确的邮箱格式"
           }
-        ]
+        ]*/
       }
     };
   },
@@ -575,7 +579,7 @@ export default {
     getHouseList() {
       var _this = this;  
       _this
-        .postRequest("/getHousePage", {
+        .postRequest("/root/getHousePage", {
           bid: _this.row.bid,
           page: _this.currentPageHouses,
           size: 10,
@@ -642,6 +646,7 @@ export default {
     },
     insertHouse(addhouse) {
       var _this = this;
+      _this.bid = _this.row.bid;
       addhouse = JSON.stringify(addhouse);
       _this.$refs.addhouseRef.validate(valid => {
         if (valid) {

@@ -406,8 +406,13 @@ public class AdminService {
 
     public boolean changeState(String userId, String date) {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
-        String accDate = format.format(date);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        Date accDate = null;
+        try {
+            accDate = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return adminMapper.changeState(userId, accDate);
 

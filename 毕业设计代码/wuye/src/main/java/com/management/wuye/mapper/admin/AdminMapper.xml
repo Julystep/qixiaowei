@@ -201,7 +201,7 @@
 	</delete>
     <update id="updateRepair" parameterType="com.management.wuye.bean.Repair">
         update p_repair
-        set status=#{repair.value}
+        set status=#{repair.status}
         where id=#{repair.id}
 
     </update>

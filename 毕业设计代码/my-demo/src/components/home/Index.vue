@@ -154,7 +154,7 @@ export default {
   height: 100%;
 }
 .el-header {
-  background-color: #373d41;
+  background-color: #474b49;
   display: flex;
   justify-content: space-between;
   padding-left: 0;

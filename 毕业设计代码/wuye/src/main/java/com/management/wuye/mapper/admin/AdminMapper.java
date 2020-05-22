@@ -60,7 +60,7 @@ public interface AdminMapper {
 
     List<User> getUserPageByDate1(int bid, String accDate);
 
-    boolean changeState(String userId, String accDate);
+    boolean changeState(String userId, Date accDate);
 
     List<User> getUsers(String accDate);
 }

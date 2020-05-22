@@ -109,11 +109,6 @@ export default {
       updateVisible: false,
       updaterepairs: {
         id: "",
-        userName: "",
-        telephone: "",
-        hname: "",
-        type: "",
-        detail: "",
         time: "",
         status: "",
       },
