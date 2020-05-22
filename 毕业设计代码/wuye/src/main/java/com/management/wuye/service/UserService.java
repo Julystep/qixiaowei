@@ -31,4 +31,16 @@ public class UserService {
     public Boolean updateUser(User user){
         return userDao.updateUser(user);
     }
+
+    public boolean changeUserfaceById(String userId, String path) {
+
+        return userDao.changeUserfaceById(userId, path);
+
+    }
+
+    public String getUserfaceById(String userId) {
+
+        return userDao.getUserfaceById(userId);
+
+    }
 }

@@ -17,6 +17,7 @@
         <result column="workplace" property="workplace" jdbcType="VARCHAR"></result>
         <result column="houseid" property="houseid" jdbcType="INTEGER"></result>
         <result column="limitid" property="limitid" jdbcType="CHAR"></result>
+        <result column="avator" property="avator"></result>
     </resultMap>
 
     <select id="login" resultMap="User">
@@ -84,4 +85,11 @@
         </set>
         where userId=#{user.userId}
     </update>
+    <update id="changeUserfaceById">
+        update p_user set avator=#{path}
+        where userId=#{userId}
+    </update>
+    <select id="getUserfaceById" resultType="java.lang.String">
+        select avator from p_user where userId=#{userId}
+    </select>
 </mapper>

@@ -1,11 +1,35 @@
 <template>
   <el-container class="index-conyainer">
     <el-header>
-      <div>
-        <img src="" alt="" />
-        <span>qw小区物业管理系统</span>
-      </div>
-      <el-button type="info" @click="logout">退出</el-button>
+      <el-row style="width: 100%; text-align: left">
+        <el-col :span="12">
+          <p>qw小区物业管理系统</p>
+        </el-col>
+        <el-col :offset="10" :span="1">
+          <el-dropdown @command="handleCommand"
+            ><span
+              ><el-avatar
+                style="margin-top: 12px"
+                size="large"
+                :src="circleUrl"
+              ></el-avatar> </span
+            ><el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="changeUserface"
+                >修改头像</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-col>
+        <el-col :span="1">
+          <el-button
+            style="margin-top: 17px"
+            type="info"
+            size="small"
+            @click="logout"
+            >退出</el-button
+          >
+        </el-col>
+      </el-row>
     </el-header>
     <el-container>
       <el-aside width="200px">
@@ -13,8 +37,6 @@
           router
           default-active="2"
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
@@ -121,30 +143,114 @@
         <router-view />
       </el-main>
     </el-container>
+    <el-dialog title="提示" :visible.sync="changeUserfaceVisiable" width="30%">
+      <el-upload
+        ref="upload"
+        class="avatar-uploader"
+        action="/userface/upload"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :on-error="handleAvatarError"
+        :before-upload="beforeAvatarUpload"
+        :on-change="avatarChange"
+        :auto-upload="false"
+        :data="data"
+      >
+        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+      <el-button
+        style="margin-left: 10px; margin-top: 10px"
+        size="small"
+        type="success"
+        @click="submitUpload"
+        >修改头像</el-button
+      >
+    </el-dialog>
   </el-container>
 </template>
 
 <script>
 export default {
-  created() {},
+  data() {
+    return {
+      host: this.$store.state.host,
+      port: this.$store.state.port,
+      changeUserfaceVisiable: false,
+      limitid: this.$store.state.user.limitid,
+      circleUrl: this.$store.state.user.avator,
+      imageUrl: "",
+      data: {
+        userId: this.$store.state.user.userId
+      }
+    };
+  },
+  mounted() {},
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+    loadUserface() {
+      var _this = this;
+      this.getRequest(
+        "/userface/get?userId=" + _this.$store.state.user.userId
+      ).then(resp => {
+        this.$store.state.user.avator = resp.data;
+        this.circleUrl = this.$store.state.user.avator;
+        this.calUserface();
+      });
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    calUserface() {
+      if (this.circleUrl.startsWith("/img")) {
+        this.circleUrl = this.host + ":" + this.port + this.circleUrl;
+      }
+    },
+    handleAvatarSuccess(res, file) {
+      this.$message({
+        showClose: true,
+        message: "图片上传成功",
+        type: "success"
+      });
+      this.loadUserface();
+      this.changeUserfaceVisiable = false;
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    },
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    avatarChange(file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    handleAvatarError(err) {
+      console.log(err);
+      this.$message({
+        showClose: true,
+        message: "图片上传失败",
+        type: "error"
+      });
+    },
+    handleCommand(cmd) {
+      var _this = this;
+
+      if (cmd == "changeUserface") {
+        this.changeUserfaceVisiable = true;
+        console.log(this.circleUrl);
+      }
     },
     logout() {
       window.sessionStorage.clear();
       this.$router.push("/login");
     }
   },
-  name: "HelloWorld",
-  data() {
-    return {
-      limitid: this.$store.state.user.limitid
-    };
-  }
+  name: "HelloWorld"
 };
 </script>
 
@@ -156,7 +262,6 @@ export default {
 .el-header {
   background-color: #373d41;
   display: flex;
-  justify-content: space-between;
   padding-left: 0;
   align-items: center;
   color: #fff;
@@ -173,5 +278,28 @@ export default {
 }
 .el-menu-item-group {
   padding-left: 35px;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

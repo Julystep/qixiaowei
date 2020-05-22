@@ -18,6 +18,15 @@ public class User {
     private String hid;
     private String limitid;
     private Charge charge;
+    private String avator;
+
+    public String getAvator() {
+        return avator;
+    }
+
+    public void setAvator(String avator) {
+        this.avator = avator;
+    }
 
     public String getHid() {
         return hid;
