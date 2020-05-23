@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -63,14 +64,14 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/submitInfomation", method = RequestMethod.POST)
-    public boolean submitInfomation(@RequestParam("ruleForm") String ruleForm){
-        return adminService.submitInfomation(ruleForm);
+    public boolean submitInfomation(@RequestParam("files") MultipartFile []files, @RequestParam("ruleForm") String ruleForm) throws IOException {
+        return adminService.submitInfomation(files, ruleForm);
     }
 
     @RequestMapping(value = "/getallinformations", method = RequestMethod.GET)
-    public Map<String, Object> getAllInformations(@RequestParam("info") String info){
+    public Map<String, Object> getAllInformations(@RequestParam("info") String info, @RequestParam("userid") String userid){
 
-        return adminService.getAllInformations(info);
+        return adminService.getAllInformations(info, userid);
     }
 
     @RequestMapping(value = "/deleteInfo", method = RequestMethod.DELETE)

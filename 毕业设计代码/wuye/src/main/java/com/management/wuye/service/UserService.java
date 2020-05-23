@@ -1,5 +1,7 @@
 package com.management.wuye.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.management.wuye.bean.Information;
 import com.management.wuye.bean.User;
 import com.management.wuye.mapper.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,18 @@ public class UserService {
     public String getUserfaceById(String userId) {
 
         return userDao.getUserfaceById(userId);
+
+    }
+
+    public Boolean publicChat(String chat, int id) {
+
+        return userDao.publicChat(chat, id);
+
+    }
+
+    public Information publicChat1(int id) {
+
+        return userDao.publicChat1(id);
 
     }
 }

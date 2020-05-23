@@ -9,6 +9,7 @@ public class PathConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**").addResourceLocations("file:D:/img/");  //注意这里面的斜杠需要加全
         registry.addResourceHandler("/repair/img/**").addResourceLocations("file:D:/repair/img/");
+        registry.addResourceHandler("/chat/img/**").addResourceLocations("file:D:/chat/img/");
     }
 
 }

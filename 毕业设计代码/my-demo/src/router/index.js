@@ -15,6 +15,7 @@ import viewInfo from '@/components/user/info/viewInfo'
 import manageRepair from '@/components/admin/managerepair/manageRepair'
 import managePayment from '@/components/admin/managepayment/managePayment'
 import payment from '@/components/user/payment/Payment'
+import detailInfomation from '@/components/DetailInfomation'
 
 Vue.use(Router)
 
@@ -32,8 +33,7 @@ export default new Router({
       path: '/index',
       component: Index,
       redirect: '/welcome',
-      children: [
-        {
+      children: [{
           path: '/welcome',
           component: Welcome
         },
@@ -97,6 +97,10 @@ export default new Router({
         {
           path: "/payment",
           component: payment
+        },
+        {
+          path: "/detailInfomation",
+          component: detailInfomation
         }
       ]
     },

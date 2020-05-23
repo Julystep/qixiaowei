@@ -1,6 +1,7 @@
 package com.management.wuye.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.management.wuye.bean.Information;
 import com.management.wuye.bean.User;
 import com.management.wuye.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,19 @@ public class UserController {
     @RequestMapping("/userface/get")
     public String getUserfaceById(String userId){
         return userService.getUserfaceById(userId);
+    }
+
+    @RequestMapping("/publicChat")
+    public Boolean  publicChat(@RequestParam("chat") String chat, @RequestParam("id") int id){
+
+        return userService.publicChat(chat, id);
+
+    }
+    @RequestMapping("/getInfomation")
+    public Information publicChat(@RequestParam("id") int id){
+
+        return userService.publicChat1(id);
+
     }
 
     private static void deleteDirectory(File file) {

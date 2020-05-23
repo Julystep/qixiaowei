@@ -42,6 +42,20 @@
             <result column="subtime" property="date" />
         </collection>
     </resultMap>
+    <resultMap id="InformationMap" type="com.management.wuye.bean.Information">
+        <id column="id" property="id" />
+        <result column="head" property="head" />
+        <result column="content" property="content" />
+        <result column="infotime" property="infotime" />
+        <result column="userId" property="userId" />
+        <result column="type" property="type" />
+        <result column="chat" property="chat" />
+        <result column="userName" property="userName" />
+        <result column="avator" property="avator" />
+        <collection property="picture" ofType="com.management.wuye.bean.Picture" >
+            <result column="picture" property="picture" />
+        </collection>
+    </resultMap>
     <select id="getBuilding" resultType="com.management.wuye.bean.Buildings">
         select * from p_buildings where userId=#{userId}
     </select>
@@ -120,14 +134,25 @@
             and concat(hid, hname) LIKE CONCAT ('%', #{houseInfo},'%')
         </if>
     </select>
-    <insert id="submitInfomation" >
-        insert into p_information(head, content, infotime, userId, type)
-        value (#{head}, #{content}, #{infotime}, #{userId}, #{type})
+    <insert id="submitInfomation" useGeneratedKeys="true" keyProperty="id">
+        insert into p_information(head, content, infotime, userId, type, userName, avator)
+        value (#{information.head}, #{information.content}, #{information.infotime}, #{information.userId}, #{information.type}, #{information.userName}, #{information.avator})
     </insert>
-    <select id="getAllInformations" resultType="com.management.wuye.bean.Information">
-        select * from p_information
+    <insert id="submitInfomation1" >
+        insert into p_information(head, content, infotime, userId, type, userName, avator)
+        value (#{information.head}, #{information.content}, #{information.infotime}, #{information.userId}, #{information.type}, #{information.userName}, #{information.avator})
+    </insert>
+    <insert id="setPath" useGeneratedKeys="true" keyProperty="id">
+        insert into p_picture(picture) value (#{picture.picture})
+    </insert>
+    <update id="updateInformation">
+        update p_information set pictureId=#{id1} where id=#{id}
+    </update>
+    <select id="getAllInformations" resultMap="InformationMap">
+        select pi.*, pp.picture from p_user pu, p_information pi left join p_picture pp on pi.pictureId=pp.id
+        where pi.userid=pu.userId
         <if test="info != null and info != ''">
-            where concat(head, content, infotime, userId) LIKE CONCAT ('%', #{info},'%')
+            and concat(head, content, infotime, userId) LIKE CONCAT ('%', #{info},'%')
         </if>
     </select>
     <delete id="deleteInfo">
