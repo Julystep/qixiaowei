@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : root
+ Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 80018
+ Source Server Version : 80015
  Source Host           : localhost:3306
  Source Schema         : pro_ms
 
  Target Server Type    : MySQL
- Target Server Version : 80018
+ Target Server Version : 80015
  File Encoding         : 65001
 
- Date: 22/05/2020 20:37:04
+ Date: 23/05/2020 17:53:54
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `p_buildings`  (
   PRIMARY KEY (`bid`) USING BTREE,
   INDEX `userid`(`userId`) USING BTREE,
   CONSTRAINT `userid` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_buildings
@@ -73,17 +73,14 @@ CREATE TABLE `p_charge`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `userId123`(`userId`) USING BTREE,
   CONSTRAINT `userId123` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_charge
 -- ----------------------------
 INSERT INTO `p_charge` VALUES (1, '120', '120', '30', '12102', 1, '2020-04-17');
-INSERT INTO `p_charge` VALUES (2, '50', '50', '120', '11502', 0, '2020-04-17');
+INSERT INTO `p_charge` VALUES (2, '100', '100', '100', '11502', 0, '2020-04-17');
 INSERT INTO `p_charge` VALUES (3, '100', '100', '100', '21202', 0, '2020-04-17');
-INSERT INTO `p_charge` VALUES (4, '30', '70', '100', '12102', 0, '2020-02-29');
-INSERT INTO `p_charge` VALUES (5, '30', '70', '100', '12102', 0, '2020-02-29');
-INSERT INTO `p_charge` VALUES (6, '30', '70', '100', '12102', 0, '2020-02-29');
 
 -- ----------------------------
 -- Table structure for p_device
@@ -119,8 +116,8 @@ CREATE TABLE `p_house`  (
   PRIMARY KEY (`id`, `hid`) USING BTREE,
   INDEX `house_bid`(`bid`) USING BTREE,
   INDEX `id`(`id`) USING BTREE,
-  CONSTRAINT `house_bid` FOREIGN KEY (`bid`) REFERENCES `p_buildings` (`bid`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `house_bid` FOREIGN KEY (`bid`) REFERENCES `p_buildings` (`bid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_house
@@ -140,9 +137,6 @@ INSERT INTO `p_house` VALUES (23, '1-1-401', '一号楼一单元四零一', 98.0
 INSERT INTO `p_house` VALUES (24, '1-2-101', '一号楼二单元一零一', 100.000, 0, 1);
 INSERT INTO `p_house` VALUES (25, '1-2-501', '一号楼二单元五零一', 100.000, 0, 1);
 INSERT INTO `p_house` VALUES (26, '2-1-101', '二号楼一单元一零一', 120.000, 0, 2);
-INSERT INTO `p_house` VALUES (27, '2-1-502', '二号楼一单元五零二', 120.000, 0, 2);
-INSERT INTO `p_house` VALUES (28, '2-1-301', '二号楼一单元三零一', 120.000, 0, 2);
-INSERT INTO `p_house` VALUES (29, '3-1-101', '三号楼一单元一零一', 120.000, 0, 2);
 
 -- ----------------------------
 -- Table structure for p_information
@@ -155,18 +149,27 @@ CREATE TABLE `p_information`  (
   `infotime` datetime(6) NOT NULL,
   `userId` char(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `type` int(5) NOT NULL,
+  `chat` json NULL,
+  `pictureId` int(11) NULL DEFAULT NULL,
+  `userName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `avator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `info_publisher`(`type`) USING BTREE,
   INDEX `info_sort`(`userId`) USING BTREE,
-  CONSTRAINT `info_publisher` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `pictureID`(`pictureId`) USING BTREE,
+  CONSTRAINT `info_publisher` FOREIGN KEY (`userId`) REFERENCES `p_user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `pictureID` FOREIGN KEY (`pictureId`) REFERENCES `p_picture` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_information
 -- ----------------------------
-INSERT INTO `p_information` VALUES (2, '停电通知', '通知一号楼一二单元4月30日停电一天，停电时间早7:00-晚5:00', '2020-05-07 00:53:10.673000', 'wy02', 3);
-INSERT INTO `p_information` VALUES (3, '失物招领', '今天早上某业主在一号楼附近拾到一部黑色苹果手机，失主联系物业取手机', '2020-05-03 08:25:21.459000', 'wy02', 1);
-INSERT INTO `p_information` VALUES (4, '寻物启事', '今天傍晚某业主在一号楼附近丢失一个黑色钱包，拾到者可联系物业', '2020-05-04 05:30:00.945000', 'wy02', 2);
+INSERT INTO `p_information` VALUES (2, '停电通知', '通知一号楼一二单元4月30日停电一天，停电时间早7:00-晚5:00', '2020-05-07 00:53:10.673000', 'wy02', 3, '[{\"text\": \"asdasdkaskjd\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [{\"text\": \"kasjdkajsdkljaskd\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [], \"userName\": \"孙杨\"}, {\"text\": \"kasjdkajsdkljaskd\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [], \"userName\": \"孙杨\"}, {\"text\": \"御坂美琴\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [], \"userName\": \"孙杨\"}, {\"text\": \"食蜂操析\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [], \"userName\": \"孙杨\"}, {\"text\": \"你怎么能这样啊\", \"avator\": \"/img/12102/95b3b6a7-9507-4dad-82fe-36d9ec258c67.jpg\", \"userId\": \"12102\", \"children\": [], \"userName\": \"李四\"}], \"userName\": \"孙杨\"}, {\"text\": \"asdjashdajshdkas\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [], \"userName\": \"孙杨\"}]', NULL, '孙杨', '/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg');
+INSERT INTO `p_information` VALUES (3, '失物招领', '今天早上某业主在一号楼附近拾到一部黑色苹果手机，失主联系物业取手机', '2020-05-03 08:25:21.459000', 'wy02', 1, NULL, NULL, '孙杨', '/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg');
+INSERT INTO `p_information` VALUES (4, '寻物启事', '今天傍晚某业主在一号楼附近丢失一个黑色钱包，拾到者可联系物业', '2020-05-04 05:30:00.945000', 'wy02', 2, NULL, NULL, '孙杨', '/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg');
+INSERT INTO `p_information` VALUES (8, '啥的阖家安康', '阿打算打卡机数控刀具', '2020-05-23 08:30:43.051000', 'wy02', 3, '[{\"text\": \"asdasdasdasd\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [{\"text\": \"上条当麻\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [], \"userName\": \"孙杨\"}, {\"text\": \"他是有把妹之手的哪位吗\", \"avator\": \"/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg\", \"userId\": \"wy02\", \"children\": [], \"userName\": \"孙杨\"}], \"userName\": \"孙杨\"}]', 1, '孙杨', '/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg');
+INSERT INTO `p_information` VALUES (12, '奥术大师大开杀戒达拉斯建档立卡数据的', '萨达所大所大所大所大所多', '2020-05-23 08:46:54.098000', 'wy02', 2, NULL, NULL, '孙杨', '/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg');
+INSERT INTO `p_information` VALUES (13, '新鲜的事', '3幢的楼下有两只狗在打架，真好玩', '2020-05-23 09:51:07.111000', 'wy02', 4, '[{\"text\": \"这两只狗怕是要超神了\", \"avator\": \"/img/12102/95b3b6a7-9507-4dad-82fe-36d9ec258c67.jpg\", \"userId\": \"12102\", \"children\": [], \"userName\": \"李四\"}]', 4, '孙杨', '/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg');
 
 -- ----------------------------
 -- Table structure for p_limit
@@ -186,6 +189,24 @@ INSERT INTO `p_limit` VALUES ('2', '管理员');
 INSERT INTO `p_limit` VALUES ('3', '住户');
 
 -- ----------------------------
+-- Table structure for p_picture
+-- ----------------------------
+DROP TABLE IF EXISTS `p_picture`;
+CREATE TABLE `p_picture`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `picture` json NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of p_picture
+-- ----------------------------
+INSERT INTO `p_picture` VALUES (1, '[{\"imgUrl\": \"/chat/img/8/6c1dd048-8447-407e-9775-29734d2cc59a.jpg\"}, {\"imgUrl\": \"/chat/img/8/287176ee-6104-481a-ac80-7774951b59fc.jpg\"}]');
+INSERT INTO `p_picture` VALUES (2, '[]');
+INSERT INTO `p_picture` VALUES (3, '[{\"imgUrl\": \"/chat/img/11/52a6736b-0531-4d92-940b-dc0ac11922a9.jpeg\"}, {\"imgUrl\": \"/chat/img/11/c756e127-b672-43e3-a31f-a24192a2865c.jpg\"}]');
+INSERT INTO `p_picture` VALUES (4, '[{\"imgUrl\": \"/chat/img/13/b31fe0fb-13cb-48e7-9263-0637abee9511.jpeg\"}, {\"imgUrl\": \"/chat/img/13/65dca25d-6a12-4115-bc22-8f19c3ea30da.jpg\"}]');
+
+-- ----------------------------
 -- Table structure for p_repair
 -- ----------------------------
 DROP TABLE IF EXISTS `p_repair`;
@@ -198,7 +219,7 @@ CREATE TABLE `p_repair`  (
   `status` tinyint(1) NULL DEFAULT NULL,
   `picture` json NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of p_repair
@@ -232,8 +253,7 @@ CREATE TABLE `p_user`  (
   INDEX `house_id`(`houseid`) USING BTREE,
   INDEX `limit_id`(`limitid`) USING BTREE,
   INDEX `userName`(`userName`) USING BTREE,
-  CONSTRAINT `userhouseid` FOREIGN KEY (`houseid`) REFERENCES `p_house` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `limit` FOREIGN KEY (`limitid`) REFERENCES `p_limit` (`lid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `userhouseid` FOREIGN KEY (`houseid`) REFERENCES `p_house` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -245,7 +265,7 @@ INSERT INTO `p_user` VALUES ('12102', 'qa', '李四', '12345678', '男', '24', '
 INSERT INTO `p_user` VALUES ('21202', 'asd', '孙俪', '12345678', '女', '32', '21132119891230092x', '18909098756', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 2, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
 INSERT INTO `p_user` VALUES ('42302', 'zmd', '张怡', '123456', '女', '32', '211321198911120089', '13256744433', '11674544@qq.com', '辽宁朝阳', '辽宁沈阳', '3', 6, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
 INSERT INTO `p_user` VALUES ('wy01', 'qwe', '李丽', '123456', '女', '23', '211321199809090012', '13421345643', '15815403421@163.com', '辽宁朝阳', '辽宁沈阳', '1', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
-INSERT INTO `p_user` VALUES ('wy02', 'qaz', '孙杨', '123456', '男', '34', '211321198702030034', '15521232323', '1581540342@163.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
+INSERT INTO `p_user` VALUES ('wy02', 'qaz', '孙杨', '123456', '男', '34', '211321198702030034', '15521232323', '1581540342@163.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, '/img/wy02/034fc6c8-9f4b-4fbc-a0a9-800d3f7792e0.jpg');
 INSERT INTO `p_user` VALUES ('wy03', 'wsx', '黄浩', '123456', '男', '35', '211342178602030023', '13234343232', '269039241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
 INSERT INTO `p_user` VALUES ('wy04', 'wer', '张三', '1234', '男', '41', '211382198002030023', '18990909090', '2690399241@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
 INSERT INTO `p_user` VALUES ('wy06', 'azq', '赵薇', '123456', '女', '34', '211353198709280013', '13899990000', '117667039@qq.com', '辽宁朝阳', '辽宁沈阳', '2', NULL, 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
