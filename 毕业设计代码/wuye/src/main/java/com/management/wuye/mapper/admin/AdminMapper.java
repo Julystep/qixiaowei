@@ -30,9 +30,9 @@ public interface AdminMapper {
 
     int getHouseCount(int bid, String houseInfo);
 
-    boolean submitInfomation(String head, String content, Date infotime, String userId, int type);
+    int submitInfomation(@Param("information") Information information);
 
-    List<Information> getAllInformations(String info);
+    List<Information> getAllInformations(String info, String userid);
 
     boolean deleteInfo(@Param("id") int id);
 
@@ -63,4 +63,10 @@ public interface AdminMapper {
     boolean changeState(String userId, Date accDate);
 
     List<User> getUsers(String accDate);
+
+    void setPath(@Param("picture") Picture picture);
+
+    boolean updateInformation(int id, int id1);
+
+    boolean submitInfomation1(@Param("information") Information information);
 }

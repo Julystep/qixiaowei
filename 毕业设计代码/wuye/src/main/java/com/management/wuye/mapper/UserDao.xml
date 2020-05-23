@@ -19,6 +19,20 @@
         <result column="limitid" property="limitid" jdbcType="CHAR"></result>
         <result column="avator" property="avator"></result>
     </resultMap>
+    <resultMap id="InformationMap" type="com.management.wuye.bean.Information">
+        <id column="id" property="id" />
+        <result column="head" property="head" />
+        <result column="content" property="content" />
+        <result column="infotime" property="infotime" />
+        <result column="userId" property="userId" />
+        <result column="type" property="type" />
+        <result column="chat" property="chat" />
+        <result column="userName" property="userName" />
+        <result column="avator" property="avator" />
+        <collection property="picture" ofType="com.management.wuye.bean.Picture" >
+            <result column="picture" property="picture" />
+        </collection>
+    </resultMap>
 
     <select id="login" resultMap="User">
          select * from p_user where loginName = #{loginName}
@@ -91,5 +105,12 @@
     </update>
     <select id="getUserfaceById" resultType="java.lang.String">
         select avator from p_user where userId=#{userId}
+    </select>
+    <update id="publicChat">
+        update p_information set chat=#{chat} where id=#{id}
+    </update>
+    <select id="publicChat1" resultMap="InformationMap">
+        select pi.*, pp.picture from p_user pu, p_information pi left join p_picture pp on pi.pictureId=pp.id
+        where pi.id=#{id}
     </select>
 </mapper>

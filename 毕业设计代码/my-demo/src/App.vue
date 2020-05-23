@@ -2,13 +2,15 @@
   <div id="app">
     <!-- 路由占位符 -->
     <router-view></router-view>
-    body {background-image:url('/src/img/city.jpg') no-repeat;}
   </div>
 </template>
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  provide() {
+    return { reload: this.reload };
+  }
 };
 </script>
 

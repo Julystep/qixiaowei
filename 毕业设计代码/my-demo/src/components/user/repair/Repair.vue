@@ -87,7 +87,6 @@ export default {
           _this.fileData = new FormData();
           _this.$refs.upload.submit();
           _this.fileData.append("refForm", JSON.stringify(_this.repairForm));
-          console.log(_this.fileData.get("refForm").userid);
           let config = { headers: { "Content-Type": "multipart/form-data" } };
           axios
             .post("/user/submitRepair", _this.fileData, config)

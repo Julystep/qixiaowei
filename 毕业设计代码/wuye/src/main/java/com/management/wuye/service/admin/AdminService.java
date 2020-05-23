@@ -12,6 +12,7 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +35,12 @@ public class AdminService {
 
     @Resource
     CommonMapper commonMapper;
+
+    @Value("${file.rootPath}")
+    private String ROOT_PATH;
+    //图片存放根目录下的子目录
+    @Value("${file.sonPath3}")
+    private String SON_PATH;
 
     public Map<String, Object> getBuildingAndHouses(String userId, int page, int size, String houseInfo) {
 
@@ -88,7 +96,7 @@ public class AdminService {
         return adminMapper.dismissWithUser(id);
     }
 
-    public boolean submitInfomation(String ruleForm) {
+    public boolean submitInfomation(MultipartFile[] files, String ruleForm) throws IOException {
 
         JSONObject jsonObject = JSON.parseObject(ruleForm);
 
@@ -98,19 +106,62 @@ public class AdminService {
 
         String infotime = jsonObject.getString("infotime");
 
-        Date date = new Date();
+        String userName = jsonObject.getString("userName");
 
+        String avator = jsonObject.getString("avator");
+
+        Date date = new Date();
 
         String userId = jsonObject.getString("userId");
 
         int type = jsonObject.getInteger("type");
 
-        return adminMapper.submitInfomation(head, content, date, userId, type);
+        Information information = new Information();
+        information.setUserId(userId);
+        information.setHead(head);
+        information.setContent(content);
+        information.setType(type);
+        information.setInfotime(date);
+        information.setUserName(userName);
+        information.setAvator(avator);
+
+        if(files.length == 0){
+            return adminMapper.submitInfomation1(information);
+        }
+        adminMapper.submitInfomation(information);
+
+        JSONArray jsonArray = new JSONArray();
+
+        for(MultipartFile file : files){
+            if(file.isEmpty()){
+                return false;
+            }
+            String fileName = file.getOriginalFilename();
+            String suffixName  = fileName.substring(fileName.lastIndexOf("."));
+            fileName = UUID.randomUUID() + suffixName;   //新文件名
+            String userFileDir = information.getId()+"";
+            File dest = new File(ROOT_PATH + SON_PATH + userFileDir + '/'+  fileName);
+            if (!dest.getParentFile().exists()) {
+                dest.getParentFile().mkdirs();
+            }
+            file.transferTo(dest);
+            String path = SON_PATH  + userFileDir + '/' + fileName;
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("imgUrl", path);
+            jsonArray.add(jsonObject1);
+        }
+
+        String json = jsonArray.toString();
+        Picture picture = new Picture();
+        picture.setPicture(json);
+        adminMapper.setPath(picture);
+
+        return adminMapper.updateInformation(information.getId(), picture.getId());
 
     }
 
-    public Map<String, Object> getAllInformations(String info) {
-        List<Information> information = adminMapper.getAllInformations(info);
+    public Map<String, Object> getAllInformations(String info, String userid) {
+        List<Information> information = adminMapper.getAllInformations(info, userid);
 
         Map<String, Object> map = new HashMap<>();
 
