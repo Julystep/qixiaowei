@@ -275,6 +275,7 @@ export default {
 }
 .el-main {
   background-color: #eaedf1;
+  background-image:url("../images/login-bg.jpg") no-repeat;
 }
 .el-menu-item-group {
   padding-left: 35px;
